@@ -1,0 +1,31 @@
+{
+  "routerMap": [
+    {
+      "name": "LoginPage",
+      "pageSourceFile": "src/main/ets/pages/LoginPage.ets",
+      "buildFunction": "LoginPageBuilder",
+      "data": {
+        "description" : "this is PageOne"
+      }
+    },
+    {
+      "name": "MainPage",
+      "pageSourceFile": "src/main/ets/pages/MainPage.ets",
+      "buildFunction": "MainPageBuilder",
+      "data": {
+        "description" : "this is PageOne"
+      }
+    }
+    ,
+    {
+      "name": "NotificationsPage",
+      "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
+      "buildFunction": "NotificationsPageBuilder",
+      "data": {
+        "description" : "this is PageOne"
+      }
+    }
+
+
+  ]
+}

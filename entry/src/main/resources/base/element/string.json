@@ -1,0 +1,30 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "Submit",
+      "value": "提  交"
+    },
+    {
+      "name": "PleaseEnter",
+      "value": "请输入.."
+    }
+  ,{
+      "name": "LoginAbility_desc",
+      "value": "description"
+    },{
+      "name": "LoginAbility_label",
+      "value": "label"
+    }]
+}
