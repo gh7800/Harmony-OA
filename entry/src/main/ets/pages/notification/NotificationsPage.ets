@@ -16,7 +16,7 @@ export function NotificationsPageBuilder(){
   NotificationsPage()
 }
 
-@Entry
+// @Entry
 @Component
 struct NotificationsPage {
   pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack

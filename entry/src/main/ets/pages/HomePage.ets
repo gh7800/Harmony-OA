@@ -1,14 +1,13 @@
-import router from '@ohos.router'
 import constantUtil from '../utils/ConstantUtil'
 import logUtil from '../utils/LogUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { ValueType } from '@kit.ArkData'
-import toastUtil from '../utils/ToastUtil'
 
-// @Entry
+@Builder
+export function HomePageBuilder(){}
+
 @Component
 export struct HomePage {
-  pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+  @Prop pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
 
   @State realName: string = ''
   private menuTitle: string[] = [
@@ -82,8 +81,8 @@ export struct HomePage {
                 .onClick((event) => {
                   switch (index) {
                     case 0:
-                      //router.pushUrl({ url: 'pages/notification/NotificationsPage' })
-                      this.pathStack.pushPathByName("NotificationsPage", null)
+                      // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
+                      this.pathStack.popToName("NotificationsPage")
                       break
                     case 1:
                       // router.pushUrl({ url: 'pages/document/ReportPage' })
@@ -107,5 +106,10 @@ export struct HomePage {
       .height('100%')
       .backgroundColor($r('app.color.f2'))
     }
+    .onReady((context)=>{
+      this.pathStack = context.pathStack
+      logUtil.error("---------")
+      logUtil.errorJson(context.getConfigInRouteMap())
+    })
   }
 }

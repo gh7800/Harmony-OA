@@ -11,10 +11,9 @@ export function MainPageBuilder() {
   MainPage()
 }
 
-@Entry
 @Component
 struct MainPage {
-  pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+  pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
   tabsController: TabsController = new TabsController();
   @State currentIndex: number = 0
   private tabTitles: string[] = ['首页', '通讯录', '工作', '我的']
@@ -43,15 +42,28 @@ struct MainPage {
   }
 
   aboutToAppear(): void {
-    logUtil.errorAny(this.pathStack.size())
+    logUtil.errorAny(this.pathStack.size() + 10)
+  }
+
+  @Builder
+  pagesMap(name: string) {
+    if ('首页' == name) {
+      HomePage()
+    } else if ('通讯录' == name) {
+      ContactPage()
+    } else if ('工作' == name) {
+      WorkingPage()
+    } else if ('我的' == name) {
+      MinePage()
+    }
   }
 
   build() {
-    NavDestination() {
-      Column() {
-        TitleBarComponent({ title: this.title, isNeedBack: false })
+    Column() {
+      Navigation(this.pathStack) {
+        //TitleBarComponent({ title: this.title, isNeedBack: false })
 
-        Tabs({
+        /*Tabs({
           barPosition: BarPosition.End,
           controller: this.tabsController
         }) {
@@ -82,10 +94,33 @@ struct MainPage {
         .onChange((index) => {
           this.currentIndex = index
           this.title = this.tabTitles[index]
-        })
+        })*/
       }
       .width('100%')
+      .menus([
+        {
+          value: "首页", icon: '../../resources/base/media/home_normal.png', action: () => {
+        }
+        },
+        {
+          value: "通讯录", icon: "../../resources/base/media/home_normal.png", action: () => {
+        }
+        },
+        {
+          value: "工作", icon: "../../resources/base/media/home_normal.png", action: () => {
+        }
+        },
+        {
+          value: "我的", icon: "../../resources/base/media/home_normal.png", action: () => {
+        }
+        },
+      ])
+      .height('100%')
+      .width('100%')
+      .navDestination(this.pagesMap)
+      .hideTitleBar(true)
+      .title(this.title)
+      .mode(NavigationMode.Split)
     }
-    .hideTitleBar(true)
   }
 }

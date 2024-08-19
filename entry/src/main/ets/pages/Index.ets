@@ -1,4 +1,3 @@
-import router from '@ohos.router'
 import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import toastUtil from '../utils/ToastUtil'
@@ -35,7 +34,7 @@ struct Index {
         .then((data) => {
           if (data) {
             AppGlobalContext.getContext().setValue(constantUtil.TOKEN, data)
-            url = 'MainPage'
+            url = 'LoginPage'
           }
         })
         .catch((err: string) => {

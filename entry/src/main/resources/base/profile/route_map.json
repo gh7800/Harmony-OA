@@ -15,17 +15,17 @@
       "data": {
         "description" : "this is PageOne"
       }
-    }
-    ,
+    },
     {
       "name": "NotificationsPage",
       "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
-      "buildFunction": "NotificationsPageBuilder",
-      "data": {
-        "description" : "this is PageOne"
-      }
+      "buildFunction": "NotificationsPageBuilder"
+    },
+    {
+      "name": "HomePage",
+      "pageSourceFile": "src/main/ets/pages/HomePage.ets",
+      "buildFunction": "HomePageBuilder"
     }
-
 
   ]
 }

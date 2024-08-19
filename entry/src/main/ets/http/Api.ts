@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 import constantUtil from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import logUtil from '../utils/LogUtil';
-import preferenceUtil from '../utils/PreferencesUtil';
 import ApiResponse from './ApiRsponse';
 import router from '@ohos.router'
 
@@ -10,7 +9,7 @@ import router from '@ohos.router'
 // 创建一个自定义的 HTTP 客户端类
 class Api {
   private axiosInstance: AxiosInstance;
-  private token = AppGlobalContext.getContext().getValue(constantUtil.TOKEN);
+  private token : string = AppGlobalContext.getContext().getValue(constantUtil.TOKEN);
 
   private baseUrl() {
     return 'http://xcoa.hwapp.site/'

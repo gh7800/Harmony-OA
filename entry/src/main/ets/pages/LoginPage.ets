@@ -8,13 +8,13 @@ import LoadingDialog from '../view/LoadingDialog'
 import userManager from '../manager/UserManager'
 import toastUtil from '../utils/ToastUtil'
 import constantUtil from '../utils/ConstantUtil'
+import logUtil from '../utils/LogUtil'
 
 @Builder
 export function LoginPageBuilder(){
   LoginPage()
 }
 
-@Entry
 @Component
 struct LoginPage {
   pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
@@ -86,7 +86,7 @@ struct LoginPage {
       }
       .height("100%")
     }
-    .hideTitleBar(false)
+    .hideTitleBar(true)
     .onBackPressed(()=>{
       toastUtil.show("退出")//to-do
       return true
@@ -121,12 +121,7 @@ struct LoginPage {
 
         setTimeout(() => {
           this.dialogController.close()
-
-          /*router.replaceUrl({ url: 'pages/MainPage' }, router.RouterMode.Single, (err) => {
-            console.error(err.message)
-          })*/
-
-          this.pathStack.pushPathByName("MainPage",null)
+          this.pathStack.replacePathByName("MainPage",null)
         }, 1000)
 
       })
