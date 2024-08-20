@@ -2,7 +2,7 @@
   "routerMap": [
     {
       "name": "LoginPage",
-      "pageSourceFile": "src/main/ets/pages/LoginPage.ets",
+      "pageSourceFile": "src/main/ets/pages/login/LoginPage.ets",
       "buildFunction": "LoginPageBuilder",
       "data": {
         "description" : "this is PageOne"
@@ -11,20 +11,27 @@
     {
       "name": "MainPage",
       "pageSourceFile": "src/main/ets/pages/MainPage.ets",
-      "buildFunction": "MainPageBuilder",
-      "data": {
-        "description" : "this is PageOne"
-      }
-    },
-    {
-      "name": "NotificationsPage",
-      "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
-      "buildFunction": "NotificationsPageBuilder"
+      "buildFunction": "MainPageBuilder"
     },
     {
       "name": "HomePage",
       "pageSourceFile": "src/main/ets/pages/HomePage.ets",
       "buildFunction": "HomePageBuilder"
+    },
+    {
+      "name": "ContactPage",
+      "pageSourceFile": "src/main/ets/pages/contact/ContactPage.ets",
+      "buildFunction": "ContactPageBuilder"
+    },
+    {
+      "name": "WorkingPage",
+      "pageSourceFile": "src/main/ets/pages/working/WorkingPage.ets",
+      "buildFunction": "WorkingPageBuilder"
+    },
+    {
+      "name": "NotificationsPage",
+      "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
+      "buildFunction": "NotificationsPageBuilder"
     }
 
   ]

@@ -1,23 +1,24 @@
-import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
-import { TitleBarComponent } from '../view/TitleBarComponent'
-import api from '../http/Api'
-import UserModel from '../model/UserModel'
-import ApiResponse from '../http/ApiRsponse'
-import LoadingDialog from '../view/LoadingDialog'
-import userManager from '../manager/UserManager'
-import toastUtil from '../utils/ToastUtil'
-import constantUtil from '../utils/ConstantUtil'
-import logUtil from '../utils/LogUtil'
+import { TitleBarComponent } from '../../view/TitleBarComponent'
+import api from '../../http/Api'
+import UserModel from '../../model/UserModel'
+import ApiResponse from '../../http/ApiRsponse'
+import LoadingDialog from '../../view/LoadingDialog'
+import userManager from '../../manager/UserManager'
+import toastUtil from '../../utils/ToastUtil'
+import constantUtil from '../../utils/ConstantUtil'
+// import { MainPageBuilder } from '../MainPage'
+import router from '@ohos.router'
 
 @Builder
 export function LoginPageBuilder(){
   LoginPage()
 }
 
+@Entry
 @Component
 struct LoginPage {
-  pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+  //pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
 
   @State message: string = 'Login'
   private username: string = ''
@@ -34,8 +35,15 @@ struct LoginPage {
     //preferenceUtil.getPreferences(getContext())
   }
 
+  /*@Builder
+  PagesMap(name: string) {
+    if(name == 'MainPage'){
+      MainPageBuilder()
+    }
+  }*/
+
   build() {
-    NavDestination() {
+    //NavDestination() {
       Column() {
         TitleBarComponent({ title: '', bgColor: $r('app.color.ff') })
 
@@ -85,12 +93,9 @@ struct LoginPage {
 
       }
       .height("100%")
-    }
-    .hideTitleBar(true)
-    .onBackPressed(()=>{
-      toastUtil.show("退出")//to-do
-      return true
-    })
+    //}
+    //.hideTitleBar(true)
+
 
   }
 
@@ -115,13 +120,14 @@ struct LoginPage {
 
     api.post('/auth/login', params)
       .then((response: ApiResponse<UserModel>) => {
-        promptAction.showToast({ message: '登录成功' })
+        toastUtil.show('登录成功')
 
         userManager.saveUser(response.data)
 
         setTimeout(() => {
           this.dialogController.close()
-          this.pathStack.replacePathByName("MainPage",null)
+          //this.pathStack.replacePathByName("MainPage",null)
+          router.pushUrl({url : 'pages/MainPage'})
         }, 1000)
 
       })

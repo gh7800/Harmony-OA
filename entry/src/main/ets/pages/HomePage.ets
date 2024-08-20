@@ -3,11 +3,11 @@ import logUtil from '../utils/LogUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
 
 @Builder
-export function HomePageBuilder(){}
+export function HomePageBuilder(pathStack : NavPathStack){}
 
 @Component
-export struct HomePage {
-  @Prop pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+struct HomePage {
+  @Consume('pathStack') pathStack : NavPathStack
 
   @State realName: string = ''
   private menuTitle: string[] = [
@@ -69,7 +69,7 @@ export struct HomePage {
                   Text(item)
                     .margin({ top: 5, bottom: 5 })
                     .fontColor($r('app.color.c3'))
-                    .fontSize(14)
+                    .fontSize(12)
                     .fontWeight(FontWeight.Normal)
 
                 }
@@ -113,3 +113,5 @@ export struct HomePage {
     })
   }
 }
+
+export { HomePage }

@@ -4,6 +4,10 @@
  */
 import router from '@ohos.router'
 
+@Builder
+export function WorkingPageBuilder(){}
+
+
 @Component
 export struct WorkingPage {
     build() {

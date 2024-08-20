@@ -2,8 +2,9 @@ import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import toastUtil from '../utils/ToastUtil'
 import { AppGlobalContext } from '../utils/AppGlobalContext'
-import { LoginPageBuilder } from './LoginPage'
-import { MainPageBuilder } from './MainPage'
+// import { LoginPageBuilder } from './login/LoginPage'
+// import { MainPageBuilder } from './MainPage'
+import router from '@ohos.router'
 
 /**
  * 输入page快速创建页面
@@ -14,27 +15,27 @@ import { MainPageBuilder } from './MainPage'
 struct Index {
   pathStack: NavPathStack = new NavPathStack()
 
-  @Builder
+  /*@Builder
   PagesMap(name: string) {
     if (name == 'LoginPage') {
       LoginPageBuilder()
-    }else if(name == 'MainPage'){
+    }else if(name == 'LoginPage'){
       MainPageBuilder()
     }
-  }
+  }*/
 
   aboutToAppear() {
     AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
     preferenceUtil.getPreferences(getContext())
 
     setTimeout(() => {
-      let url = 'LoginPage'
+      let url = 'pages/login/LoginPage'
 
       preferenceUtil.getString(constantUtil.TOKEN)
         .then((data) => {
           if (data) {
             AppGlobalContext.getContext().setValue(constantUtil.TOKEN, data)
-            url = 'LoginPage'
+            url = 'pages/MainPage'
           }
         })
         .catch((err: string) => {
@@ -44,11 +45,11 @@ struct Index {
           this.startPage(url)
         })
 
-    }, 1500)
+    }, 1000)
   }
 
   build() {
-    Navigation(this.pathStack) {
+    //Navigation(this.pathStack) {
       Row() {
         Column(
           {
@@ -70,7 +71,7 @@ struct Index {
             .margin({ top: 30 })
             .width(150)
             .onClick(() => {
-              this.pathStack.pushPathByName('LoginPage',null)
+
             })
         }
         .width('100%')
@@ -81,14 +82,12 @@ struct Index {
       .alignItems(VerticalAlign.Bottom)
       .padding({ bottom: 100 })
     }
-    .mode(NavigationMode.Stack)
-    .navDestination(this.PagesMap)
-  }
+    //.mode(NavigationMode.Stack)
+    //.navDestination(this.PagesMap)
+  //}
 
   startPage(url: string) {
-    this.pathStack.pushPathByName(url,null)
-    /* router.replaceUrl({ url }, router.RouterMode.Single, (err) => { //关闭当前页并打开新的页面
-       console.error(err.message)
-     })*/
+    //this.pathStack.replacePathByName(url,null)
+    router.pushUrl({url})
   }
 }

@@ -4,6 +4,7 @@ import window from '@ohos.window';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import logUtil from '../utils/LogUtil';
 import preferenceUtil from '../utils/PreferencesUtil';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 export default class EntryAbility extends UIAbility {
 
@@ -32,6 +33,21 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content. Data: %{public}s', JSON.stringify(data) ?? '');
     });
+
+    windowStage.getMainWindow((err : BusinessError,data) => {
+      let windowClass = data
+      let uiContext = windowClass.getUIContext()
+      let uiObserver = uiContext.getUIObserver()
+      uiObserver.on("navDestinationUpdate",(info)=>{
+        if(info.state == 0){ // 组件显示
+          logUtil.errorAny("组件显示————"+info.name)
+        }else if(info.state == 1){ //组件隐藏
+          logUtil.errorAny("组件隐藏————"+info.name)
+        }else {
+          logUtil.errorAny("_______"+info.name)
+        }
+      })
+    })
   }
 
   //2、在前台

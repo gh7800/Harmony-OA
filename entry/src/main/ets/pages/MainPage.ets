@@ -5,15 +5,17 @@ import { ContactPage } from './contact/ContactPage'
 import { WorkingPage } from './working/WorkingPage'
 import constantUtil from '../utils/ConstantUtil';
 import logUtil from '../utils/LogUtil';
+import toastUtil from '../utils/ToastUtil';
 
 @Builder
 export function MainPageBuilder() {
   MainPage()
 }
 
+@Entry
 @Component
 struct MainPage {
-  pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+  @Provide("pathStack") pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
   tabsController: TabsController = new TabsController();
   @State currentIndex: number = 0
   private tabTitles: string[] = ['首页', '通讯录', '工作', '我的']
@@ -49,7 +51,7 @@ struct MainPage {
   pagesMap(name: string) {
     if ('首页' == name) {
       HomePage()
-    } else if ('通讯录' == name) {
+    } else if ("通讯录" == name) {
       ContactPage()
     } else if ('工作' == name) {
       WorkingPage()
@@ -61,66 +63,83 @@ struct MainPage {
   build() {
     Column() {
       Navigation(this.pathStack) {
-        //TitleBarComponent({ title: this.title, isNeedBack: false })
 
-        /*Tabs({
-          barPosition: BarPosition.End,
-          controller: this.tabsController
-        }) {
-          TabContent() {
-            HomePage() //@Link 使用$
+        Column() {
+          TitleBarComponent({ title: this.title, isNeedBack: false })
+          /*if(this.title){
+            this.pagesMap(this.title)
+          }*/
+
+          Tabs({
+            barPosition: BarPosition.End,
+            controller: this.tabsController
+          }) {
+            TabContent() {
+              HomePage() //@Link 使用$
+            }
+            .tabBar(this.TabBuilder('首页', 0, $r('app.media.home_pressed'), $r('app.media.home_normal')))
+
+            TabContent() {
+              ContactPage()
+            }
+            .tabBar(this.TabBuilder('通讯录', 1, $r('app.media.contact_pressed'), $r('app.media.contact_normal')))
+
+            TabContent() {
+              WorkingPage()
+            }
+            .tabBar(this.TabBuilder('工作', 2, $r('app.media.backlog_pressed'), $r('app.media.backlog_normal')))
+
+            TabContent() {
+              MinePage()
+            }
+            .tabBar(this.TabBuilder('我的', 3, $r('app.media.mine_pressed'), $r('app.media.mine_normal')))
+
           }
-          .tabBar(this.TabBuilder('首页', 0, $r('app.media.home_pressed'), $r('app.media.home_normal')))
-
-          TabContent() {
-            ContactPage()
-          }
-          .tabBar(this.TabBuilder('通讯录', 1, $r('app.media.contact_pressed'), $r('app.media.contact_normal')))
-
-          TabContent() {
-            WorkingPage()
-          }
-          .tabBar(this.TabBuilder('工作', 2, $r('app.media.backlog_pressed'), $r('app.media.backlog_normal')))
-
-          TabContent() {
-            MinePage()
-          }
-          .tabBar(this.TabBuilder('我的', 3, $r('app.media.mine_pressed'), $r('app.media.mine_normal')))
-
+          .barWidth('100%')
+          .barHeight(50)
+          .layoutWeight(1)
+          .onChange((index) => {
+            this.currentIndex = index
+            this.title = this.tabTitles[index]
+          })
         }
-        .barWidth('100%')
-        .barHeight(50)
-        .layoutWeight(1)
-        .onChange((index) => {
-          this.currentIndex = index
-          this.title = this.tabTitles[index]
-        })*/
+        .width('100%')
+        .height('100%')
+        .backgroundColor($r('app.color.main'))
+
+
       }
-      .width('100%')
-      .menus([
-        {
-          value: "首页", icon: '../../resources/base/media/home_normal.png', action: () => {
-        }
-        },
-        {
-          value: "通讯录", icon: "../../resources/base/media/home_normal.png", action: () => {
-        }
-        },
-        {
-          value: "工作", icon: "../../resources/base/media/home_normal.png", action: () => {
-        }
-        },
-        {
-          value: "我的", icon: "../../resources/base/media/home_normal.png", action: () => {
-        }
-        },
-      ])
-      .height('100%')
-      .width('100%')
+      .mode(NavigationMode.Auto)
       .navDestination(this.pagesMap)
       .hideTitleBar(true)
       .title(this.title)
-      .mode(NavigationMode.Split)
+      .backgroundColor($r('app.color.main'))
+      .titleMode(NavigationTitleMode.Mini)
+      .hideBackButton(true) //隐藏返回icon
+      /*.toolbarConfiguration([
+        {
+          value: "首页", icon: $r('app.media.home_normal'),status : ToolbarItemStatus.ACTIVE,activeIcon : $r('app.media.home_pressed'), action: () => {
+          this.title = this.tabTitles[0]
+        }
+        },
+        {
+          value: "通讯录", icon: $r('app.media.contact_normal'),activeIcon : $r('app.media.contact_pressed'), action: () => {
+          this.title = this.tabTitles[1]
+          toastUtil.show(this.title)
+          this.pagesMap(this.title)
+        }
+        },
+        {
+          value: "工作", icon: $r('app.media.work_normal'),activeIcon : $r('app.media.work_pressed'), action: () => {
+          this.title = this.tabTitles[2]
+        }
+        },
+        {
+          value: "我的", icon: $r('app.media.ic_mine_normal'),activeIcon : $r('app.media.mine_pressed'), action: () => {
+          this.title = this.tabTitles[3]
+        }
+        },
+      ])*/
     }
   }
 }
