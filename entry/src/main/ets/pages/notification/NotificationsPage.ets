@@ -2,24 +2,22 @@ import { PullToRefresh } from '@ohos/pulltorefresh/src/main/ets/components/PullT
 import {
   PullToRefreshConfigurator
 } from '@ohos/pulltorefresh'
-import router from '@ohos.router'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import toastUtil from '../../utils/ToastUtil'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
 import routerUtils from '../../utils/RouterUtils'
-import constantUtil from '../../utils/ConstantUtil'
+import logUtil from '../../utils/LogUtil'
 
 @Builder
-export function NotificationsPageBuilder(){
+export function NotificationsPageBuilder() : void{
   NotificationsPage()
 }
 
-// @Entry
 @Component
 export struct NotificationsPage {
-  pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+  // pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()
   private page = 1
@@ -93,6 +91,7 @@ export struct NotificationsPage {
     }
     .layoutWeight(1)
     .height('100%')
+    .width('100%')
     .margin({ left: 10, right: 10 })
     .edgeEffect(EdgeEffect.None) // 必须设置列表为滑动到边缘无效果
   }
@@ -141,6 +140,10 @@ export struct NotificationsPage {
       .justifyContent(FlexAlign.Start)
 
     }
+    .hideTitleBar(true)
+    .onReady((context) => {
+      logUtil.errorJson(context.pathInfo)
+    })
   }
 }
 

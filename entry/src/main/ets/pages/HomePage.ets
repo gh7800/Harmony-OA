@@ -3,12 +3,9 @@ import logUtil from '../utils/LogUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
 import { RouterUtil } from '../utils/RouterUtil'
 
-@Builder
-export function HomePageBuilder(pathStack : NavPathStack){}
-
 @Component
-struct HomePage {
-  @Consume('pathStack') pathStack : NavPathStack
+export struct HomePage {
+  // @Consume('pathStack') pathStack : NavPathStack
 
   @State realName: string = ''
   private menuTitle: string[] = [
@@ -24,7 +21,7 @@ struct HomePage {
 
   aboutToAppear() {
 
-    logUtil.errorAny(this.pathStack.size())
+    // logUtil.errorAny(this.pathStack.size())
 
     preferenceUtil.getString(constantUtil.REAL_NAME)
       .then((data : string) => {
@@ -84,7 +81,7 @@ struct HomePage {
                     case 0:
                       // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
                       //this.pathStack.popToName("NotificationsPage")
-                      RouterUtil.push("NotificationsPage")
+                      RouterUtil.push('NotificationsPage')
                       break
                     case 1:
                       // router.pushUrl({ url: 'pages/document/ReportPage' })
@@ -109,11 +106,10 @@ struct HomePage {
       .backgroundColor($r('app.color.f2'))
     }
     .onReady((context)=>{
-      this.pathStack = context.pathStack
-      logUtil.error("---------")
-      logUtil.errorJson(context.getConfigInRouteMap())
+      // this.pathStack = context.pathStack
+      // logUtil.error("---------" + this.pathStack)
+      //logUtil.errorJson(context.getConfigInRouteMap())
     })
   }
 }
 
-export { HomePage }

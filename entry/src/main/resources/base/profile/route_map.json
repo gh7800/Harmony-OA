@@ -9,26 +9,6 @@
       }
     },
     {
-      "name": "MainPage",
-      "pageSourceFile": "src/main/ets/pages/MainPage.ets",
-      "buildFunction": "MainPageBuilder"
-    },
-    {
-      "name": "HomePage",
-      "pageSourceFile": "src/main/ets/pages/HomePage.ets",
-      "buildFunction": "HomePageBuilder"
-    },
-    {
-      "name": "ContactPage",
-      "pageSourceFile": "src/main/ets/pages/contact/ContactPage.ets",
-      "buildFunction": "ContactPageBuilder"
-    },
-    {
-      "name": "WorkingPage",
-      "pageSourceFile": "src/main/ets/pages/working/WorkingPage.ets",
-      "buildFunction": "WorkingPageBuilder"
-    },
-    {
       "name": "NotificationsPage",
       "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
       "buildFunction": "NotificationsPageBuilder"

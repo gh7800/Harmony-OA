@@ -12,6 +12,7 @@ export function MainPageBuilder() {
   MainPage()
 }
 
+@Entry
 @Component
 export struct MainPage {
   // @Consume("pathStack") pathStack: NavPathStack
@@ -45,6 +46,7 @@ export struct MainPage {
 
   aboutToAppear(): void {
     // logUtil.errorAny(this.pathStack.size() + 10)
+    getContext()
   }
 
   @Builder
