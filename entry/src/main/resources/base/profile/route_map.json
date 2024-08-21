@@ -32,6 +32,11 @@
       "name": "NotificationsPage",
       "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
       "buildFunction": "NotificationsPageBuilder"
+    },
+    {
+      "name": "SplashPage",
+      "pageSourceFile": "src/main/ets/pages/SplashPage.ets",
+      "buildFunction": "SplashPageBuilder"
     }
 
   ]

@@ -5,7 +5,7 @@ import { AppGlobalContext } from '../utils/AppGlobalContext';
 import logUtil from '../utils/LogUtil';
 import preferenceUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
-
+import {WindowUtil} from '../utils/WindowUtils'
 export default class EntryAbility extends UIAbility {
 
   //1、应用初始化
@@ -36,6 +36,10 @@ export default class EntryAbility extends UIAbility {
 
     windowStage.getMainWindow((err : BusinessError,data) => {
       let windowClass = data
+
+      // WindowUtil.listenToAppStorage(windowClass)
+      // WindowUtil.setDartEnable(windowClass,false)
+
       let uiContext = windowClass.getUIContext()
       let uiObserver = uiContext.getUIObserver()
       uiObserver.on("navDestinationUpdate",(info)=>{

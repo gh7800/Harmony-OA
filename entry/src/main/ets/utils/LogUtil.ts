@@ -6,6 +6,7 @@ class LogUtil {
     str = stringUtil.replaceStr(str,'/','-')
     //console.error(str)
     hilog.error(0x0000, 'Tag', '%{public}s', str + '');
+    console.error(msg.toString())
   }
 
   errorAny(msg : any){

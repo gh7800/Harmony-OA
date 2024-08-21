@@ -1,6 +1,7 @@
 import constantUtil from '../utils/ConstantUtil'
 import logUtil from '../utils/LogUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
+import { RouterUtil } from '../utils/RouterUtil'
 
 @Builder
 export function HomePageBuilder(pathStack : NavPathStack){}
@@ -82,7 +83,8 @@ struct HomePage {
                   switch (index) {
                     case 0:
                       // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
-                      this.pathStack.popToName("NotificationsPage")
+                      //this.pathStack.popToName("NotificationsPage")
+                      RouterUtil.push("NotificationsPage")
                       break
                     case 1:
                       // router.pushUrl({ url: 'pages/document/ReportPage' })

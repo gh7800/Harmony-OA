@@ -12,14 +12,14 @@ export function MainPageBuilder() {
   MainPage()
 }
 
-@Entry
 @Component
-struct MainPage {
-  @Provide("pathStack") pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+export struct MainPage {
+  // @Consume("pathStack") pathStack: NavPathStack
   tabsController: TabsController = new TabsController();
   @State currentIndex: number = 0
   private tabTitles: string[] = ['首页', '通讯录', '工作', '我的']
   @State title: string = this.tabTitles[0]
+  @StorageProp('bottomHeight') bottomHeight: number = 20;
 
   //自定义tab
   @Builder
@@ -44,7 +44,7 @@ struct MainPage {
   }
 
   aboutToAppear(): void {
-    logUtil.errorAny(this.pathStack.size() + 10)
+    // logUtil.errorAny(this.pathStack.size() + 10)
   }
 
   @Builder
@@ -61,8 +61,8 @@ struct MainPage {
   }
 
   build() {
-    Column() {
-      Navigation(this.pathStack) {
+    // Column() {
+      Stack() {
 
         Column() {
           TitleBarComponent({ title: this.title, isNeedBack: false })
@@ -107,15 +107,18 @@ struct MainPage {
         .height('100%')
         .backgroundColor($r('app.color.main'))
 
-
+        //Line().height(this.bottomHeight).visibility(Visibility.Hidden)
       }
-      .mode(NavigationMode.Auto)
-      .navDestination(this.pagesMap)
-      .hideTitleBar(true)
-      .title(this.title)
-      .backgroundColor($r('app.color.main'))
-      .titleMode(NavigationTitleMode.Mini)
-      .hideBackButton(true) //隐藏返回icon
+      // .onReady(context =>{
+      //   this.pathStack = context.pathStack
+      // })
+      //.mode(NavigationMode.Auto)
+      //.navDestination(this.pagesMap)
+      // .hideTitleBar(true)
+      // .title(this.title)
+      // .backgroundColor($r('app.color.main'))
+      //.titleMode(NavigationTitleMode.Mini)
+      //.hideBackButton(true) //隐藏返回icon
       /*.toolbarConfiguration([
         {
           value: "首页", icon: $r('app.media.home_normal'),status : ToolbarItemStatus.ACTIVE,activeIcon : $r('app.media.home_pressed'), action: () => {
@@ -140,6 +143,6 @@ struct MainPage {
         }
         },
       ])*/
-    }
+    // }
   }
 }

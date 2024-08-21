@@ -5,30 +5,44 @@ import { AppGlobalContext } from '../utils/AppGlobalContext'
 // import { LoginPageBuilder } from './login/LoginPage'
 // import { MainPageBuilder } from './MainPage'
 import router from '@ohos.router'
+import { LoginPage } from './login/LoginPage'
+import { MainPage } from './MainPage'
+import { SplashPage } from './SplashPage'
+import logUtil from '../utils/LogUtil'
+import { RouterUtil } from '../utils/RouterUtil'
 
 /**
  * 输入page快速创建页面
  * 闪屏页 -- 最先显示
  */
+@Preview
 @Entry
 @Component
 struct Index {
-  pathStack: NavPathStack = new NavPathStack()
+  @Provide("pathStack") pathStack: NavPathStack = new NavPathStack()
+  @State @Watch("onSplashPageFinish") isSplash : boolean = true
 
-  /*@Builder
+  onSplashPageFinish() {
+    //启动页结束后进行操作，如请求网络等
+    getContext()
+  }
+
+  @Builder
   PagesMap(name: string) {
     if (name == 'LoginPage') {
-      LoginPageBuilder()
-    }else if(name == 'LoginPage'){
-      MainPageBuilder()
+      LoginPage()
+    } else if (name == 'MainPage') {
+      MainPage()
+    } else {
+      SplashPage({isSplash:this.isSplash})
     }
-  }*/
+  }
 
   aboutToAppear() {
     AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
     preferenceUtil.getPreferences(getContext())
 
-    setTimeout(() => {
+    /*setTimeout(() => {
       let url = 'pages/login/LoginPage'
 
       preferenceUtil.getString(constantUtil.TOKEN)
@@ -45,49 +59,45 @@ struct Index {
           this.startPage(url)
         })
 
-    }, 1000)
+    }, 1000)*/
   }
 
   build() {
-    //Navigation(this.pathStack) {
-      Row() {
-        Column(
-          {
-            space: 10, //组件之间的间距
+    Stack() {
+      Navigation(RouterUtil.navPathStack) {
+        Column() {
+          //this.PagesMap(this.name)
+          if(this.isSplash){
+            SplashPage({isSplash: this.isSplash})
+          }else {
+            MainPage()
           }
-        ) {
-
-          Image($r('app.media.icon'))
-            .width(100)
-            .height(100)
-
-          Text("鸿蒙OS")
-            .fontSize(22)
-            .margin({ top: 10 })
-            .fontWeight(FontWeight.Bold)
-
-          Button('移动办公', { type: ButtonType.Normal, stateEffect: true })
-            .borderRadius(20)
-            .margin({ top: 30 })
-            .width(150)
-            .onClick(() => {
-
-            })
         }
-        .width('100%')
-        .padding(22)
       }
 
       .height('100%')
-      .alignItems(VerticalAlign.Bottom)
-      .padding({ bottom: 100 })
+      .hideTitleBar(true)
+      .navBarWidth('50%')
+      // .navDestination(this.pageMap)
+      .mode(NavigationMode.Stack)
+
+      // .hideNavBar(false)
+      // .toolbarConfiguration(this.tabBuilder)
     }
-    //.mode(NavigationMode.Stack)
-    //.navDestination(this.PagesMap)
+    .alignContent(Alignment.BottomEnd)
+    .height('100%')
+    .backgroundColor("#F5F5F5")
+    }
+
+
+  //.mode(NavigationMode.Stack)
   //}
 
   startPage(url: string) {
-    //this.pathStack.replacePathByName(url,null)
-    router.pushUrl({url})
+    this.pathStack.pushPathByName(url, null,(info)=>{
+      logUtil.error(info.result.toString())
+      this.startPage(info.result.toString())
+    },true)
+    //router.pushUrl({ url })
   }
 }

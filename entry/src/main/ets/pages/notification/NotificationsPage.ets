@@ -18,7 +18,7 @@ export function NotificationsPageBuilder(){
 
 // @Entry
 @Component
-struct NotificationsPage {
+export struct NotificationsPage {
   pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()

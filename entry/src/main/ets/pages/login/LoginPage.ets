@@ -9,16 +9,16 @@ import toastUtil from '../../utils/ToastUtil'
 import constantUtil from '../../utils/ConstantUtil'
 // import { MainPageBuilder } from '../MainPage'
 import router from '@ohos.router'
+import { RouterUtil } from '../../utils/RouterUtil'
 
 @Builder
 export function LoginPageBuilder(){
   LoginPage()
 }
 
-@Entry
 @Component
-struct LoginPage {
-  //pathStack: NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
+export struct LoginPage {
+  // @Consume("pathStack") pathStack: NavPathStack
 
   @State message: string = 'Login'
   private username: string = ''
@@ -43,7 +43,7 @@ struct LoginPage {
   }*/
 
   build() {
-    //NavDestination() {
+    NavDestination() {
       Column() {
         TitleBarComponent({ title: '', bgColor: $r('app.color.ff') })
 
@@ -93,8 +93,11 @@ struct LoginPage {
 
       }
       .height("100%")
-    //}
-    //.hideTitleBar(true)
+    }
+    .hideTitleBar(true)
+    // .onReady(context =>{
+    //   this.pathStack = context.pathStack
+    // })
 
 
   }
@@ -127,7 +130,8 @@ struct LoginPage {
         setTimeout(() => {
           this.dialogController.close()
           //this.pathStack.replacePathByName("MainPage",null)
-          router.pushUrl({url : 'pages/MainPage'})
+          //router.pushUrl({url : 'pages/MainPage'})
+          RouterUtil.push("MainPage")
         }, 1000)
 
       })

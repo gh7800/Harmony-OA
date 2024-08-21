@@ -5,7 +5,7 @@ export struct CommonTitleContent {
   @Prop content: string
   iconTitle: string = ""
   iconRight: string = ""
-  @Prop onclick : ()=>void
+  @Prop onclick : ()=> void
 
   build() {
     Row() {
