@@ -5,11 +5,7 @@ import UserModel from '../../model/UserModel'
 import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import toastUtil from '../../utils/ToastUtil'
-import constantUtil from '../../utils/ConstantUtil'
-// import { MainPageBuilder } from '../MainPage'
-import router from '@ohos.router'
-import { RouterUtil } from '../../utils/RouterUtil'
+import { RouterUtil, ToastUtil } from 'LibraryCommon'
 
 @Builder
 export function LoginPageBuilder(){
@@ -123,7 +119,7 @@ export struct LoginPage {
 
     api.post('/auth/login', params)
       .then((response: ApiResponse<UserModel>) => {
-        toastUtil.show('登录成功')
+        ToastUtil.show('登录成功')
 
         userManager.saveUser(response.data)
 
@@ -137,7 +133,7 @@ export struct LoginPage {
       })
       .catch((error: string) => {
         this.dialogController.close()
-        toastUtil.show(error)
+        ToastUtil.show(error)
       })
 
   }

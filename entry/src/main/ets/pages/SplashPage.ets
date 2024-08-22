@@ -1,8 +1,4 @@
-import constantUtil from '../utils/ConstantUtil';
-import logUtil from '../utils/LogUtil';
-import preferenceUtil from '../utils/PreferencesUtil';
-import { RouterUtil } from '../utils/RouterUtil';
-import toastUtil from '../utils/ToastUtil';
+import { LogUtil } from 'LibraryCommon'
 
 @Builder
 function SplashPageBuilder(){}
@@ -63,7 +59,7 @@ export struct SplashPage {
             .margin({ top: 30 })
             .width(150)
             .onClick(() => {
-              logUtil.error('12312')
+              LogUtil.error('12312')
               //this.pathStack.pop("MainPage")
             })
         }

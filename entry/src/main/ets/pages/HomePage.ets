@@ -1,7 +1,6 @@
 import constantUtil from '../utils/ConstantUtil'
-import logUtil from '../utils/LogUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { RouterUtil } from '../utils/RouterUtil'
+import { LogUtil, RouterUtil } from 'LibraryCommon'
 
 @Component
 export struct HomePage {
@@ -28,7 +27,7 @@ export struct HomePage {
         this.realName = data
       })
       .catch((err : string) => {
-        logUtil.error(err)
+        LogUtil.error(err)
       })
 
   }

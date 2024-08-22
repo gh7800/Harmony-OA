@@ -3,9 +3,6 @@ import { HomePage } from './HomePage'
 import { MinePage } from './MinePage'
 import { ContactPage } from './contact/ContactPage'
 import { WorkingPage } from './working/WorkingPage'
-import constantUtil from '../utils/ConstantUtil';
-import logUtil from '../utils/LogUtil';
-import toastUtil from '../utils/ToastUtil';
 
 @Builder
 export function MainPageBuilder() {
@@ -45,8 +42,6 @@ export struct MainPage {
   }
 
   aboutToAppear(): void {
-    // logUtil.errorAny(this.pathStack.size() + 10)
-    getContext()
   }
 
   @Builder

@@ -3,12 +3,12 @@ import picker from '@ohos.file.picker';
 import mediaLibrary from '@ohos.multimedia.mediaLibrary';
 import wantConstant from '@ohos.ability.wantConstant';
 import { MediaBean } from '../model/MediaBean';
-import logUtil from '../utils/LogUtil';
+import { LogUtil } from 'LibraryCommon';
 
 /**
  * 多媒体辅助类
  */
-export class MediaHelper {
+/*export class MediaHelper {
   private readonly TAG: string = 'MediaHelper';
 
   private mContext: common.Context;
@@ -17,9 +17,9 @@ export class MediaHelper {
     this.mContext = context;
   }
 
-  /**
+  *//**
    * 选择图片
-   */
+   *//*
   public selectPicture(): Promise<MediaBean> {
 
     try {
@@ -29,46 +29,46 @@ export class MediaHelper {
       let photoPicker = new picker.PhotoViewPicker();
       return photoPicker.select(photoSelectOptions)
         .then((photoSelectResult) => {
-          logUtil.info(this.TAG, 'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + JSON.stringify(photoSelectResult));
+          LogUtil.info(this.TAG, 'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + JSON.stringify(photoSelectResult));
 
           if (photoSelectResult && photoSelectResult.photoUris && photoSelectResult.photoUris.length > 0) {
             let filePath = photoSelectResult.photoUris[0];
-            logUtil.info(this.TAG, 'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + filePath);
+            LogUtil.info(this.TAG, 'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + filePath);
             return filePath;
           }
 
-        }).catch((err) => {
-          logUtil.info(this.TAG, 'PhotoViewPicker.select failed with err: ' + err);
+        }).catch((err : string) => {
+          LogUtil.info(this.TAG, 'PhotoViewPicker.select failed with err: ' + err);
           return err;
-        }).then(async (filePath) => {
+        }).then(async (filePath : string) => {
           const mediaBean = await this.buildMediaBean(filePath);
           return mediaBean;
         });
     } catch (err) {
-      logUtil.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
+      LogUtil.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
       return Promise.reject(err);
     }
   }
 
-  /**
+  *//**
    * 选择文件
-   */
+   *//*
   public selectFile(): Promise<MediaBean> {
     try {
       let documentSelectOptions = new picker.DocumentSelectOptions();
       let documentPicker = new picker.DocumentViewPicker();
       return documentPicker.select(documentSelectOptions)
         .then((documentSelectResult) => {
-          logUtil.info(this.TAG, 'DocumentViewPicker.select successfully, DocumentSelectResult uri: ' + JSON.stringify(documentSelectResult));
+          LogUtil.info(this.TAG, 'DocumentViewPicker.select successfully, DocumentSelectResult uri: ' + JSON.stringify(documentSelectResult));
 
           if (documentSelectResult && documentSelectResult.length > 0) {
             let filePath = documentSelectResult[0];
-            logUtil.info(this.TAG, 'DocumentViewPicker.select successfully, DocumentSelectResult uri: ' + filePath);
+            LogUtil.info(this.TAG, 'DocumentViewPicker.select successfully, DocumentSelectResult uri: ' + filePath);
             return filePath;
           }
 
         }).catch((err) => {
-          logUtil.info(this.TAG, 'PhotoViewPicker.select failed with err: ' + err);
+          LogUtil.info(this.TAG, 'PhotoViewPicker.select failed with err: ' + err);
           return err;
         }).then(async (filePath) => {
 
@@ -77,15 +77,15 @@ export class MediaHelper {
 
         });
     } catch (err) {
-      logUtil.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
+      LogUtil.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
       return Promise.reject(err);
     }
   }
 
 
-  /**
+  *//**
    * 拍照
-   */
+   *//*
   public async takePhoto(context: common.UIAbilityContext): Promise<MediaBean> {
 
 
@@ -96,14 +96,14 @@ export class MediaHelper {
     };
     return context.startAbilityForResult(want)
       .then((result) => {
-        logUtil.info(this.TAG, `startAbility call back , ${JSON.stringify(result)}`);
+        LogUtil.info(this.TAG, `startAbility call back , ${JSON.stringify(result)}`);
         if (result.resultCode === 0 && result.want && result.want.uri) {
           //拍照成功
-          logUtil.info(this.TAG, 'takePhoto successfully, takePhotoResult uri: ' + result.want.uri);
+          LogUtil.info(this.TAG, 'takePhoto successfully, takePhotoResult uri: ' + result.want.uri);
           return result.want.uri;
         }
       }).catch((error) => {
-        logUtil.info(this.TAG, `startAbility error , ${JSON.stringify(error)}`);
+        LogUtil.info(this.TAG, `startAbility error , ${JSON.stringify(error)}`);
         return error;
       }).then(async (uri: string) => {
         const mediaBean = await this.buildMediaBean(uri);
@@ -112,11 +112,11 @@ export class MediaHelper {
   }
 
 
-  /**
+  *//**
    * 封装多媒体实体类
    *
    * @param uri 文件路径
-   */
+   *//*
   private async buildMediaBean(uri: string): Promise<MediaBean> {
 
     if (!uri) {
@@ -129,11 +129,11 @@ export class MediaHelper {
     return mediaBean;
   }
 
-  /**
+  *//**
    * 通过Uri查找所选文件信息，插入到MediaBean中
    * @param mediaBean
    * @param uri
-   */
+   *//*
   private async appendFileInfoToMediaBean(mediaBean: MediaBean, uri: string) {
 
     if (!uri) {
@@ -154,20 +154,20 @@ export class MediaHelper {
       };
 
       let fetchFileResult = await media.getFileAssets(mediaFetchOptions);
-      logUtil.info(this.TAG, `fileList getFileAssetsFromType fetchFileResult.count = ${fetchFileResult.getCount()}`);
+      LogUtil.info(this.TAG, `fileList getFileAssetsFromType fetchFileResult.count = ${fetchFileResult.getCount()}`);
       fileList = await fetchFileResult.getAllObject();
       fetchFileResult.close();
       await media.release();
 
     } catch (e) {
-      logUtil.info(this.TAG, "query: file data  exception ");
+      LogUtil.info(this.TAG, "query: file data  exception ");
     }
 
     if (fileList && fileList.length > 0) {
 
       let fileInfoObj = fileList[0];
-      logUtil.info(this.TAG, `file id = ${JSON.stringify(fileInfoObj.id)} , uri = ${JSON.stringify(fileInfoObj.uri)}`);
-      logUtil.info(this.TAG, `file fileList displayName = ${fileInfoObj.displayName} ,size = ${fileInfoObj.size} ,mimeType = ${fileInfoObj.mimeType}`);
+      LogUtil.info(this.TAG, `file id = ${JSON.stringify(fileInfoObj.id)} , uri = ${JSON.stringify(fileInfoObj.uri)}`);
+      LogUtil.info(this.TAG, `file fileList displayName = ${fileInfoObj.displayName} ,size = ${fileInfoObj.size} ,mimeType = ${fileInfoObj.mimeType}`);
 
       mediaBean.fileName = fileInfoObj.displayName;
       mediaBean.fileSize = fileInfoObj.size;
@@ -175,5 +175,5 @@ export class MediaHelper {
 
     }
   }
-}
+}*/
 

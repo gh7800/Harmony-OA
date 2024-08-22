@@ -3,8 +3,7 @@ import constantUtil from '../utils/ConstantUtil'
 import { LoginPage } from './login/LoginPage'
 import { MainPage } from './MainPage'
 import { SplashPage } from './SplashPage'
-import logUtil from '../utils/LogUtil'
-import { RouterUtil } from '../utils/RouterUtil'
+import { LogUtil, RouterUtil } from 'LibraryCommon'
 
 /**
  * 输入page快速创建页面
@@ -90,7 +89,7 @@ struct Index {
 
   startPage(url: string) {
     this.pathStack.pushPathByName(url, null,(info)=>{
-      logUtil.error(info.result.toString())
+      LogUtil.error(info.result.toString())
       this.startPage(info.result.toString())
     },true)
     //router.pushUrl({ url })

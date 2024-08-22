@@ -2,11 +2,11 @@ import { PullToRefresh } from '@ohos/pulltorefresh'
 import router from '@ohos.router'
 import abilityAccessCtrl, { Permissions } from '@ohos.abilityAccessCtrl'
 import common from '@ohos.app.ability.common'
-import logUtil from '../utils/LogUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import { CommonTitleContent } from '../view/CommonTitleContent'
-import toastUtil from '../utils/ToastUtil'
+import { LogUtil, ToastUtil } from 'LibraryCommon'
+
 // import { MediaHelper } from '../manager/MediaHelper'  //to-do
 
 // @Entry
@@ -32,7 +32,7 @@ export struct MinePage {
   }
 
   onPageShow(){
-    logUtil.error("_____mine_____")
+    LogUtil.error("_____mine_____")
   }
 
   build() {
@@ -128,9 +128,9 @@ export struct MinePage {
         for (let i = 0; i < length; i++) {
           if (grantStatus[i] === 0) {
             // 用户授权，可以继续访问目标操作
-            logUtil.error('已同意')
+            LogUtil.error('已同意')
           } else {
-            toastUtil.show('已禁止-' + grantName[i])
+            ToastUtil.show('已禁止-' + grantName[i])
             // 用户拒绝授权，提示用户必须授权才能访问当前页面的功能，并引导用户到系统设置中打开相应的权限
             isAgree = false
           }
@@ -142,7 +142,7 @@ export struct MinePage {
 
       })
       .catch((err : string) => {
-        logUtil.error(err)
+        LogUtil.error(err)
       })
   }
 

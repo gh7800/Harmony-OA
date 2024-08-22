@@ -1,6 +1,7 @@
 import Preferences from '@ohos.data.preferences'
+import { LogUtil } from 'LibraryCommon'
 import constantUtil from './ConstantUtil'
-import logUtil from './LogUtil'
+import { Context } from '@kit.AbilityKit'
 
 /**
  * K-V 首选项
@@ -9,15 +10,20 @@ import logUtil from './LogUtil'
 
 class PreferenceUtil {
   private preferencesName: string = "HYLD_OA"
-  preferenceInstance: Preferences.Preferences = null
+  preferenceInstance: Preferences.Preferences
 
-  getPreferences(context: any) {
-    var promise = Preferences.getPreferences(context, this.preferencesName)
+  constructor() {
+    this.preferenceInstance = {} as Preferences.Preferences
+  }
+
+
+  getPreferences(context: Context) {
+    let promise = Preferences.getPreferences(context, this.preferencesName)
     promise.then((object) => {
       this.preferenceInstance = object
-      logUtil.error('获取实例成功_'+object)
-    }).catch((err) => {
-      logUtil.error('实例获取失败__err' + err)
+      LogUtil.error('获取实例成功_'+object)
+    }).catch((err : string) => {
+      LogUtil.error('实例获取失败__err' + err)
     })
   }
 

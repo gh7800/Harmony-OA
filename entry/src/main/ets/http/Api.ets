@@ -1,9 +1,10 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from '@ohos/axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse,
+  InternalAxiosRequestConfig } from '@ohos/axios';
 import constantUtil from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
-import logUtil from '../utils/LogUtil';
 import ApiResponse from './ApiRsponse';
 import router from '@ohos.router'
+import { LogUtil } from 'LibraryCommon/src/main/ets/Utils/LogUtil';
 
 
 // 创建一个自定义的 HTTP 客户端类
@@ -29,7 +30,7 @@ class Api {
 
     // 添加请求拦截器
     this.axiosInstance.interceptors.request.use(
-      config => {
+      (config : InternalAxiosRequestConfig) => {
         //可添加token等
         //console.error('token_' + this.token)
         if(this.token){
@@ -40,22 +41,29 @@ class Api {
         //logUtil.error(this.baseUrl() + '_' + config.url)
 
         if (config.params) {
-          logUtil.errorJson(config.params)
+          LogUtil.errorJson(config.params)
         }
 
         return config
       },
-      error => {
-        logUtil.error('拦截器_' + error)
+      (error : string) => {
+        LogUtil.error('拦截器_' + error)
         return Promise.reject(error)
       }
     );
   }
 
   // 发送 GET 请求
-  public async get(url: string, params: Record<string, any> = {}): Promise<ApiResponse> {
+  public async get<T>(url: string, params: object): Promise<ApiResponse<T>> {
 
-    return await this.axiosInstance.get<ApiResponse>(url, { params })
+    try {
+      const response : AxiosResponse<ApiResponse<T>>= await this.axiosInstance.get<ApiResponse<T>>(url, { params })
+      return this.handleResponse(response)
+    } catch (error) {
+      return this.handleError(error)
+    }
+
+    /*return await this.axiosInstance.get<ApiResponse<T>>(url, { params })
       .then(response => {
         let apiResponse = this.handleResponse(response)
         if (apiResponse.success) {
@@ -65,12 +73,12 @@ class Api {
           this.handleError(apiResponse.message)
         }
       })
-      .catch(this.handleError)
+      .catch(this.handleError)*/
   }
 
   // 发送 POST 请求
-  public async post(url: string, params: Record<string, any> = {}): Promise<ApiResponse> {
-    return await this.axiosInstance.post<ApiResponse>(url, null, {
+  public async post(url: string, params: Record<string, object> = {}): Promise<ApiResponse> {
+    /*return await this.axiosInstance.post<ApiResponse>(url, null, {
       params: params
     })
       .then(response => {
@@ -81,45 +89,56 @@ class Api {
           this.handleError(apiResponse.message)
         }
       })
-      .catch(this.handleError)
+      .catch(this.handleError)*/
   }
 
   //取消请求
   public cancelRequest() {
-    logUtil.error('取消')
+    LogUtil.error('取消')
     axios.CancelToken.source()
   }
 
   // 其他 HTTP 请求方法可以根据需要添加，如 put、delete 等
 
   // 处理响应拦截
-  private handleResponse<T>(response: AxiosResponse<T> | null): T {
+  private handleResponse<T>(response: AxiosResponse<ApiResponse<T>>): ApiResponse<T> {
     // 检查响应对象是否存在
     //console.error('response--：', JSON.stringify(response.data))
-    logUtil.errorJson(response.data)
+   // LogUtil.errorJson(response.data)
 
-    if (response && response.data !== undefined && response.data !== null) {
+    /*if (response && response.data !== undefined && response.data !== null) {
       return response.data;
     } else {
       // 如果响应对象或响应体不存在，返回一个默认值或者抛出错误，根据需要调整
       //throw new Error('Invalid response or empty response body');
 
       this.handleError('Invalid response or empty response body')
+    }*/
+
+    if (response && response.data) {
+      const apiResponse = response.data;
+      if (apiResponse.success) {
+        return apiResponse;
+      } else {
+        throw new Error(apiResponse.message);
+      }
+    } else {
+      throw new Error('Invalid response or empty response body');
     }
   }
 
   // 处理请求错误
-  private handleError(error: string) {
+  private handleError(error: unknown) {
     // 这里可以添加一些全局的错误处理逻辑
     // logUtil.error('请求错误__' + error)
 
-    var msg = error;
+    let msg = error;
     if (axios.isAxiosError(error)) {
       let response = error.response
 
       //logUtil.error(JSON.stringify(response.data) + '___' + response.status)
-      logUtil.error(response.status)
-      logUtil.errorJson(response.data)
+      LogUtil.error(response.status)
+      LogUtil.errorJson(response.data)
 
       var status = response.status
       if (status >= 500 && status < 600) {

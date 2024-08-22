@@ -2,17 +2,19 @@ import UIAbility from '@ohos.app.ability.UIAbility';
 import hilog from '@ohos.hilog';
 import window from '@ohos.window';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
-import logUtil from '../utils/LogUtil';
 import preferenceUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
-import {WindowUtil} from '../utils/WindowUtils'
+import { WindowUtil } from 'LibraryCommon/src/main/ets/Utils/WindowUtils';
+import { LogUtil, RouterUtil } from 'LibraryCommon'
+import AbilityConstant from '@ohos.app.ability.AbilityConstant';
+import Want from '@ohos.app.ability.Want';
+
 export default class EntryAbility extends UIAbility {
 
   //1、应用初始化
-  onCreate(want, launchParam) {
+  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     console.error("onCreate")
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
-
   }
 
   //1、1 窗口回调
@@ -23,8 +25,8 @@ export default class EntryAbility extends UIAbility {
 
     preferenceUtil.getPreferences(this.context)
     AppGlobalContext.getContext().setValue('context',this.context.getApplicationContext())
-    var dir = this.context.filesDir
-    logUtil.error(dir)
+    let dir = this.context.filesDir
+    LogUtil.error(dir)
 
     windowStage.loadContent('pages/Index', (err, data) => {
       if (err.code) {
@@ -37,18 +39,18 @@ export default class EntryAbility extends UIAbility {
     windowStage.getMainWindow((err : BusinessError,data) => {
       let windowClass = data
 
-      // WindowUtil.listenToAppStorage(windowClass)
-      // WindowUtil.setDartEnable(windowClass,false)
+      WindowUtil.listenToAppStorage(windowClass)
+      WindowUtil.setDartEnable(windowClass,false)
 
       let uiContext = windowClass.getUIContext()
       let uiObserver = uiContext.getUIObserver()
       uiObserver.on("navDestinationUpdate",(info)=>{
         if(info.state == 0){ // 组件显示
-          logUtil.errorAny("组件显示————"+info.name)
+          LogUtil.errorAny("组件显示————"+info.name)
         }else if(info.state == 1){ //组件隐藏
-          logUtil.errorAny("组件隐藏————"+info.name)
+          LogUtil.errorAny("组件隐藏————"+info.name)
         }else {
-          logUtil.errorAny("_______"+info.name)
+          LogUtil.errorAny("_______"+info.name)
         }
       })
     })

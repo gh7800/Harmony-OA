@@ -1,17 +1,14 @@
 import { PullToRefresh } from '@ohos/pulltorefresh/src/main/ets/components/PullToRefresh/PullToRefresh'
-import {
-  PullToRefreshConfigurator
-} from '@ohos/pulltorefresh'
+import { PullToRefreshConfigurator } from '@ohos/pulltorefresh'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
-import toastUtil from '../../utils/ToastUtil'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
 import routerUtils from '../../utils/RouterUtils'
-import logUtil from '../../utils/LogUtil'
+import { LogUtil, ToastUtil } from 'LibraryCommon'
 
 @Builder
-export function NotificationsPageBuilder() : void{
+export function NotificationsPageBuilder(): void {
   NotificationsPage()
 }
 
@@ -21,36 +18,54 @@ export struct NotificationsPage {
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()
   private page = 1
-  @State isRefresh : boolean = false
+  @State isRefresh: boolean = false
   private refreshConfig = new PullToRefreshConfigurator().setRefreshColor('#FF1874D7')
 
   aboutToAppear() {
     this.getData()
   }
 
-  private getData() {
+  private async getData() {
     let params: RequestParams = {
       page: this.page
     }
-    api.get('api/notice/message', params)
-      .then((result: ApiResponse<Array<NotificationModel>>) => {
-        if (result.pagination.current_page > 1) {
-          result.data.map((value, index) => {
+    const response: ApiResponse<Array<NotificationModel>> = await api.get('api/notice/message', params)
+    try {
+      if (response.success) {
+        if (response.pagination.current_page > 1) {
+          response.data.map((value, index) => {
             this.data.push(value)
           })
-          if (result.pagination.current_page >= this.page) {
+          if (response.pagination.current_page >= this.page) {
             this.refreshConfig.setHasLoadMore(false)
           }
         } else {
-          this.data = result.data
+          this.data = response.data
         }
-      })
-      .catch((error : string) => {
-        toastUtil.show(error)
-      })
-      .finally(()=>{
-        this.isRefresh = true
-      })
+      } else {
+        ToastUtil.show(response.message)
+      }
+    } catch (error) {
+      ToastUtil.show(error)
+    }
+    /*.then((result: ApiResponse<Array<NotificationModel>>) => {
+      if (result.pagination.current_page > 1) {
+        result.data.map((value, index) => {
+          this.data.push(value)
+        })
+        if (result.pagination.current_page >= this.page) {
+          this.refreshConfig.setHasLoadMore(false)
+        }
+      } else {
+        this.data = result.data
+      }
+    })
+    .catch((error : string) => {
+      ToastUtil.show(error)
+    })
+    .finally(()=>{
+      this.isRefresh = true
+    })*/
   }
 
   @Builder
@@ -75,17 +90,22 @@ export struct NotificationsPage {
           }
           .onClick(event => {
             let item = this.data[index]
-            toastUtil.show(item.title)
+            ToastUtil.show(item.title)
             let param: SendParams = {
-              title : item.title,
+              title: item.title,
               uuid: item.uuid
             }
             //router.pushUrl({url:'pages/notification/NotificationDetailPage',params: param})
-            routerUtils.pushUrl({url:'pages/notification/NotificationDetailPage',params: param})
+            routerUtils.pushUrl({ url: 'pages/notification/NotificationDetailPage', params: param })
           })
         }
         .border({ radius: 5 })
-        .padding({ top: 5, left: 5, right: 5, bottom: 5 })
+        .padding({
+          top: 5,
+          left: 5,
+          right: 5,
+          bottom: 5
+        })
         .backgroundColor($r('app.color.ff'))
       })
     }
@@ -142,7 +162,7 @@ export struct NotificationsPage {
     }
     .hideTitleBar(true)
     .onReady((context) => {
-      logUtil.errorJson(context.pathInfo)
+      LogUtil.errorJson(context.pathInfo)
     })
   }
 }

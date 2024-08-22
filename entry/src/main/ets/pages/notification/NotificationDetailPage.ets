@@ -1,9 +1,8 @@
 import router from '@ohos.router'
+import { ToastUtil } from 'LibraryCommon'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
-import logUtil from '../../utils/LogUtil'
-import toastUtil from '../../utils/ToastUtil'
 import LoadingDialog from '../../view/LoadingDialog'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
 import { TitleContentComponent } from '../../view/TitleContentComponent'
@@ -23,7 +22,7 @@ struct NotificationDetailPage {
     builder: LoadingDialog(),
     customStyle: true,
     cancel: () => {
-      toastUtil.show('已取消')
+      ToastUtil.show('已取消')
     }
   })
 
@@ -37,11 +36,11 @@ struct NotificationDetailPage {
         this.notificationModel = result.data
         //logUtil.errorJson(this.notificationModel)
       } else {
-        toastUtil.show(result.message)
+        ToastUtil.show(result.message)
       }
     })
       .catch((error: string) => {
-        toastUtil.show(error)
+        ToastUtil.show(error)
       })
       .finally(() => {
         setTimeout(()=>{
@@ -53,7 +52,7 @@ struct NotificationDetailPage {
   build() {
     Column() {
       TitleBarComponent({ title: this.title, menuIcon: 'ic_points.png', clickMenu: () => {
-        toastUtil.show(this.title)
+        ToastUtil.show(this.title)
       } })
 
       ColumnSplit() {

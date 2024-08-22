@@ -2,8 +2,8 @@ import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
 import preferenceUtil from '../utils/PreferencesUtil'
 import { TitleBarComponent } from '../view/TitleBarComponent'
-import toastUtil from '../utils/ToastUtil'
 import { AppGlobalContext } from '../utils/AppGlobalContext'
+import { ToastUtil } from 'LibraryCommon'
 
 @Entry
 @Component
@@ -43,7 +43,7 @@ struct SettingPage {
           })
             .then(data => {
               if (data.index == 0) {
-                toastUtil.show('取消')
+                ToastUtil.show('取消')
               } else {
                 AppGlobalContext.getContext().clear()
                 preferenceUtil.clear()
