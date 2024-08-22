@@ -18,7 +18,6 @@ struct Index {
 
   onSplashPageFinish() {
     //启动页结束后进行操作，如请求网络等
-    getContext()
   }
 
   @Builder
@@ -36,6 +35,10 @@ struct Index {
     AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
     preferenceUtil.getPreferences(getContext())
 
+    let s : string = ''
+    if(s){
+      LogUtil.error("9999999999")
+    }
     /*setTimeout(() => {
       let url = 'pages/login/LoginPage'
 

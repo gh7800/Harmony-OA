@@ -5,7 +5,7 @@ import { AppGlobalContext } from '../utils/AppGlobalContext';
 import preferenceUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { WindowUtil } from 'LibraryCommon/src/main/ets/Utils/WindowUtils';
-import { LogUtil, RouterUtil } from 'LibraryCommon'
+import { LogUtil } from 'LibraryCommon'
 import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 import Want from '@ohos.app.ability.Want';
 
@@ -25,6 +25,7 @@ export default class EntryAbility extends UIAbility {
 
     preferenceUtil.getPreferences(this.context)
     AppGlobalContext.getContext().setValue('context',this.context.getApplicationContext())
+
     let dir = this.context.filesDir
     LogUtil.error(dir)
 

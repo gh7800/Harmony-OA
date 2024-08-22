@@ -1,5 +1,4 @@
 import router from '@ohos.router'
-import logUtil from '../utils/LogUtil'
 
 // 自定义titleBar组件
 // @Preview

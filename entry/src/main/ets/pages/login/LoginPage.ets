@@ -99,7 +99,7 @@ export struct LoginPage {
   }
 
   /**login*/
-  private login() {
+  private async login() {
     if (!this.username) {
       promptAction.showToast({ message: '账号不能为空' })
       return
@@ -117,8 +117,22 @@ export struct LoginPage {
 
     this.dialogController.open()
 
-    api.post('/auth/login', params)
-      .then((response: ApiResponse<UserModel>) => {
+    const response : ApiResponse<UserModel> = await api.post('/auth/login', params)
+    try {
+      if(response.success){
+        this.dialogController.close()
+        ToastUtil.show('登录成功')
+        userManager.saveUser(response.data)
+        RouterUtil.push("MainPage")
+      }else {
+        this.dialogController.close()
+        ToastUtil.show(response.message)
+      }
+    } catch (error) {
+      this.dialogController.close()
+      ToastUtil.show(error)
+    }
+      /*.then((response: ApiResponse<UserModel>) => {
         ToastUtil.show('登录成功')
 
         userManager.saveUser(response.data)
@@ -134,7 +148,7 @@ export struct LoginPage {
       .catch((error: string) => {
         this.dialogController.close()
         ToastUtil.show(error)
-      })
+      })*/
 
   }
 }

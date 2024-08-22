@@ -7,7 +7,7 @@ export class AppGlobalContext {
   }
 
   private static instance: AppGlobalContext;
-  private _map = new Map<string, string>();
+  private _map = new Map<string, object | string>();
 
   public static getContext(): AppGlobalContext {
     if (!AppGlobalContext.instance) {
@@ -16,12 +16,20 @@ export class AppGlobalContext {
     return AppGlobalContext.instance;
   }
 
-  getValue(value: string): string {
-    let result = this._map.get(value);
-    return result + "";
+  getValue(value: string): object | undefined | string{
+    const result : object | undefined | string = this._map.get(value);
+    return result;
   }
 
-  setValue(key: string, value: string): void {
+  getString(key : string) : string {
+    const result : object | undefined | string = this._map.get(key) ;
+    if(result == undefined){
+      return ''
+    }
+    return result + ""
+  }
+
+  setValue(key: string, value: object|string): void {
     this._map.set(key, value);
   }
 

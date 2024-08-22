@@ -10,7 +10,7 @@ import { LogUtil } from 'LibraryCommon/src/main/ets/Utils/LogUtil';
 // 创建一个自定义的 HTTP 客户端类
 class Api {
   private axiosInstance: AxiosInstance;
-  private token : string = AppGlobalContext.getContext().getValue(constantUtil.TOKEN);
+  private token : string = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
 
   private baseUrl() {
     return 'http://xcoa.hwapp.site/'
@@ -57,10 +57,10 @@ class Api {
   public async get<T>(url: string, params: object): Promise<ApiResponse<T>> {
 
     try {
-      const response : AxiosResponse<ApiResponse<T>>= await this.axiosInstance.get<ApiResponse<T>>(url, { params })
+      const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.get<ApiResponse<T>>(url, { params })
       return this.handleResponse(response)
     } catch (error) {
-      return this.handleError(error)
+      return this.handleError(error)as Promise<ApiResponse<T>>
     }
 
     /*return await this.axiosInstance.get<ApiResponse<T>>(url, { params })
@@ -77,7 +77,13 @@ class Api {
   }
 
   // 发送 POST 请求
-  public async post(url: string, params: Record<string, object> = {}): Promise<ApiResponse> {
+  public async post<T>(url: string, params: object): Promise<ApiResponse<T>> {
+    try {
+      const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.post<ApiResponse<T>>(url, null, { params: params })
+      return this.handleResponse(response)
+    } catch (error) {
+      return this.handleError(error) as Promise<ApiResponse<T>>
+    }
     /*return await this.axiosInstance.post<ApiResponse>(url, null, {
       params: params
     })
@@ -127,8 +133,40 @@ class Api {
     }
   }
 
+  private handleError(error: Error): Promise<ApiResponse<null>> {
+    let msg = 'An unknown error occurred';
+
+    if (axios.isAxiosError(error)) {
+      const axiosError : AxiosError = error ;
+
+      const response : AxiosResponse | undefined = axiosError.response;
+      if (response) {
+        const status = response.status;
+
+        LogUtil.error(response.status);
+        LogUtil.errorJson(response.data);
+
+        if (status >= 500 && status < 600) {
+          msg = `服务器错误_${status}`;
+        } else if (status === 401) {
+          msg = '认证错误';
+          router.replaceUrl({ url: 'pages/LoginPage' }, router.RouterMode.Single);
+        } else if (status === 404) {
+          msg = '参数错误404';
+        } else {
+          msg = response.data?.message || msg;
+        }
+      }
+    } else if (error instanceof Error) {
+      msg = `其他错误___${error.message}`;
+    }
+
+    return Promise.reject(new Error(msg));
+  }
+
+
   // 处理请求错误
-  private handleError(error: unknown) {
+  /*private handleError(error: unknown) {
     // 这里可以添加一些全局的错误处理逻辑
     // logUtil.error('请求错误__' + error)
 
@@ -160,7 +198,7 @@ class Api {
 
     return Promise.reject(msg);
     // return new ApiResponse(false, null, msg)
-  }
+  }*/
 }
 
 // 创建实例，这样你可以在应用的其他地方使用同一个实例
