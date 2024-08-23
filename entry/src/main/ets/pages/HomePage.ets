@@ -6,23 +6,25 @@ import { LogUtil, RouterUtil } from 'librarycommon'
 export struct HomePage {
   @State realName: string = ''
   private menuTitle: string[] = [
-    '通知', '请示','总办会','党委会','董事会',
+    '通知', '请示', '总办会', '党委会', '董事会',
     '内部发文', '公文流转', '用车', '会议', '资产管理',
-    '公章证照','周例会','督办管理','安全管理','采购管理',
-    '企业授权','合同管理','介绍信']
+    '公章证照', '周例会', '督办管理', '安全管理', '采购管理',
+    '企业授权', '合同管理', '介绍信']
   private menuIcon = [
-    $r('app.media.icon_home_tongzhi'), $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),
-    $r('app.media.icon_home_jiancha'), $r('app.media.icon_home_yuedu'), $r('app.media.icon_home_cheliang'), $r('app.media.icon_home_meeting'), $r('app.media.icon_home_property'),
-    $r('app.media.icon_home_shenpi'),$r('app.media.icon_jieshaoxin'),
-    ]
+    $r('app.media.icon_home_tongzhi'), $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),
+    $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),
+    $r('app.media.icon_home_jiancha'), $r('app.media.icon_home_yuedu'), $r('app.media.icon_home_cheliang'),
+    $r('app.media.icon_home_meeting'), $r('app.media.icon_home_property'),
+    $r('app.media.icon_home_shenpi'), $r('app.media.icon_jieshaoxin'),
+  ]
 
   aboutToAppear() {
 
     preferenceUtil.getString(constantUtil.REAL_NAME)
-      .then((data : string) => {
+      .then((data: string) => {
         this.realName = data
       })
-      .catch((err : string) => {
+      .catch((err: string) => {
         LogUtil.error(err)
       })
 
@@ -35,7 +37,6 @@ export struct HomePage {
   }
 
   build() {
-    NavDestination() {
       Column() {
 
         Row() {
@@ -78,7 +79,10 @@ export struct HomePage {
                       // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
                       //this.pathStack.popToName("NotificationsPage")
 
-                      RouterUtil.push("NotificationsPage")
+                      const parm: String = '随便传就行';
+                      RouterUtil.push("NotificationsPage",parm,async (info)=>{
+                        LogUtil.errorAny(info.result)
+                      })
 
                       /*RouterUtil.push('LoginPage',(info : PopInfo)=>{
                         LogUtil.error(info.info.name)
@@ -107,11 +111,6 @@ export struct HomePage {
       .height('100%')
       .backgroundColor($r('app.color.f2'))
     }
-    .onReady((context)=>{
-      // this.pathStack = context.pathStack
-      // logUtil.error("---------" + this.pathStack)
-      //logUtil.errorJson(context.getConfigInRouteMap())
-    })
-  }
+
 }
 

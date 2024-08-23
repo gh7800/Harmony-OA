@@ -9,7 +9,6 @@ import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 
 // import { MediaHelper } from '../manager/MediaHelper'  //to-do
 
-// @Entry
 @Component
 export struct MinePage {
   @State isRefreshing: boolean = false
