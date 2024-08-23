@@ -7,6 +7,6 @@
   "main": "",
   "version": "1.0.0",
   "dependencies": {
-    "@library/common": "file:../LibraryCommon"
+    "librarycommon": "file:../libraryCommon" //引入静态依赖包
   },
 }

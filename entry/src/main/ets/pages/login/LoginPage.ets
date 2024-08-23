@@ -5,7 +5,7 @@ import UserModel from '../../model/UserModel'
 import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import { RouterUtil, ToastUtil } from '@library/common'
+import { RouterUtil, ToastUtil } from 'librarycommon'
 
 @Component
 export struct LoginPage {

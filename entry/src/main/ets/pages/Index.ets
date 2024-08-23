@@ -2,7 +2,7 @@ import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import { MainPage } from './MainPage'
 import { SplashPage } from './SplashPage'
-import { LogUtil, RouterUtil } from '@library/common'
+import { LogUtil, RouterUtil } from 'librarycommon'
 
 /**
  * 输入page快速创建页面
@@ -16,7 +16,7 @@ struct Index {
 
   onSplashPageFinish() {
     //启动页结束后进行操作，如请求网络等
-
+    LogUtil.error(this.isSplash)
   }
 
   aboutToAppear() {
@@ -60,7 +60,6 @@ struct Index {
       .hideTitleBar(true)
       .navBarWidth('50%')
       // .navDestination(this.pageMap)
-      .mode(NavigationMode.Stack)
 
       // .hideNavBar(false)
       // .toolbarConfiguration(this.tabBuilder)

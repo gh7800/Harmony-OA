@@ -4,7 +4,7 @@ import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
-import { LogUtil, ToastUtil } from '@library/common'
+import { LogUtil, ToastUtil } from 'librarycommon'
 
 @Builder
 export function NotificationsPageBuilder() : void{

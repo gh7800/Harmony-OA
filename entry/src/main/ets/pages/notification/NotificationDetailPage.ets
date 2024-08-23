@@ -1,4 +1,4 @@
-import { ToastUtil } from '@library/common'
+import { ToastUtil } from 'librarycommon'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'

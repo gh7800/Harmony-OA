@@ -10,7 +10,7 @@
     "arkOptions": {
       "runtimeOnly": {
         "packages": [
-
+          "librarycommon"
         ]
       }
     },

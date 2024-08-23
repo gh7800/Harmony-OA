@@ -1,4 +1,4 @@
-import { RouterUtil } from '@library/common'
+import { RouterUtil } from 'librarycommon'
 
 // 自定义titleBar组件
 @Component

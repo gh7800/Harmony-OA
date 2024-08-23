@@ -5,7 +5,7 @@ import common from '@ohos.app.ability.common'
 import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import { CommonTitleContent } from '../view/CommonTitleContent'
-import { LogUtil, RouterUtil, ToastUtil } from '@library/common'
+import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 
 // import { MediaHelper } from '../manager/MediaHelper'  //to-do
 

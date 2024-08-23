@@ -1,6 +1,6 @@
 import constantUtil from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { LogUtil, RouterUtil } from '@library/common'
+import { LogUtil, RouterUtil } from 'librarycommon'
 
 @Component
 export struct HomePage {
@@ -78,7 +78,7 @@ export struct HomePage {
                       // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
                       //this.pathStack.popToName("NotificationsPage")
 
-                      RouterUtil.navPathStack.pushPathByName("NotificationsPage",null)
+                      RouterUtil.push("NotificationsPage")
 
                       /*RouterUtil.push('LoginPage',(info : PopInfo)=>{
                         LogUtil.error(info.info.name)

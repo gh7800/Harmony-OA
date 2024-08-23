@@ -4,7 +4,7 @@ import window from '@ohos.window';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import preferenceUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { LogUtil } from '@library/common'
+import { LogUtil } from 'librarycommon'
 import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 import Want from '@ohos.app.ability.Want';
 

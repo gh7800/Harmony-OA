@@ -3,7 +3,7 @@ import promptAction from '@ohos.promptAction'
 import preferenceUtil from '../utils/PreferencesUtil'
 import { TitleBarComponent } from '../view/TitleBarComponent'
 import { AppGlobalContext } from '../utils/AppGlobalContext'
-import { ToastUtil } from '@library/common'
+import { ToastUtil } from 'librarycommon'
 
 @Builder
 export function SettingPageBuilder() {

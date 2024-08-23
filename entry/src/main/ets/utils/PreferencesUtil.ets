@@ -1,5 +1,5 @@
 import Preferences from '@ohos.data.preferences'
-import { LogUtil } from '@library/common'
+import { LogUtil } from 'librarycommon'
 import constantUtil from './ConstantUtil'
 import { Context } from '@kit.AbilityKit'
 
