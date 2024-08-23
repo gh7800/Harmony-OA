@@ -1,4 +1,3 @@
-// export { MainPage } from './src/main/ets/components/MainPage'
 export { RouterUtil } from './src/main/ets/Utils/RouterUtil'
 export { LogUtil } from './src/main/ets/Utils/LogUtil'
 export { StringUtil } from './src/main/ets/Utils/StringUtil'

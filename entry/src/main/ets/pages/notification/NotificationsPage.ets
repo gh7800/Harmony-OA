@@ -4,11 +4,10 @@ import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
-import routerUtils from '../../utils/RouterUtils'
-import { LogUtil, ToastUtil } from 'LibraryCommon'
+import { LogUtil, ToastUtil } from '@library/common'
 
 @Builder
-export function NotificationsPageBuilder(): void {
+export function NotificationsPageBuilder() : void{
   NotificationsPage()
 }
 
@@ -96,7 +95,7 @@ export struct NotificationsPage {
               uuid: item.uuid
             }
             //router.pushUrl({url:'pages/notification/NotificationDetailPage',params: param})
-            routerUtils.pushUrl({ url: 'pages/notification/NotificationDetailPage', params: param })
+            //routerUtils.pushUrl({ url: 'pages/notification/NotificationDetailPage', params: param })
           })
         }
         .border({ radius: 5 })

@@ -5,16 +5,10 @@ import UserModel from '../../model/UserModel'
 import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import { RouterUtil, ToastUtil } from 'LibraryCommon'
-
-@Builder
-export function LoginPageBuilder(){
-  LoginPage()
-}
+import { RouterUtil, ToastUtil } from '@library/common'
 
 @Component
 export struct LoginPage {
-  // @Consume("pathStack") pathStack: NavPathStack
 
   @State message: string = 'Login'
   private username: string = ''
@@ -28,15 +22,8 @@ export struct LoginPage {
   })
 
   aboutToAppear(){
-    //preferenceUtil.getPreferences(getContext())
-  }
 
-  /*@Builder
-  PagesMap(name: string) {
-    if(name == 'MainPage'){
-      MainPageBuilder()
-    }
-  }*/
+  }
 
   build() {
     NavDestination() {
@@ -91,9 +78,9 @@ export struct LoginPage {
       .height("100%")
     }
     .hideTitleBar(true)
-    // .onReady(context =>{
-    //   this.pathStack = context.pathStack
-    // })
+    .onReady(context =>{
+
+    })
 
 
   }
@@ -152,6 +139,12 @@ export struct LoginPage {
 
   }
 }
+
+@Builder
+export function LoginPageBuilder(){
+  LoginPage()
+}
+
 
 interface LoginParams{
   username : string,

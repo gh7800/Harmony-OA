@@ -1,9 +1,8 @@
 import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
-import { LoginPage } from './login/LoginPage'
 import { MainPage } from './MainPage'
 import { SplashPage } from './SplashPage'
-import { LogUtil, RouterUtil } from 'LibraryCommon'
+import { LogUtil, RouterUtil } from '@library/common'
 
 /**
  * 输入page快速创建页面
@@ -13,32 +12,18 @@ import { LogUtil, RouterUtil } from 'LibraryCommon'
 @Entry
 @Component
 struct Index {
-  @Provide("pathStack") pathStack: NavPathStack = new NavPathStack()
   @State @Watch("onSplashPageFinish") isSplash : boolean = true
 
   onSplashPageFinish() {
     //启动页结束后进行操作，如请求网络等
-  }
 
-  @Builder
-  PagesMap(name: string) {
-    if (name == 'LoginPage') {
-      LoginPage()
-    } else if (name == 'MainPage') {
-      MainPage()
-    } else {
-      SplashPage({isSplash:this.isSplash})
-    }
   }
 
   aboutToAppear() {
-    AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
+
+    //AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
     preferenceUtil.getPreferences(getContext())
 
-    let s : string = ''
-    if(s){
-      LogUtil.error("9999999999")
-    }
     /*setTimeout(() => {
       let url = 'pages/login/LoginPage'
 
@@ -60,7 +45,6 @@ struct Index {
   }
 
   build() {
-    Stack() {
       Navigation(RouterUtil.navPathStack) {
         Column() {
           //this.PagesMap(this.name)
@@ -81,20 +65,16 @@ struct Index {
       // .hideNavBar(false)
       // .toolbarConfiguration(this.tabBuilder)
     }
-    .alignContent(Alignment.BottomEnd)
-    .height('100%')
-    .backgroundColor("#F5F5F5")
-    }
 
 
   //.mode(NavigationMode.Stack)
   //}
 
-  startPage(url: string) {
+  /*startPage(url: string) {
     this.pathStack.pushPathByName(url, null,(info)=>{
       LogUtil.error(info.result.toString())
       this.startPage(info.result.toString())
     },true)
     //router.pushUrl({ url })
-  }
+  }*/
 }

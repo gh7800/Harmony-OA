@@ -1,11 +1,9 @@
 import constantUtil from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { LogUtil, RouterUtil } from 'LibraryCommon'
+import { LogUtil, RouterUtil } from '@library/common'
 
 @Component
 export struct HomePage {
-  // @Consume('pathStack') pathStack : NavPathStack
-
   @State realName: string = ''
   private menuTitle: string[] = [
     '通知', '请示','总办会','党委会','董事会',
@@ -19,8 +17,6 @@ export struct HomePage {
     ]
 
   aboutToAppear() {
-
-    // logUtil.errorAny(this.pathStack.size())
 
     preferenceUtil.getString(constantUtil.REAL_NAME)
       .then((data : string) => {
@@ -81,7 +77,13 @@ export struct HomePage {
                     case 0:
                       // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
                       //this.pathStack.popToName("NotificationsPage")
-                      RouterUtil.push('NotificationsPage')
+
+                      RouterUtil.navPathStack.pushPathByName("NotificationsPage",null)
+
+                      /*RouterUtil.push('LoginPage',(info : PopInfo)=>{
+                        LogUtil.error(info.info.name)
+                      })*/
+                      //LogUtil.error(RouterUtil.size() + 100)
                       break
                     case 1:
                       // router.pushUrl({ url: 'pages/document/ReportPage' })

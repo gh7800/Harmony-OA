@@ -9,7 +9,6 @@ export function MainPageBuilder() {
   MainPage()
 }
 
-@Entry
 @Component
 export struct MainPage {
   // @Consume("pathStack") pathStack: NavPathStack
@@ -42,6 +41,9 @@ export struct MainPage {
   }
 
   aboutToAppear(): void {
+  }
+
+  onPageShow(): void {
   }
 
   @Builder

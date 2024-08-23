@@ -4,8 +4,7 @@ import window from '@ohos.window';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import preferenceUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { WindowUtil } from 'LibraryCommon/src/main/ets/Utils/WindowUtils';
-import { LogUtil } from 'LibraryCommon'
+import { LogUtil } from '@library/common'
 import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 import Want from '@ohos.app.ability.Want';
 
@@ -40,8 +39,8 @@ export default class EntryAbility extends UIAbility {
     windowStage.getMainWindow((err : BusinessError,data) => {
       let windowClass = data
 
-      WindowUtil.listenToAppStorage(windowClass)
-      WindowUtil.setDartEnable(windowClass,false)
+      // WindowUtil.listenToAppStorage(windowClass)
+      // WindowUtil.setDartEnable(windowClass,false)
 
       let uiContext = windowClass.getUIContext()
       let uiObserver = uiContext.getUIObserver()

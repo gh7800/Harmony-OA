@@ -1,5 +1,4 @@
-import router from '@ohos.router'
-import { ToastUtil } from 'LibraryCommon'
+import { ToastUtil } from '@library/common'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
@@ -11,12 +10,16 @@ import { TitleContentComponent } from '../../view/TitleContentComponent'
  * 这是：通知详情
  * created by: 2024/6/3
  */
-@Entry
+@Builder
+export function NotificationDetailPageBuilder() : void{
+  NotificationDetailPage()
+}
+
 @Component
-struct NotificationDetailPage {
+export struct NotificationDetailPage {
   @State title: string = ""
   @State uuid: string = ""
-  @State notificationModel: NotificationModel = new NotificationModel() //必须初始化new
+  @State notificationModel: NotificationModel = new NotificationModel("","","","")
 
   loading = new CustomDialogController({
     builder: LoadingDialog(),
@@ -31,7 +34,8 @@ struct NotificationDetailPage {
     // this.title = router.getParams()['title']
 
     this.loading.open()
-    api.get("api/notice/message/"+this.uuid).then((result: ApiResponse<NotificationModel>) => {
+    //api.get("api/notice/message/"+this.uuid)
+      /*.then((result: ApiResponse<NotificationModel>) => {
       if (result.success) {
         this.notificationModel = result.data
         //logUtil.errorJson(this.notificationModel)
@@ -46,27 +50,31 @@ struct NotificationDetailPage {
         setTimeout(()=>{
           this.loading.close()
         },1000)
-      })
+      })*/
   }
 
   build() {
-    Column() {
-      TitleBarComponent({ title: this.title, menuIcon: 'ic_points.png', clickMenu: () => {
-        ToastUtil.show(this.title)
-      } })
+    NavDestination() {
+      Column() {
+        TitleBarComponent({
+          title: this.title, menuIcon: 'ic_points.png', clickMenu: () => {
+            ToastUtil.show(this.title)
+          }
+        })
 
-      ColumnSplit() {
+        ColumnSplit() {
 
-        TitleContentComponent({ title: '标题：', content: this.notificationModel.title ,mHeight:'40'})
-        TitleContentComponent({ title: '内容：', content: this.notificationModel.content })
-        TitleContentComponent({ title: '创建时间：', content: this.notificationModel.created_at ,mHeight:'40'})
+          TitleContentComponent({ title: '标题：', content: this.notificationModel.title, mHeight: '40' })
+          TitleContentComponent({ title: '内容：', content: this.notificationModel.content })
+          TitleContentComponent({ title: '创建时间：', content: this.notificationModel.created_at, mHeight: '40' })
+
+        }
+        .backgroundColor($r('app.color.f2'))
 
       }
-      .backgroundColor($r('app.color.f2'))
-
+      .width('100%')
+      .height('100%')
     }
-    .width('100%')
-    .height('100%')
   }
 }
 

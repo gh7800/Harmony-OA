@@ -1,11 +1,11 @@
 // @Preview
 @Component
 export struct CommonTitleContent {
-  @State title: string = 'title'
+  @Prop title: string
   @Prop content: string
   iconTitle: string = ""
   iconRight: string = ""
-  @Prop onclick : ()=> void
+  onclick : ()=>void = ()=>{}
 
   build() {
     Row() {

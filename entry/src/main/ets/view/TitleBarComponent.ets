@@ -1,15 +1,14 @@
-import router from '@ohos.router'
+import { RouterUtil } from '@library/common'
 
 // 自定义titleBar组件
-// @Preview
 @Component
 export struct TitleBarComponent {
   @Prop title: string
-  @State menu ?: string = ''
-  @State menuIcon ?: string = '' //传递 menuIcon:'ic_back.png'
+  @Prop menu ?: string = ''
+  @Prop menuIcon ?: string = '' //传递 menuIcon:'ic_back.png'
   public isNeedBack : boolean = true
-  @Prop clickBack: () => void //back
-  @Prop clickMenu: () => void //右侧menu点击事件回调
+  clickBack: ()=>void = ()=>{} //back
+  clickMenu: ()=>void = ()=>{}//右侧menu点击事件回调
   bgColor = $r('app.color.main')
 
   build() {
@@ -22,7 +21,7 @@ export struct TitleBarComponent {
           if (this.clickBack) {
             this.clickBack()
           } else {
-            router.back()
+            RouterUtil.pop()
           }
         })
 

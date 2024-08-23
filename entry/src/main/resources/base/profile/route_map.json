@@ -14,9 +14,14 @@
       "buildFunction": "NotificationsPageBuilder"
     },
     {
-      "name": "SplashPage",
-      "pageSourceFile": "src/main/ets/pages/SplashPage.ets",
-      "buildFunction": "SplashPageBuilder"
+      "name": "NotificationDetailPage",
+      "pageSourceFile": "src/main/ets/pages/notification/NotificationDetailPage.ets",
+      "buildFunction": "NotificationDetailPageBuilder"
+    },
+    {
+      "name": "SettingPage",
+      "pageSourceFile": "src/main/ets/pages/SettingPage.ets",
+      "buildFunction": "SettingPageBuilder"
     }
 
   ]

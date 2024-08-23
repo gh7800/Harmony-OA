@@ -1,4 +1,4 @@
-import { LogUtil } from 'LibraryCommon'
+import { LogUtil } from '@library/common'
 
 @Builder
 function SplashPageBuilder(){}

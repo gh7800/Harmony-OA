@@ -5,7 +5,7 @@ import common from '@ohos.app.ability.common'
 import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import { CommonTitleContent } from '../view/CommonTitleContent'
-import { LogUtil, ToastUtil } from 'LibraryCommon'
+import { LogUtil, RouterUtil, ToastUtil } from '@library/common'
 
 // import { MediaHelper } from '../manager/MediaHelper'  //to-do
 
@@ -15,7 +15,7 @@ export struct MinePage {
   @State isRefreshing: boolean = false
   private scroller: Scroller = new Scroller();
   @State data: string[] = ['账号', '名称', '设置']
-  private permissions: Array<Permissions> = ['ohos.permission.CAMERA','ohos.permission.READ_MEDIA']
+  private permissions: Array<Permissions> = ['ohos.permission.CAMERA', 'ohos.permission.READ_MEDIA']
   @State realName: string = ''
   @State lastName: string = ''
   @State userName: string = ''
@@ -31,7 +31,7 @@ export struct MinePage {
     })
   }
 
-  onPageShow(){
+  onPageShow() {
     LogUtil.error("_____mine_____")
   }
 
@@ -67,51 +67,55 @@ export struct MinePage {
     // 刷新组件 需绑定列表或宫格组件
     List({ scroller: this.scroller })
 
-      Row() {
-        Button(this.lastName)
-          .fontSize(50)
-          .borderRadius('5')
-          .width(78)
-          .height(78)
-          .type(ButtonType.Normal)
-          .backgroundColor($r('app.color.main'))
-          .fontColor($r('app.color.ff'))
-          .margin({ left: 5, top: 5 })
-          .onClick((() => {
-            this.initPermissions(this.permissions)
-          }))
+    Row() {
+      Button(this.lastName)
+        .fontSize(50)
+        .borderRadius('5')
+        .width(78)
+        .height(78)
+        .type(ButtonType.Normal)
+        .backgroundColor($r('app.color.main'))
+        .fontColor($r('app.color.ff'))
+        .margin({ left: 5, top: 5 })
+        .onClick((() => {
+          this.initPermissions(this.permissions)
+        }))
 
-        Column() {
-          Text(this.realName)
-            .fontSize(18)
-            .fontColor($r('app.color.c3'))
-            .margin({ top: 10 })
+      Column() {
+        Text(this.realName)
+          .fontSize(18)
+          .fontColor($r('app.color.c3'))
+          .margin({ top: 10 })
 
-          Text('职位')
-            .fontSize(16)
-            .fontColor($r('app.color.c6'))
-            .margin({ bottom: 5 })
-        }
-        .justifyContent(FlexAlign.SpaceBetween)
-        .alignItems(HorizontalAlign.Start)
-        .height(88)
-        .padding({ left: 10 })
-
+        Text('职位')
+          .fontSize(16)
+          .fontColor($r('app.color.c6'))
+          .margin({ bottom: 5 })
       }
-      .width('96%')
-      .backgroundColor($r('app.color.ff'))
-      .margin({ top: 15, bottom: 10 })
-      .borderRadius(8)
-      .padding({ top: 5, bottom: 10 })
+      .justifyContent(FlexAlign.SpaceBetween)
+      .alignItems(HorizontalAlign.Start)
+      .height(88)
+      .padding({ left: 10 })
+
+    }
+    .width('96%')
+    .backgroundColor($r('app.color.ff'))
+    .margin({ top: 15, bottom: 10 })
+    .borderRadius(8)
+    .padding({ top: 5, bottom: 10 })
 
 
-      CommonTitleContent({ title: '账号', content: this.userName })
-      CommonTitleContent({ title: '名称', content: this.realName })
-      CommonTitleContent({
-        title: '设置', content: '', onclick() {
-          router.pushUrl({ url: 'pages/SettingPage' })
-        }
-      })
+    CommonTitleContent({ title: '账号', content: this.userName })
+    CommonTitleContent({
+      title: '名称', content: this.realName,onclick: ()=>{
+        ToastUtil.show(this.realName)
+      }})
+    CommonTitleContent({
+      title: '设置', content: '', onclick:() => {
+        //router.pushUrl({ url: 'pages/SettingPage' })
+        RouterUtil.push("SettingPage")
+      }
+    })
 
   }
 
@@ -136,17 +140,17 @@ export struct MinePage {
           }
         }
 
-        if(isAgree) {
+        if (isAgree) {
           //this.takePhoto()
         }
 
       })
-      .catch((err : string) => {
+      .catch((err: string) => {
         LogUtil.error(err)
       })
   }
 
-  showPopupDialog(){
+  showPopupDialog() {
 
   }
 

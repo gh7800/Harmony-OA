@@ -4,7 +4,7 @@ import constantUtil from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import ApiResponse from './ApiRsponse';
 import router from '@ohos.router'
-import { LogUtil } from 'LibraryCommon/src/main/ets/Utils/LogUtil';
+import { LogUtil } from '@library/common';
 
 
 // 创建一个自定义的 HTTP 客户端类
