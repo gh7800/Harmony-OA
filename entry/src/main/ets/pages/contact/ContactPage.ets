@@ -2,7 +2,7 @@
  * page ：通讯录
  * created by: 2024/8/14
  */
-import router from '@ohos.router'
+import routerUtils from '../../utils/RouterUtils'
 
 @Component
 export struct ContactPage {
@@ -15,7 +15,7 @@ export struct ContactPage {
         Button('Go Back')
           .margin({ top: 20 })
           .onClick(() => {
-            router.back()
+            routerUtils.back()
           })
       }
       .width('100%')

@@ -1,6 +1,7 @@
 import constantUtil from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { LogUtil, RouterUtil } from 'librarycommon'
+import { LogUtil } from 'librarycommon'
+import routerUtils from '../utils/RouterUtils'
 
 @Component
 export struct HomePage {
@@ -18,8 +19,8 @@ export struct HomePage {
     $r('app.media.icon_home_shenpi'), $r('app.media.icon_jieshaoxin'),
   ]
 
-  aboutToAppear() {
-
+  aboutToAppear(){
+    LogUtil.error("aboutToAppear")
     preferenceUtil.getString(constantUtil.REAL_NAME)
       .then((data: string) => {
         this.realName = data
@@ -27,7 +28,6 @@ export struct HomePage {
       .catch((err: string) => {
         LogUtil.error(err)
       })
-
   }
 
   @Styles
@@ -76,13 +76,13 @@ export struct HomePage {
                 .onClick((event) => {
                   switch (index) {
                     case 0:
-                      // router.pushUrl({ url: 'pages/notification/NotificationsPage' })
-                      //this.pathStack.popToName("NotificationsPage")
+                      routerUtils.pushUrl({ url: 'pages/notification/NotificationsPage' })
+                      //this.pathStack.pushPathByName("SettingPage",null)
 
-                      const parm: String = '随便传就行';
-                      RouterUtil.push("NotificationsPage",parm,async (info)=>{
+                      /*const parm: String = '随便传就行';
+                      RouterUtil.getInstance().push("NotificationsPage",parm,async (info)=>{
                         LogUtil.errorAny(info.result)
-                      })
+                      })*/
 
                       /*RouterUtil.push('LoginPage',(info : PopInfo)=>{
                         LogUtil.error(info.info.name)
@@ -91,6 +91,7 @@ export struct HomePage {
                       break
                     case 1:
                       // router.pushUrl({ url: 'pages/document/ReportPage' })
+                      routerUtils.pushUrl({url : 'pages/document/ReportPage'})
                       break
 
                     default:

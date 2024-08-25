@@ -1,8 +1,8 @@
 import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
-import preferenceUtil from '../utils/PreferencesUtil'
-import { TitleBarComponent } from '../view/TitleBarComponent'
-import { AppGlobalContext } from '../utils/AppGlobalContext'
+import preferenceUtil from '../../utils/PreferencesUtil'
+import { TitleBarComponent } from '../../view/TitleBarComponent'
+import { AppGlobalContext } from '../../utils/AppGlobalContext'
 import { ToastUtil } from 'librarycommon'
 
 @Builder
@@ -10,18 +10,19 @@ export function SettingPageBuilder() {
   SettingPage()
 }
 
+@Entry
 @Component
-export struct SettingPage {
+struct SettingPage {
   @State title: string = '设置'
 
   build() {
     NavDestination() {
       Column() {
-        /*TitleBarComponent({
+        TitleBarComponent({
           title: this.title, menu: '···', clickMenu: () => {
             this.title = "setting"
           }
-        })*/
+        })
 
         Column() {
 

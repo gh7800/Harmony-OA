@@ -1,5 +1,9 @@
 {
   "src": [
-    "pages/Index"
+    "pages/Index",
+    "pages/notification/NotificationsPage",
+    "pages/notification/NotificationDetailPage",
+    "pages/login/LoginPage",
+    "pages/setting/SettingPage"
   ]
 }

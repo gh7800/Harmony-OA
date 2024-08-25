@@ -36,7 +36,7 @@ export struct MainPage {
     .justifyContent(FlexAlign.Center)
     .onClick(() => {
       this.currentIndex = targetIndex
-      this.tabsController.changeIndex(targetIndex) //切换页面
+      this.tabsController.changeIndex(targetIndex) //tab切换页面
     })
   }
 
@@ -97,6 +97,8 @@ export struct MainPage {
           .barWidth('100%')
           .barHeight(50)
           .layoutWeight(1)
+          .barMode(BarMode.Fixed)
+          //.onTabBarClick(index => {})
           .onChange((index) => {
             this.currentIndex = index
             this.title = this.tabTitles[index]

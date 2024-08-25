@@ -20,7 +20,7 @@
     },
     {
       "name": "SettingPage",
-      "pageSourceFile": "src/main/ets/pages/SettingPage.ets",
+      "pageSourceFile": "src/main/ets/pages/setting/SettingPage.ets",
       "buildFunction": "SettingPageBuilder"
     }
 

@@ -15,8 +15,9 @@ export function NotificationDetailPageBuilder() : void{
   NotificationDetailPage()
 }
 
+@Entry
 @Component
-export struct NotificationDetailPage {
+struct NotificationDetailPage {
   @State title: string = ""
   @State uuid: string = ""
   @State notificationModel: NotificationModel = new NotificationModel("","","","")

@@ -1,4 +1,4 @@
-import { RouterUtil } from 'librarycommon'
+import routerUtils from '../utils/RouterUtils'
 
 // 自定义titleBar组件
 @Component
@@ -21,7 +21,7 @@ export struct TitleBarComponent {
           if (this.clickBack) {
             this.clickBack()
           } else {
-            RouterUtil.pop()
+            routerUtils.back()
           }
         })
 

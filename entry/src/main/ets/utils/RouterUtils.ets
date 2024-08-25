@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { LogUtil } from 'LibraryCommon'
+import { LogUtil } from 'librarycommon'
 
 class RouterUtils{
 
@@ -15,6 +15,14 @@ class RouterUtils{
     router.replaceUrl({url: options.url,params: options.params},mode,(error)=>{
       LogUtil.error(error.message)
     })
+  }
+
+  back(){
+    router.back()
+  }
+
+  clearStackS(){
+    router.clear()
   }
 
 }

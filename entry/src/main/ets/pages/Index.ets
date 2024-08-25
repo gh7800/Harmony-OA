@@ -1,5 +1,4 @@
 import preferenceUtil from '../utils/PreferencesUtil'
-import constantUtil from '../utils/ConstantUtil'
 import { MainPage } from './MainPage'
 import { SplashPage } from './SplashPage'
 import { LogUtil, RouterUtil } from 'librarycommon'
@@ -13,6 +12,7 @@ import { LogUtil, RouterUtil } from 'librarycommon'
 @Component
 struct Index {
   @State @Watch("onSplashPageFinish") isSplash : boolean = true
+  pathStack : NavPathStack = new NavPathStack()
 
   onSplashPageFinish() {
     //启动页结束后进行操作，如请求网络等
@@ -23,6 +23,8 @@ struct Index {
 
     //AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
     preferenceUtil.getPreferences(getContext())
+
+    RouterUtil.getInstance().setNavPathStack(this.pathStack)
 
     /*setTimeout(() => {
       let url = 'pages/login/LoginPage'
@@ -45,7 +47,7 @@ struct Index {
   }
 
   build() {
-      Navigation(RouterUtil.navPathStack) {
+      Navigation(RouterUtil.getInstance().navPathStack) {
         Column() {
           //this.PagesMap(this.name)
           if(this.isSplash){

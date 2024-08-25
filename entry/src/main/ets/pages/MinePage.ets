@@ -112,7 +112,7 @@ export struct MinePage {
     CommonTitleContent({
       title: '设置', content: '', onclick:() => {
         //router.pushUrl({ url: 'pages/SettingPage' })
-        RouterUtil.push("SettingPage")
+        RouterUtil.getInstance().push("SettingPage")
       }
     })
 

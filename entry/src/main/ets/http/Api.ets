@@ -5,6 +5,7 @@ import { AppGlobalContext } from '../utils/AppGlobalContext';
 import ApiResponse from './ApiRsponse';
 import router from '@ohos.router'
 import { LogUtil } from 'librarycommon';
+import routerUtils from '../utils/RouterUtils';
 
 
 // 创建一个自定义的 HTTP 客户端类
@@ -32,7 +33,9 @@ class Api {
     this.axiosInstance.interceptors.request.use(
       (config : InternalAxiosRequestConfig) => {
         //可添加token等
-        //console.error('token_' + this.token)
+        console.error('token_' + this.token)
+        this.token = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
+
         if(this.token){
           config.headers.set('Authorization','Bearer '+this.token)
         }
@@ -148,10 +151,10 @@ class Api {
 
         if (status >= 500 && status < 600) {
           msg = `服务器错误_${status}`;
-        } else if (status === 401) {
+        } else if (status == 401) {
           msg = '认证错误';
-          router.replaceUrl({ url: 'pages/LoginPage' }, router.RouterMode.Single);
-        } else if (status === 404) {
+          routerUtils.replaceUrl({ url: 'pages/login/LoginPage' }, router.RouterMode.Single);
+        } else if (status == 404) {
           msg = '参数错误404';
         } else {
           msg = response.data?.message || msg;

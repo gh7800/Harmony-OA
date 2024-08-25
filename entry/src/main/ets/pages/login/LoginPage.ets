@@ -5,11 +5,12 @@ import UserModel from '../../model/UserModel'
 import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import { RouterUtil, ToastUtil } from 'librarycommon'
+import { ToastUtil } from 'librarycommon'
+import routerUtils from '../../utils/RouterUtils'
 
+@Entry
 @Component
-export struct LoginPage {
-
+struct LoginPage {
   @State message: string = 'Login'
   private username: string = ''
   private password: string = ''
@@ -21,15 +22,13 @@ export struct LoginPage {
     }
   })
 
-  aboutToAppear(){
+  aboutToAppear() {
 
   }
 
   build() {
     NavDestination() {
       Column() {
-        TitleBarComponent({ title: '', bgColor: $r('app.color.ff') })
-
         Column() {
           Text(this.message)
             .fontColor(Color.Orange)
@@ -78,10 +77,9 @@ export struct LoginPage {
       .height("100%")
     }
     .hideTitleBar(true)
-    .onReady(context =>{
+    .onReady(context => {
 
     })
-
 
   }
 
@@ -97,21 +95,21 @@ export struct LoginPage {
       return
     }
 
-    const params : LoginParams = {
+    const params: LoginParams = {
       username: this.username,
       password: this.password
     }
 
     this.dialogController.open()
 
-    const response : ApiResponse<UserModel> = await api.post('/auth/login', params)
+    const response: ApiResponse<UserModel> = await api.post('/auth/login', params)
     try {
-      if(response.success){
+      if (response.success) {
         this.dialogController.close()
         ToastUtil.show('登录成功')
         userManager.saveUser(response.data)
-        RouterUtil.push("MainPage")
-      }else {
+        routerUtils.back()
+      } else {
         this.dialogController.close()
         ToastUtil.show(response.message)
       }
@@ -119,34 +117,34 @@ export struct LoginPage {
       this.dialogController.close()
       ToastUtil.show(error)
     }
-      /*.then((response: ApiResponse<UserModel>) => {
-        ToastUtil.show('登录成功')
+    /*.then((response: ApiResponse<UserModel>) => {
+      ToastUtil.show('登录成功')
 
-        userManager.saveUser(response.data)
+      userManager.saveUser(response.data)
 
-        setTimeout(() => {
-          this.dialogController.close()
-          //this.pathStack.replacePathByName("MainPage",null)
-          //router.pushUrl({url : 'pages/MainPage'})
-          RouterUtil.push("MainPage")
-        }, 1000)
-
-      })
-      .catch((error: string) => {
+      setTimeout(() => {
         this.dialogController.close()
-        ToastUtil.show(error)
-      })*/
+        //this.pathStack.replacePathByName("MainPage",null)
+        //router.pushUrl({url : 'pages/MainPage'})
+        RouterUtil.push("MainPage")
+      }, 1000)
+
+    })
+    .catch((error: string) => {
+      this.dialogController.close()
+      ToastUtil.show(error)
+    })*/
 
   }
 }
 
 @Builder
-export function LoginPageBuilder(){
+export function LoginPageBuilder() {
   LoginPage()
 }
 
 
-interface LoginParams{
-  username : string,
-  password : string,
+interface LoginParams {
+  username: string,
+  password: string,
 }
