@@ -4,9 +4,10 @@ import window from '@ohos.window';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import preferenceUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { LogUtil } from 'librarycommon'
+import { LogUtil, WindowUtil } from 'librarycommon'
 import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 import Want from '@ohos.app.ability.Want';
+import constantUtil from '../utils/ConstantUtil';
 
 export default class EntryAbility extends UIAbility {
 
@@ -25,6 +26,7 @@ export default class EntryAbility extends UIAbility {
     preferenceUtil.getPreferences(this.context)
     AppGlobalContext.getContext().setValue('context',this.context.getApplicationContext())
 
+
     let dir = this.context.filesDir
     LogUtil.error(dir)
 
@@ -40,17 +42,18 @@ export default class EntryAbility extends UIAbility {
       let windowClass = data
 
       // WindowUtil.listenToAppStorage(windowClass)
-      // WindowUtil.setDartEnable(windowClass,false)
+      // WindowUtil.setDarkEnable(windowClass,false)
 
       let uiContext = windowClass.getUIContext()
       let uiObserver = uiContext.getUIObserver()
+
       uiObserver.on("navDestinationUpdate",(info)=>{
         if(info.state == 0){ // 组件显示
           LogUtil.errorAny("组件显示————"+info.name)
         }else if(info.state == 1){ //组件隐藏
           LogUtil.errorAny("组件隐藏————"+info.name)
         }else {
-          LogUtil.errorAny("_______"+info.name)
+          //LogUtil.errorAny(info.state+"________________"+info.name)
         }
       })
     })

@@ -4,7 +4,7 @@ import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
-import { LogUtil, ToastUtil } from 'librarycommon'
+import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 
 @Builder
 export function NotificationsPageBuilder() : void{
@@ -14,7 +14,6 @@ export function NotificationsPageBuilder() : void{
 @Entry
 @Component
  struct NotificationsPage {
-  // pathStack : NavPathStack = AppStorage.get(constantUtil.PATH_STACK) as NavPathStack
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()
   private page = 1
@@ -48,24 +47,6 @@ export function NotificationsPageBuilder() : void{
     } catch (error) {
       ToastUtil.show(error)
     }
-    /*.then((result: ApiResponse<Array<NotificationModel>>) => {
-      if (result.pagination.current_page > 1) {
-        result.data.map((value, index) => {
-          this.data.push(value)
-        })
-        if (result.pagination.current_page >= this.page) {
-          this.refreshConfig.setHasLoadMore(false)
-        }
-      } else {
-        this.data = result.data
-      }
-    })
-    .catch((error : string) => {
-      ToastUtil.show(error)
-    })
-    .finally(()=>{
-      this.isRefresh = true
-    })*/
   }
 
   @Builder
@@ -90,13 +71,11 @@ export function NotificationsPageBuilder() : void{
           }
           .onClick(event => {
             let item = this.data[index]
-            ToastUtil.show(item.title)
-            let param: SendParams = {
-              title: item.title,
-              uuid: item.uuid
+            const param : SendParams = {
+              "title": item.title,
+              "uuid": item.uuid
             }
-            //router.pushUrl({url:'pages/notification/NotificationDetailPage',params: param})
-            //routerUtils.pushUrl({ url: 'pages/notification/NotificationDetailPage', params: param })
+            RouterUtil.push("NotificationDetailPage",param)
           })
         }
         .border({ radius: 5 })
@@ -119,7 +98,7 @@ export function NotificationsPageBuilder() : void{
   build() {
     NavDestination() {
       Column() {
-        TitleBarComponent({ title: '通知' })
+        //TitleBarComponent({ title: '通知' })
 
         PullToRefresh({
           data: $data,
@@ -160,7 +139,7 @@ export function NotificationsPageBuilder() : void{
       .justifyContent(FlexAlign.Start)
 
     }
-    .hideTitleBar(true)
+    .title("通知")
     .onReady((context) => {
       LogUtil.errorJson(context.pathInfo)
     })

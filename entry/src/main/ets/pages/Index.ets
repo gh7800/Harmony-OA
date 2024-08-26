@@ -2,17 +2,17 @@ import preferenceUtil from '../utils/PreferencesUtil'
 import { MainPage } from './MainPage'
 import { SplashPage } from './SplashPage'
 import { LogUtil, RouterUtil } from 'librarycommon'
+import constantUtil from '../utils/ConstantUtil'
+import { AppGlobalContext } from '../utils/AppGlobalContext'
 
 /**
- * 输入page快速创建页面
- * 闪屏页 -- 最先显示
+ * 最先显示进入
  */
 @Preview
 @Entry
 @Component
 struct Index {
   @State @Watch("onSplashPageFinish") isSplash : boolean = true
-  pathStack : NavPathStack = new NavPathStack()
 
   onSplashPageFinish() {
     //启动页结束后进行操作，如请求网络等
@@ -20,36 +20,17 @@ struct Index {
   }
 
   aboutToAppear() {
+    //preferenceUtil.getPreferences(getContext())
+    preferenceUtil.getString(constantUtil.TOKEN)
+      .then((value : string)=>{
+        AppGlobalContext.getContext().setValue(constantUtil.TOKEN,value)
+      })
 
-    //AppStorage.setOrCreate(constantUtil.PATH_STACK, this.pathStack)
-    preferenceUtil.getPreferences(getContext())
-
-    RouterUtil.getInstance().setNavPathStack(this.pathStack)
-
-    /*setTimeout(() => {
-      let url = 'pages/login/LoginPage'
-
-      preferenceUtil.getString(constantUtil.TOKEN)
-        .then((data) => {
-          if (data) {
-            AppGlobalContext.getContext().setValue(constantUtil.TOKEN, data)
-            url = 'pages/MainPage'
-          }
-        })
-        .catch((err: string) => {
-          toastUtil.show(err)
-        })
-        .finally(() => {
-          this.startPage(url)
-        })
-
-    }, 1000)*/
   }
 
   build() {
-      Navigation(RouterUtil.getInstance().navPathStack) {
+      Navigation(RouterUtil.navPathStack) {
         Column() {
-          //this.PagesMap(this.name)
           if(this.isSplash){
             SplashPage({isSplash: this.isSplash})
           }else {
@@ -61,21 +42,6 @@ struct Index {
       .height('100%')
       .hideTitleBar(true)
       .navBarWidth('50%')
-      // .navDestination(this.pageMap)
-
-      // .hideNavBar(false)
-      // .toolbarConfiguration(this.tabBuilder)
     }
 
-
-  //.mode(NavigationMode.Stack)
-  //}
-
-  /*startPage(url: string) {
-    this.pathStack.pushPathByName(url, null,(info)=>{
-      LogUtil.error(info.result.toString())
-      this.startPage(info.result.toString())
-    },true)
-    //router.pushUrl({ url })
-  }*/
 }

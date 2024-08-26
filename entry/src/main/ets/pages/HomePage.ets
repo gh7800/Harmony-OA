@@ -1,7 +1,6 @@
 import constantUtil from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { LogUtil } from 'librarycommon'
-import routerUtils from '../utils/RouterUtils'
+import { LogUtil, RouterUtil } from 'librarycommon'
 
 @Component
 export struct HomePage {
@@ -20,7 +19,6 @@ export struct HomePage {
   ]
 
   aboutToAppear(){
-    LogUtil.error("aboutToAppear")
     preferenceUtil.getString(constantUtil.REAL_NAME)
       .then((data: string) => {
         this.realName = data
@@ -37,6 +35,7 @@ export struct HomePage {
   }
 
   build() {
+    NavDestination() {
       Column() {
 
         Row() {
@@ -76,22 +75,13 @@ export struct HomePage {
                 .onClick((event) => {
                   switch (index) {
                     case 0:
-                      routerUtils.pushUrl({ url: 'pages/notification/NotificationsPage' })
-                      //this.pathStack.pushPathByName("SettingPage",null)
-
-                      /*const parm: String = '随便传就行';
-                      RouterUtil.getInstance().push("NotificationsPage",parm,async (info)=>{
-                        LogUtil.errorAny(info.result)
-                      })*/
-
-                      /*RouterUtil.push('LoginPage',(info : PopInfo)=>{
-                        LogUtil.error(info.info.name)
-                      })*/
-                      //LogUtil.error(RouterUtil.size() + 100)
+                      const parm: String = '随便传就行';
+                      RouterUtil.push("NotificationsPage", parm, async (info) => {
+                        //LogUtil.errorAny(info.result)
+                      })
                       break
                     case 1:
-                      // router.pushUrl({ url: 'pages/document/ReportPage' })
-                      routerUtils.pushUrl({url : 'pages/document/ReportPage'})
+                      RouterUtil.push("ReportPage")
                       break
 
                     default:
@@ -112,6 +102,17 @@ export struct HomePage {
       .height('100%')
       .backgroundColor($r('app.color.f2'))
     }
+    .onShown(()=>{
+      LogUtil.error("onShown")
+      preferenceUtil.getString(constantUtil.REAL_NAME)
+        .then((data: string) => {
+          this.realName = data
+        })
+        .catch((err: string) => {
+          LogUtil.error(err)
+        })
+    })
+  }
 
 }
 

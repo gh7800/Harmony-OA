@@ -1,4 +1,4 @@
-import { ToastUtil } from 'librarycommon'
+import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
@@ -11,11 +11,10 @@ import { TitleContentComponent } from '../../view/TitleContentComponent'
  * created by: 2024/6/3
  */
 @Builder
-export function NotificationDetailPageBuilder() : void{
+export function NotificationDetailPageBuilder() {
   NotificationDetailPage()
 }
 
-@Entry
 @Component
 struct NotificationDetailPage {
   @State title: string = ""
@@ -30,54 +29,51 @@ struct NotificationDetailPage {
     }
   })
 
-  aboutToAppear() {
-    // this.uuid = router.getParams()['uuid']
-    // this.title = router.getParams()['title']
+  aboutToAppear() {}
 
+  async getData(){
     this.loading.open()
-    //api.get("api/notice/message/"+this.uuid)
-      /*.then((result: ApiResponse<NotificationModel>) => {
-      if (result.success) {
-        this.notificationModel = result.data
-        //logUtil.errorJson(this.notificationModel)
-      } else {
-        ToastUtil.show(result.message)
+    try {
+      const response : ApiResponse<NotificationModel> = await api.get("api/notice/message/"+this.uuid)
+      if(response.success){
+        this.notificationModel = response.data
+        this.loading.close()
+      }else {
+        this.loading.close()
       }
-    })
-      .catch((error: string) => {
-        ToastUtil.show(error)
-      })
-      .finally(() => {
-        setTimeout(()=>{
-          this.loading.close()
-        },1000)
-      })*/
+    } catch (error) {
+      this.loading.close()
+      ToastUtil.show(error)
+    }
+
   }
 
   build() {
     NavDestination() {
       Column() {
-        TitleBarComponent({
-          title: this.title, menuIcon: 'ic_points.png', clickMenu: () => {
-            ToastUtil.show(this.title)
-          }
-        })
-
         ColumnSplit() {
-
           TitleContentComponent({ title: '标题：', content: this.notificationModel.title, mHeight: '40' })
           TitleContentComponent({ title: '内容：', content: this.notificationModel.content })
           TitleContentComponent({ title: '创建时间：', content: this.notificationModel.created_at, mHeight: '40' })
-
         }
         .backgroundColor($r('app.color.f2'))
-
       }
       .width('100%')
       .height('100%')
     }
+    .title(this.title)
+    .onReady(context=>{
+      LogUtil.errorJson(context.pathInfo)
+
+      let record = context.pathInfo.param as Record<string,string>
+      this.uuid = record["uuid"]
+      this.title = record["title"]
+
+      this.getData()
+    })
   }
 }
+
 
 
 

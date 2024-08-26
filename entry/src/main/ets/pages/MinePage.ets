@@ -30,35 +30,32 @@ export struct MinePage {
     })
   }
 
-  onPageShow() {
-    LogUtil.error("_____mine_____")
-  }
-
   build() {
-    Column() {
-      PullToRefresh({
-        data: $data,
-        scroller: this.scroller,
-        customList: () => {
-          this.getView()
-        },
-        onRefresh: () => {
-          return new Promise<string>((resolve, reject) => {
-            setTimeout(() => {
-              resolve("刷新成功")
+    NavDestination() {
+      Column() {
+        PullToRefresh({
+          data: $data,
+          scroller: this.scroller,
+          customList: () => {
+            this.getView()
+          },
+          onRefresh: () => {
+            return new Promise<string>((resolve, reject) => {
+              setTimeout(() => {
+                resolve("刷新成功")
 
-            }, 2000)
-          })
-        },
-        customLoad: null,
-        customRefresh: null
-      })
+              }, 2000)
+            })
+          },
+          customLoad: null,
+          customRefresh: null
+        })
 
+      }
+      .backgroundColor($r('app.color.f2'))
+      .width('100%')
+      .height('100%')
     }
-    .backgroundColor($r('app.color.f2'))
-    .width('100%')
-    .height('100%')
-
   }
 
   @Builder
@@ -112,7 +109,7 @@ export struct MinePage {
     CommonTitleContent({
       title: '设置', content: '', onclick:() => {
         //router.pushUrl({ url: 'pages/SettingPage' })
-        RouterUtil.getInstance().push("SettingPage")
+        RouterUtil.push("SettingPage")
       }
     })
 

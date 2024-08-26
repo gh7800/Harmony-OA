@@ -22,6 +22,11 @@
       "name": "SettingPage",
       "pageSourceFile": "src/main/ets/pages/setting/SettingPage.ets",
       "buildFunction": "SettingPageBuilder"
+    },
+    {
+      "name": "ReportPage",
+      "pageSourceFile": "src/main/ets/pages/document/ReportPage.ets",
+      "buildFunction": "ReportPageBuilder"
     }
 
   ]

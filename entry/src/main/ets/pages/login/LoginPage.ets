@@ -1,16 +1,13 @@
 import promptAction from '@ohos.promptAction'
-import { TitleBarComponent } from '../../view/TitleBarComponent'
 import api from '../../http/Api'
 import UserModel from '../../model/UserModel'
 import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import { ToastUtil } from 'librarycommon'
-import routerUtils from '../../utils/RouterUtils'
+import { RouterUtil, ToastUtil } from 'librarycommon'
 
-@Entry
 @Component
-struct LoginPage {
+export struct LoginPage {
   @State message: string = 'Login'
   private username: string = ''
   private password: string = ''
@@ -108,7 +105,8 @@ struct LoginPage {
         this.dialogController.close()
         ToastUtil.show('登录成功')
         userManager.saveUser(response.data)
-        routerUtils.back()
+        //routerUtils.back()
+        RouterUtil.pop()
       } else {
         this.dialogController.close()
         ToastUtil.show(response.message)

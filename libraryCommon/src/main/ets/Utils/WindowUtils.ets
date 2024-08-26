@@ -55,7 +55,7 @@ export class WindowUtil {
    * @param windowClass
    * @param isDark
    */
-  static setDartEnable(windowClass: window.Window, isDark: boolean = false) {
+  static setDarkEnable(windowClass: window.Window, isDark: boolean = false) {
     let sysBarProps: window.SystemBarProperties = {
       //状态栏
       statusBarColor: '#00FFFFFF', //设置透明颜色

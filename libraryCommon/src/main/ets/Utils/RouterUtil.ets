@@ -1,52 +1,38 @@
 const TAG = 'RouterUtil';
 
 export  class RouterUtil {
-  // static navPathStack: NavPathStack = new NavPathStack();
-  private routerStack: Array<string> = new Array();
+  static navPathStack: NavPathStack = new NavPathStack();
+  static routerStack: Array<string> = new Array();
 
-  private static instance : RouterUtil
-  navPathStack: NavPathStack = new NavPathStack()
-
-  public static getInstance() : RouterUtil{
-    if(!RouterUtil.instance){
-      RouterUtil.instance = new RouterUtil()
-    }
-    return RouterUtil.instance
+  public static push(name: string, param: object | undefined = undefined, callback: Callback<PopInfo> | undefined = undefined) {
+    RouterUtil.routerStack.push(name);
+    RouterUtil.navPathStack.pushPathByName(name, param, callback, true)
   }
 
-  public setNavPathStack(pathStack : NavPathStack){
-    this.navPathStack = pathStack
+  public static replace(name: string, param: object | undefined = undefined) {
+    RouterUtil.routerStack.pop();
+    RouterUtil.routerStack.push(name);
+    RouterUtil.navPathStack.replacePathByName(name, param, true)
   }
 
-  public push(name: string, parm: object | undefined = undefined, callback: Callback<PopInfo> | undefined = undefined) {
-    this.routerStack.push(name);
-    this.navPathStack.pushPathByName(name, parm, callback, true)
-  }
-
-  public replace(name: string, parm: object | undefined = undefined) {
-    this.routerStack.pop();
-    this.routerStack.push(name);
-    this.navPathStack.replacePathByName(name, parm, true)
-  }
-
-  public pop(result?: Object) {
+  public static pop(result?: Object) {
     if (result !== undefined) {
-      this.navPathStack.pop(result, true)
+      RouterUtil.navPathStack.pop(result, true)
     } else {
-      this.navPathStack.pop(true)
+      RouterUtil.navPathStack.pop(true)
     }
   }
 
-  public finishPage(name: string) {
-    this.navPathStack.removeByName(name)
+  public static finishPage(name: string) {
+    RouterUtil.navPathStack.removeByName(name)
   }
 
-  public popHome() {
-    this.routerStack.length = 0;
-    this.navPathStack.clear()
+  public static popHome() {
+    RouterUtil.routerStack.length = 0;
+    RouterUtil.navPathStack.clear()
   }
 
-  public size() {
-    return this.navPathStack.size()
+  public static size() {
+    return RouterUtil.navPathStack.size()
   }
 }

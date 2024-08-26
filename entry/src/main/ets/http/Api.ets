@@ -3,9 +3,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse,
 import constantUtil from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import ApiResponse from './ApiRsponse';
-import router from '@ohos.router'
-import { LogUtil } from 'librarycommon';
-import routerUtils from '../utils/RouterUtils';
+import { LogUtil,RouterUtil } from 'librarycommon';
 
 
 // 创建一个自定义的 HTTP 客户端类
@@ -14,6 +12,9 @@ class Api {
   private token : string = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
 
   private baseUrl() {
+    if(!this.token){
+      this.token = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
+    }
     return 'http://xcoa.hwapp.site/'
   }
 
@@ -57,7 +58,7 @@ class Api {
   }
 
   // 发送 GET 请求
-  public async get<T>(url: string, params: object): Promise<ApiResponse<T>> {
+  public async get<T>(url: string, params?: object): Promise<ApiResponse<T>> {
 
     try {
       const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.get<ApiResponse<T>>(url, { params })
@@ -65,18 +66,6 @@ class Api {
     } catch (error) {
       return this.handleError(error)as Promise<ApiResponse<T>>
     }
-
-    /*return await this.axiosInstance.get<ApiResponse<T>>(url, { params })
-      .then(response => {
-        let apiResponse = this.handleResponse(response)
-        if (apiResponse.success) {
-          return apiResponse
-        } else {
-          //throw new Error(apiResponse.message)
-          this.handleError(apiResponse.message)
-        }
-      })
-      .catch(this.handleError)*/
   }
 
   // 发送 POST 请求
@@ -87,18 +76,6 @@ class Api {
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse<T>>
     }
-    /*return await this.axiosInstance.post<ApiResponse>(url, null, {
-      params: params
-    })
-      .then(response => {
-        let apiResponse = this.handleResponse(response)
-        if (apiResponse.success) {
-          return apiResponse
-        } else {
-          this.handleError(apiResponse.message)
-        }
-      })
-      .catch(this.handleError)*/
   }
 
   //取消请求
@@ -111,19 +88,6 @@ class Api {
 
   // 处理响应拦截
   private handleResponse<T>(response: AxiosResponse<ApiResponse<T>>): ApiResponse<T> {
-    // 检查响应对象是否存在
-    //console.error('response--：', JSON.stringify(response.data))
-   // LogUtil.errorJson(response.data)
-
-    /*if (response && response.data !== undefined && response.data !== null) {
-      return response.data;
-    } else {
-      // 如果响应对象或响应体不存在，返回一个默认值或者抛出错误，根据需要调整
-      //throw new Error('Invalid response or empty response body');
-
-      this.handleError('Invalid response or empty response body')
-    }*/
-
     if (response && response.data) {
       const apiResponse = response.data;
       if (apiResponse.success) {
@@ -153,7 +117,8 @@ class Api {
           msg = `服务器错误_${status}`;
         } else if (status == 401) {
           msg = '认证错误';
-          routerUtils.replaceUrl({ url: 'pages/login/LoginPage' }, router.RouterMode.Single);
+          //routerUtils.replaceUrl({ url: 'pages/login/LoginPage' }, router.RouterMode.Single);
+          RouterUtil.push("LoginPage")
         } else if (status == 404) {
           msg = '参数错误404';
         } else {
@@ -167,41 +132,6 @@ class Api {
     return Promise.reject(new Error(msg));
   }
 
-
-  // 处理请求错误
-  /*private handleError(error: unknown) {
-    // 这里可以添加一些全局的错误处理逻辑
-    // logUtil.error('请求错误__' + error)
-
-    let msg = error;
-    if (axios.isAxiosError(error)) {
-      let response = error.response
-
-      //logUtil.error(JSON.stringify(response.data) + '___' + response.status)
-      LogUtil.error(response.status)
-      LogUtil.errorJson(response.data)
-
-      var status = response.status
-      if (status >= 500 && status < 600) {
-        msg = '服务器错误_' + status
-      } else if (status == 401) {
-        msg = '认证错误'
-        router.replaceUrl({ url: 'pages/LoginPage' }, router.RouterMode.Single)
-      } else if (status == 404) {
-        msg = '参数错误404'
-      } else {
-        msg = JSON.stringify(error.response.data.message)
-      }
-
-      msg = error.response.data.message
-
-    } else {
-      msg = '其他错误___' + error
-    }
-
-    return Promise.reject(msg);
-    // return new ApiResponse(false, null, msg)
-  }*/
 }
 
 // 创建实例，这样你可以在应用的其他地方使用同一个实例
