@@ -1,0 +1,68 @@
+{
+  "app": {
+    /*"signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "storePassword": "0000001A37BBC6AD734309F9163FB12F7A2EE5F193681902091EDCFD6E28A054BFE754A7A9220F752D3F",
+          "certpath": "D:/keystore/发布证书.cer",
+          "keyAlias": "harmony",
+          "keyPassword": "0000001A872590ED1D2821DE9FE92FCB18ED8DFC3BFC00117E2C4C5E0C3479796725550DE86341BF5F77",
+          "profile": "D:/keystore/wanHarmonyRelease.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "D:/keystore/WanHarmony.p12"
+        }
+      }
+    ],*/
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS"
+      }
+    ],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\WANGSHUAI\\.ohos\\config\\default_Harmony-OA_nvABlUUjRuPjmZiB9wqtEGAktTSjXHOcLkIJHhWKufM=.cer",
+          "storePassword": "0000001B01FB93B37DF646C474C88DF4C853CBA8986291D476A4B8C5252CC9F09384B6ECEF1B8DA8A464D1",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BC5007B77FBA430C06A25BCF6AAA366C8C9254DFB7C049D5A9F99C7D65DBA0683CDF04AF094F83B",
+          "profile": "C:\\Users\\WANGSHUAI\\.ohos\\config\\default_Harmony-OA_nvABlUUjRuPjmZiB9wqtEGAktTSjXHOcLkIJHhWKufM=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\WANGSHUAI\\.ohos\\config\\default_Harmony-OA_nvABlUUjRuPjmZiB9wqtEGAktTSjXHOcLkIJHhWKufM=.p12"
+        }
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "libraryCommon",
+      "srcPath": "./libraryCommon",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
