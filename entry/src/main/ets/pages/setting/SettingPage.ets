@@ -1,8 +1,5 @@
-import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
-import preferenceUtil from '../../utils/PreferencesUtil'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
-import { AppGlobalContext } from '../../utils/AppGlobalContext'
 import { RouterUtil, ToastUtil } from 'librarycommon'
 
 @Builder
@@ -17,12 +14,6 @@ struct SettingPage {
   build() {
     NavDestination() {
       Column() {
-        TitleBarComponent({
-          title: this.title, menu: '···', clickMenu: () => {
-            this.title = "setting"
-          }
-        })
-
         Column() {
 
         }
@@ -64,6 +55,7 @@ struct SettingPage {
       .width('100%')
       .height('100%')
     }
+    .title("设置",{backgroundColor:$r('app.color.main')})
 
   }
 }

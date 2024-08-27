@@ -105,8 +105,8 @@ export struct LoginPage {
         this.dialogController.close()
         ToastUtil.show('登录成功')
         userManager.saveUser(response.data)
-        //routerUtils.back()
-        RouterUtil.pop()
+
+        RouterUtil.popHome()
       } else {
         this.dialogController.close()
         ToastUtil.show(response.message)
@@ -115,23 +115,6 @@ export struct LoginPage {
       this.dialogController.close()
       ToastUtil.show(error)
     }
-    /*.then((response: ApiResponse<UserModel>) => {
-      ToastUtil.show('登录成功')
-
-      userManager.saveUser(response.data)
-
-      setTimeout(() => {
-        this.dialogController.close()
-        //this.pathStack.replacePathByName("MainPage",null)
-        //router.pushUrl({url : 'pages/MainPage'})
-        RouterUtil.push("MainPage")
-      }, 1000)
-
-    })
-    .catch((error: string) => {
-      this.dialogController.close()
-      ToastUtil.show(error)
-    })*/
 
   }
 }

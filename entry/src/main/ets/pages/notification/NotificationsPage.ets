@@ -139,7 +139,8 @@ export function NotificationsPageBuilder() : void{
       .justifyContent(FlexAlign.Start)
 
     }
-    .title("通知")
+    .title("通知",{backgroundColor:$r('app.color.main')})
+    .systemBarStyle({statusBarContentColor:'#FFFFFF'})
     .onReady((context) => {
       LogUtil.errorJson(context.pathInfo)
     })

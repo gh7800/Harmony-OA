@@ -5,6 +5,10 @@
       "value": "#FFFFFF"
     },
     {
+      "name": "transparent",
+      "value": "#00000000"
+    },
+    {
       "name": "write",
       "value": "#FFFFFF"
     },

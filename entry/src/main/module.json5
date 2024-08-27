@@ -17,10 +17,10 @@
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ets",
         "description": "$string:EntryAbility_desc",
-        "icon": "$media:icon",
-        "label": "$string:EntryAbility_label",
-        "startWindowIcon": "$media:icon",
-        "startWindowBackground": "$color:start_window_background",
+        "icon": "$media:icon_logo",             //应用Logo
+        "label": "$string:EntryAbility_label", //应用名称
+        "startWindowIcon": "$media:icon_logo", //启动时的图标
+        "startWindowBackground": "$color:start_window_background", //启动时的背景颜色
         "exported": true,
         "skills": [
           {

@@ -27,6 +27,6 @@ struct ReportPage {
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.Center)
     }
-    .title("请示报告")
+    .title("请示报告",{backgroundColor:$r('app.color.main')})
   }
 }

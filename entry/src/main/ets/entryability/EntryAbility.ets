@@ -40,6 +40,7 @@ export default class EntryAbility extends UIAbility {
 
     windowStage.getMainWindow((err : BusinessError,data) => {
       let windowClass = data
+      windowClass.setWindowSystemBarProperties({statusBarColor:'#00B785'})
 
       // WindowUtil.listenToAppStorage(windowClass)
       // WindowUtil.setDarkEnable(windowClass,false)

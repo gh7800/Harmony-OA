@@ -10,12 +10,12 @@ export class StringUtil{
   }
 
   static isNotEmpty(str? : string) : boolean{
-    if(str == null){
+    if(str == null || str == ""){
       return false
     }else if(str?.trim().length > 0){
-      return false
+      return true
     }
-    return true
+    return false
   }
 
   static replaceStr(str : string,p : string ,p1 : string = '') : string{

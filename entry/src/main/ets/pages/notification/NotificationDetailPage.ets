@@ -61,7 +61,7 @@ struct NotificationDetailPage {
       .width('100%')
       .height('100%')
     }
-    .title(this.title)
+    .title(this.title,{backgroundColor:$r('app.color.main')})
     .onReady(context=>{
       LogUtil.errorJson(context.pathInfo)
 
