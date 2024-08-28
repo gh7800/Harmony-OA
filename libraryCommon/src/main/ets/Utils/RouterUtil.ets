@@ -1,3 +1,5 @@
+import { LogUtil } from './LogUtil';
+
 const TAG = 'RouterUtil';
 
 export  class RouterUtil {
@@ -7,6 +9,8 @@ export  class RouterUtil {
   public static push(name: string, param: object | undefined = undefined, callback: Callback<PopInfo> | undefined = undefined) {
     RouterUtil.routerStack.push(name);
     RouterUtil.navPathStack.pushPathByName(name, param, callback, true)
+
+    RouterUtil.printStack()
   }
 
   public static replace(name: string, param: object | undefined = undefined) {
@@ -34,5 +38,13 @@ export  class RouterUtil {
 
   public static size() {
     return RouterUtil.navPathStack.size()
+  }
+
+  /**
+   * 打印堆栈
+   */
+  public static printStack(){
+    const pathNameList = RouterUtil.navPathStack.getAllPathName()
+    LogUtil.errorJson(pathNameList)
   }
 }

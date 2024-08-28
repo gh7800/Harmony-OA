@@ -1,13 +1,11 @@
 /**
- * page ：通讯录
- * created by: 2024/8/14
+ * 2024/8/28
+ * GF63
  */
-import routerUtils from '../../utils/RouterUtils'
-
 @Component
 export struct ContactPage {
   build() {
-    Column() {
+    NavDestination() {
       Column() {
         Text('页面')
           .fontSize(24)
@@ -15,9 +13,10 @@ export struct ContactPage {
         Button('Go Back')
           .margin({ top: 20 })
           .onClick(() => {
-            routerUtils.back()
+
           })
       }
+      .backgroundColor($r('app.color.f2'))
       .width('100%')
       .height('100%')
       .justifyContent(FlexAlign.Center)

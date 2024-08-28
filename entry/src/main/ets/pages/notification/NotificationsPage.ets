@@ -3,7 +3,6 @@ import { PullToRefreshConfigurator } from '@ohos/pulltorefresh'
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
-import { TitleBarComponent } from '../../view/TitleBarComponent'
 import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 
 @Builder
@@ -85,7 +84,7 @@ export function NotificationsPageBuilder() : void{
           right: 5,
           bottom: 5
         })
-        .backgroundColor($r('app.color.ff'))
+        .backgroundColor($r('app.color.write'))
       })
     }
     .layoutWeight(1)
@@ -93,6 +92,18 @@ export function NotificationsPageBuilder() : void{
     .width('100%')
     .margin({ left: 10, right: 10 })
     .edgeEffect(EdgeEffect.None) // 必须设置列表为滑动到边缘无效果
+  }
+
+  @Builder
+  NavigationTitle(title : string) {
+    Column() {
+      Text(title)
+        .fontColor($r('app.color.write'))
+        .fontSize(22)
+    }
+    .height(60)
+    .padding({left:10})
+    .justifyContent(FlexAlign.Center)
   }
 
   build() {
@@ -137,15 +148,13 @@ export function NotificationsPageBuilder() : void{
       .height('100%')
       .backgroundColor($r('app.color.f2'))
       .justifyContent(FlexAlign.Start)
-
     }
-    .title("通知",{backgroundColor:$r('app.color.main')})
+    .title(this.NavigationTitle("通知"),{backgroundColor:$r('app.color.main')})
+    .backButtonIcon($r('app.media.ic_back'))
     .systemBarStyle({statusBarContentColor:'#FFFFFF'})
-    .onReady((context) => {
-      LogUtil.errorJson(context.pathInfo)
-    })
   }
 }
+
 
 interface RequestParams {
   page: number;

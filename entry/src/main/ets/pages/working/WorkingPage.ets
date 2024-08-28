@@ -19,6 +19,7 @@ export struct WorkingPage {
                         router.back()
                     })
             }
+            .backgroundColor($r('app.color.f2'))
             .width('100%')
             .height('100%')
             .justifyContent(FlexAlign.Center)

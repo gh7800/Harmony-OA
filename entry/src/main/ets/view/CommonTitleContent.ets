@@ -25,7 +25,7 @@ export struct CommonTitleContent {
         .width(40)
         .height(40)
     }
-    .backgroundColor($r('app.color.ff'))
+    .backgroundColor($r('app.color.write'))
     .borderRadius(8)
     .margin({ left: 10, top: 5, right: 10 })
     .padding({ top: 5, bottom: 5 })

@@ -13,6 +13,7 @@ export struct SplashPage {
   }
 
   build() {
+    NavDestination() {
       Row() {
         Column(
           {
@@ -25,7 +26,7 @@ export struct SplashPage {
             .height(75)
 
           Text("鸿蒙OS")
-            .fontSize(16)
+            .fontSize(18)
             .fontColor($r('app.color.write'))
             .margin({ top: 100 })
 
@@ -42,4 +43,7 @@ export struct SplashPage {
       .alignItems(VerticalAlign.Bottom)
       .padding({ bottom: 100 })
     }
+    .hideTitleBar(true)
+    .backgroundColor($r('app.color.main'))
+  }
 }

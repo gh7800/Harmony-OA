@@ -71,7 +71,7 @@ export struct MinePage {
         .height(78)
         .type(ButtonType.Normal)
         .backgroundColor($r('app.color.main'))
-        .fontColor($r('app.color.ff'))
+        .fontColor($r('app.color.write'))
         .margin({ left: 5, top: 5 })
         .onClick((() => {
           this.initPermissions(this.permissions)
@@ -95,7 +95,7 @@ export struct MinePage {
 
     }
     .width('96%')
-    .backgroundColor($r('app.color.ff'))
+    .backgroundColor($r('app.color.write'))
     .margin({ top: 15, bottom: 10 })
     .borderRadius(8)
     .padding({ top: 5, bottom: 10 })

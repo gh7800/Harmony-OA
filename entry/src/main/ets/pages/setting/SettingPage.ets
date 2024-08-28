@@ -28,7 +28,7 @@ struct SettingPage {
           .height(40)
           .textAlign(TextAlign.Center)
           .padding({ top: 10, bottom: 10 })
-          .fontColor($r('app.color.ff'))
+          .fontColor($r('app.color.write'))
           .margin({ bottom: 10 })
           .onClick(() => {
             promptAction.showDialog({

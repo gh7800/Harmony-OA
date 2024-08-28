@@ -71,7 +71,7 @@ export struct HomePage {
                 .height(70)
                 .margin({ top: 2 })
                 .justifyContent(FlexAlign.Center)
-                .backgroundColor($r('app.color.ff'))
+                .backgroundColor($r('app.color.write'))
                 .onClick((event) => {
                   switch (index) {
                     case 0:
@@ -93,7 +93,7 @@ export struct HomePage {
           }
           .width('100%')
           .margin({ top: 2, left: 2, right: 2 })
-          .backgroundColor($r('app.color.ff'))
+          .backgroundColor($r('app.color.write'))
 
         }
 
