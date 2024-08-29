@@ -51,6 +51,11 @@ struct NotificationDetailPage {
   build() {
     NavDestination() {
       Column() {
+        TitleBarComponent({title:this.title,isClickBack: true,clickBack:()=>{
+          const param = 100
+          RouterUtil.pop(param)
+        }})
+
         ColumnSplit() {
           TitleContentComponent({ title: '标题：', content: this.notificationModel.title, mHeight: '40' })
           TitleContentComponent({ title: '内容：', content: this.notificationModel.content })
@@ -61,13 +66,17 @@ struct NotificationDetailPage {
       .width('100%')
       .height('100%')
     }
-    .title(this.title,{backgroundColor:$r('app.color.main')})
+    .hideTitleBar(true)
     .onReady(context=>{
       LogUtil.errorJson(context.pathInfo)
 
-      let record = context.pathInfo.param as Record<string,string>
+     /* let record = context.pathInfo.param as Record<string,string>
       this.uuid = record["uuid"]
-      this.title = record["title"]
+      this.title = record["title"]*/
+
+      const record = context.pathInfo.param as NotificationModel
+      this.title = record.title
+      this.uuid = record.uuid
 
       this.getData()
     })

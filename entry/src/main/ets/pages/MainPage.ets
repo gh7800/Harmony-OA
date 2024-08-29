@@ -11,7 +11,6 @@ export function MainPageBuilder() {
 
 @Component
 export struct MainPage {
-  // @Consume("pathStack") pathStack: NavPathStack
   tabsController: TabsController = new TabsController();
   @State currentIndex: number = 0
   private tabTitles: string[] = ['首页', '通讯录', '工作', '我的']
@@ -60,14 +59,10 @@ export struct MainPage {
   }
 
   build() {
-    // Column() {
       Stack() {
 
         Column() {
           TitleBarComponent({ title: this.title, isNeedBack: false })
-          /*if(this.title){
-            this.pagesMap(this.title)
-          }*/
 
           Tabs({
             barPosition: BarPosition.End,
@@ -108,7 +103,6 @@ export struct MainPage {
         .height('100%')
         .backgroundColor($r('app.color.main'))
 
-        //Line().height(this.bottomHeight).visibility(Visibility.Hidden)
       }
       // .onReady(context =>{
       //   this.pathStack = context.pathStack

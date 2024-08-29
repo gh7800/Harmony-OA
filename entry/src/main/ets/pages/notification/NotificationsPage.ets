@@ -4,20 +4,29 @@ import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import LoadingDialog from '../../view/LoadingDialog'
+import { TitleBarComponent } from '../../view/TitleBarComponent'
 
 @Builder
-export function NotificationsPageBuilder() : void{
+export function NotificationsPageBuilder(): void {
   NotificationsPage()
 }
 
 @Entry
 @Component
- struct NotificationsPage {
+struct NotificationsPage {
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()
   private page = 1
   @State isRefresh: boolean = false
   private refreshConfig = new PullToRefreshConfigurator().setRefreshColor('#FF1874D7')
+  loading = new CustomDialogController({
+    builder: LoadingDialog(),
+    customStyle: true,
+    cancel: () => {
+      ToastUtil.show('已取消')
+    }
+  })
 
   aboutToAppear() {
     this.getData()
@@ -27,6 +36,8 @@ export function NotificationsPageBuilder() : void{
     let params: RequestParams = {
       page: this.page
     }
+
+    this.showLoading()
     const response: ApiResponse<Array<NotificationModel>> = await api.get('api/notice/message', params)
     try {
       if (response.success) {
@@ -40,11 +51,12 @@ export function NotificationsPageBuilder() : void{
         } else {
           this.data = response.data
         }
+        this.hideLoading()
       } else {
-        ToastUtil.show(response.message)
+        this.hideLoading(response.message)
       }
     } catch (error) {
-      ToastUtil.show(error)
+      this.hideLoading(error)
     }
   }
 
@@ -70,11 +82,7 @@ export function NotificationsPageBuilder() : void{
           }
           .onClick(event => {
             let item = this.data[index]
-            const param : SendParams = {
-              "title": item.title,
-              "uuid": item.uuid
-            }
-            RouterUtil.push("NotificationDetailPage",param)
+            RouterUtil.push("NotificationDetailPage", item)
           })
         }
         .border({ radius: 5 })
@@ -95,21 +103,35 @@ export function NotificationsPageBuilder() : void{
   }
 
   @Builder
-  NavigationTitle(title : string) {
+  NavigationTitle(title: string) {
     Column() {
       Text(title)
         .fontColor($r('app.color.write'))
         .fontSize(22)
     }
     .height(60)
-    .padding({left:10})
+    .padding({ left: 10 })
     .justifyContent(FlexAlign.Center)
+  }
+
+  showLoading(){
+    if(!this.isRefresh){
+      this.loading.open()
+    }
+  }
+
+  hideLoading(msg ?: string) {
+    this.loading.close()
+    this.isRefresh = false //刷新完成
+    if (msg) {
+      ToastUtil.show(msg)
+    }
   }
 
   build() {
     NavDestination() {
       Column() {
-        //TitleBarComponent({ title: '通知' })
+        TitleBarComponent({ title: '通知' })
 
         PullToRefresh({
           data: $data,
@@ -117,13 +139,15 @@ export function NotificationsPageBuilder() : void{
           scroller: this.scroller,
           customList: () => this.refreshView(),
           onRefresh: () => {
+            this.isRefresh = true
             return new Promise((resolve, reject) => {
               this.data = null
-
               this.page = 1
               this.getData()
-              if (this.isRefresh) {
-                resolve('加载成功')
+              if (!this.isRefresh) {
+                setTimeout(()=>{
+                  resolve('加载成功')
+                },1000)
               }
             })
           },
@@ -131,7 +155,7 @@ export function NotificationsPageBuilder() : void{
             return new Promise((resolve, reject) => {
               this.page++
               this.getData()
-              if (this.isRefresh) {
+              if (!this.isRefresh) {
                 resolve('加载成功')
               }
             })
@@ -149,18 +173,14 @@ export function NotificationsPageBuilder() : void{
       .backgroundColor($r('app.color.f2'))
       .justifyContent(FlexAlign.Start)
     }
-    .title(this.NavigationTitle("通知"),{backgroundColor:$r('app.color.main')})
+    .hideTitleBar(true)
+    .title(this.NavigationTitle("通知"), { backgroundColor: $r('app.color.main') })
     .backButtonIcon($r('app.media.ic_back'))
-    .systemBarStyle({statusBarContentColor:'#FFFFFF'})
+    .systemBarStyle({ statusBarContentColor: '#FFFFFF' })
   }
 }
 
 
 interface RequestParams {
   page: number;
-}
-
-interface SendParams {
-  title: string;
-  uuid: string;
 }

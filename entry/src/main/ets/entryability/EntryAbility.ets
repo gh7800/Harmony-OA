@@ -50,9 +50,9 @@ export default class EntryAbility extends UIAbility {
 
       uiObserver.on("navDestinationUpdate",(info)=>{
         if(info.state == 0){ // 组件显示
-          LogUtil.errorAny("组件显示————"+info.name)
+          LogUtil.errorAny("显示组件————"+info.name)
         }else if(info.state == 1){ //组件隐藏
-          LogUtil.errorAny("组件隐藏————"+info.name)
+          LogUtil.errorAny("隐藏组件————"+info.name)
         }else {
           //LogUtil.errorAny(info.state+"________________"+info.name)
         }
