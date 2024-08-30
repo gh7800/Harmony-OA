@@ -62,6 +62,7 @@ class Api {
 
     try {
       const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.get<ApiResponse<T>>(url, { params })
+      LogUtil.errorJson(response)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error)as Promise<ApiResponse<T>>
@@ -72,6 +73,7 @@ class Api {
   public async post<T>(url: string, params: object): Promise<ApiResponse<T>> {
     try {
       const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.post<ApiResponse<T>>(url, null, { params: params })
+      LogUtil.errorJson(response)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse<T>>
@@ -80,7 +82,7 @@ class Api {
 
   //取消请求
   public cancelRequest() {
-    LogUtil.error('取消')
+    LogUtil.error('取消http请求')
     axios.CancelToken.source()
   }
 

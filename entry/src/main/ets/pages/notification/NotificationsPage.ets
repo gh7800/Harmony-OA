@@ -24,7 +24,7 @@ struct NotificationsPage {
     builder: LoadingDialog(),
     customStyle: true,
     cancel: () => {
-      ToastUtil.show('已取消')
+      api.cancelRequest()
     }
   })
 
@@ -139,16 +139,18 @@ struct NotificationsPage {
           scroller: this.scroller,
           customList: () => this.refreshView(),
           onRefresh: () => {
-            this.isRefresh = true
             return new Promise((resolve, reject) => {
               this.data = null
               this.page = 1
-              this.getData()
-              if (!this.isRefresh) {
-                setTimeout(()=>{
-                  resolve('加载成功')
-                },1000)
-              }
+              this.isRefresh = true
+              this.getData().then(()=>{
+                LogUtil.error("++"+this.isRefresh)
+                if (!this.isRefresh) {
+                  setTimeout(()=>{
+                    resolve('加载成功')
+                  },500)
+                }
+              })
             })
           },
           onLoadMore: () => {

@@ -19,17 +19,14 @@ struct SettingPage {
         }
         .layoutWeight(1)
 
-        Text('退出应用程序')
+        Button('退出应用程序')
           .fontSize(20)
           .fontWeight(FontWeight.Bold)
           .border({ radius: 40 })
           .backgroundColor($r('app.color.black'))
           .width('90%')
           .height(40)
-          .textAlign(TextAlign.Center)
-          .padding({ top: 10, bottom: 10 })
           .fontColor($r('app.color.write'))
-          .margin({ bottom: 10 })
           .onClick(() => {
             promptAction.showDialog({
               title: '提示',

@@ -137,7 +137,7 @@ export struct MinePage {
         }
 
         if (isAgree) {
-          //this.takePhoto()
+          this.takePhoto()
         }
 
       })
@@ -150,12 +150,12 @@ export struct MinePage {
 
   }
 
-  // takePhoto() {
-  //   let mediaHelper = new MediaHelper(getContext())
-  //   mediaHelper.takePhoto(getContext() as common.UIAbilityContext).then(mediaBean => {
-  //     logUtil.error('____'+mediaBean)
-  //   }).catch((error: string) =>{
-  //     logUtil.error('error____'+error)
-  //   })
-  // }
+  takePhoto() {
+    /*let mediaHelper = new MediaHelper(getContext())
+    mediaHelper.takePhoto(getContext() as common.UIAbilityContext).then(mediaBean => {
+      LogUtil.errorJson(mediaBean)
+    }).catch((error: string) =>{
+      LogUtil.error('error____'+error)
+    })*/
+  }
 }
