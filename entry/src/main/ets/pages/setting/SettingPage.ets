@@ -1,6 +1,9 @@
 import promptAction from '@ohos.promptAction'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
-import { RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import { AppGlobalContext } from '../../utils/AppGlobalContext'
+import preferenceUtil from '../../utils/PreferencesUtil'
+import constantUtil from '../../utils/ConstantUtil'
 
 @Builder
 export function SettingPageBuilder() {
@@ -14,6 +17,8 @@ struct SettingPage {
   build() {
     NavDestination() {
       Column() {
+        TitleBarComponent({title: this.title})
+
         Column() {
 
         }
@@ -40,9 +45,14 @@ struct SettingPage {
                 if (data.index == 0) {
                   ToastUtil.show('取消')
                 } else {
-                  /*AppGlobalContext.getContext().clear()
                   preferenceUtil.clear()
-                  router.clear()*/
+                  // AppGlobalContext.getContext().clear()
+
+                  preferenceUtil.getString(constantUtil.USERNAME).then(msg=>{
+                    LogUtil.error("username----"+msg)
+                  })
+
+                  RouterUtil.clearStack()
                   RouterUtil.push('LoginPage')
                 }
               })
@@ -52,7 +62,8 @@ struct SettingPage {
       .width('100%')
       .height('100%')
     }
-    .title("设置",{backgroundColor:$r('app.color.main')})
+    .hideTitleBar(true)
+    //.title("设置",{backgroundColor:$r('app.color.main')})
 
   }
 }

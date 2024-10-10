@@ -3,19 +3,25 @@ import { HomePage } from './HomePage'
 import { MinePage } from './MinePage'
 import { ContactPage } from './contact/ContactPage'
 import { WorkingPage } from './working/WorkingPage'
+import { LogUtil, RouterUtil, TimeUtil, ToastUtil } from 'librarycommon';
+import App from '@system.app';
+import { common } from '@kit.AbilityKit';
 
 @Builder
 export function MainPageBuilder() {
   MainPage()
 }
 
+@Entry
 @Component
-export struct MainPage {
+struct MainPage {
   tabsController: TabsController = new TabsController();
   @State currentIndex: number = 0
   private tabTitles: string[] = ['首页', '通讯录', '工作', '我的']
   @State title: string = this.tabTitles[0]
   @StorageProp('bottomHeight') bottomHeight: number = 20;
+  private lastClickTime = 0
+  private EXIT_INTERVAL : number = 2000
 
   //自定义tab
   @Builder
@@ -59,7 +65,7 @@ export struct MainPage {
   }
 
   build() {
-    Navigation() {
+    NavDestination() {
 
       Column() {
         TitleBarComponent({ title: this.title, isNeedBack: false })
@@ -107,7 +113,18 @@ export struct MainPage {
     .hideTitleBar(true)
     .height("100%")
     .width('100%')
-    .mode(NavigationMode.Auto)
+    .onBackPressed(()=>{
+      const currentTIme = TimeUtil.getCurrentTimestamp()
+      if(currentTIme - this.lastClickTime < this.EXIT_INTERVAL){
+        RouterUtil.clearStack()
+        RouterUtil.exitAPP(this)
+      }else {
+        ToastUtil.show("再点一次退出")
+        this.lastClickTime = currentTIme
+      }
+      return true
+    })
+    //.mode(NavigationMode.Auto)
 
     // .onReady(context =>{
     //   this.pathStack = context.pathStack
@@ -145,4 +162,5 @@ export struct MainPage {
     ])*/
     // }
   }
+
 }

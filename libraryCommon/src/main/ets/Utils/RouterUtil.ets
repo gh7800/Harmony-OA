@@ -1,4 +1,5 @@
 import { LogUtil } from './LogUtil';
+import { common } from '@kit.AbilityKit';
 
 const TAG = 'RouterUtil';
 
@@ -31,7 +32,7 @@ export  class RouterUtil {
     RouterUtil.navPathStack.removeByName(name)
   }
 
-  public static popHome() {
+  public static clearStack() {
     RouterUtil.routerStack.length = 0;
     RouterUtil.navPathStack.clear()
   }
@@ -46,5 +47,13 @@ export  class RouterUtil {
   public static printStack(){
     const pathNameList = RouterUtil.navPathStack.getAllPathName()
     LogUtil.errorJson(pathNameList)
+  }
+
+  /**
+   * 退出app
+   */
+  static exitAPP(component?: Object){
+    let context = getContext(component) as common.UIAbilityContext;
+    context.terminateSelf()
   }
 }

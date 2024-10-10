@@ -9,6 +9,15 @@
       }
     },
     {
+      "name": "MainPage",
+      "pageSourceFile": "src/main/ets/pages/MainPage.ets",
+      "buildFunction": "MainPageBuilder",
+      "data": {
+        "description" : "this is PageOne"
+      }
+    },
+
+    {
       "name": "NotificationsPage",
       "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
       "buildFunction": "NotificationsPageBuilder"

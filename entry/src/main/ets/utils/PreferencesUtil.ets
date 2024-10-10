@@ -10,7 +10,7 @@ import { Context } from '@kit.AbilityKit'
 
 class PreferenceUtil {
   private preferencesName: string = "HYLD_OA"
-  preferenceInstance: Preferences.Preferences
+  private preferenceInstance: Preferences.Preferences
 
   constructor() {
     this.preferenceInstance = {} as Preferences.Preferences
@@ -61,8 +61,11 @@ class PreferenceUtil {
   }
 
   //清空所有
-  async clear(){
-    return this.preferenceInstance.clear()
+  clear(){
+    this.preferenceInstance.clear()
+    this.preferenceInstance.flush()
+
+    LogUtil.error("全部删除")
   }
 }
 

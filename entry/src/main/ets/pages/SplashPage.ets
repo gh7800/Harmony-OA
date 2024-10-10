@@ -1,15 +1,26 @@
+import { LogUtil, RouterUtil } from "librarycommon"
+import constantUtil from "../utils/ConstantUtil"
+import preferenceUtil from "../utils/PreferencesUtil"
 
 @Component
 export struct SplashPage {
-  @Link isSplash: boolean //双向绑定
+  // @Link isSplash: boolean //双向绑定
 
   aboutToAppear(): void {
 
     setTimeout(() => {
+      //this.isSplash = false
 
-      this.isSplash = false
+      preferenceUtil.getString(constantUtil.TOKEN).then(msg => {
+        LogUtil.error("____________"+msg)
+        if(msg){
+          RouterUtil.push("MainPage")
+        }else{
+          RouterUtil.push("LoginPage")
+        }
+      })
 
-    }, 3000)
+    }, 1000)
   }
 
   build() {

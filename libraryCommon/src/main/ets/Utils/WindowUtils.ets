@@ -75,12 +75,12 @@ export class WindowUtil {
    * @param sysBarProps
    */
   static setBarColor(windowClass: window.Window, sysBarProps: window.SystemBarProperties) {
-    try {
+    /*try {
       WindowUtil.setBarEnable(windowClass);
       windowClass.setWindowLayoutFullScreen(true, undefined);
       windowClass.setWindowSystemBarProperties(sysBarProps, undefined)
     } catch (err) {
-    }
+    }*/
   }
 
   /**
@@ -97,7 +97,7 @@ export class WindowUtil {
    * @param names
    */
   static setBarEnable(windowClass: window.Window, names: Array<'status' | 'navigation'> = ['status', 'navigation']) {
-    windowClass.setWindowSystemBarEnable(names, (err: BusinessError) => {
+    /*windowClass.setWindowSystemBarEnable(names, (err: BusinessError) => {
       let errCode: number = err.code;
       if (errCode) {
         LogUtil.error(TAG + "__" + 'Failed to set the system bar to be visible. Cause:' + JSON.stringify(err))
@@ -105,5 +105,6 @@ export class WindowUtil {
       }
       LogUtil.error(TAG + "__" + 'Succeeded in setting the system bar to be visible.');
     });
+  */
   }
 }

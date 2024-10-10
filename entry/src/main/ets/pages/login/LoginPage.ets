@@ -4,10 +4,18 @@ import UserModel from '../../model/UserModel'
 import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import { RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import preferenceUtil from '../../utils/PreferencesUtil'
+import constantUtil from '../../utils/ConstantUtil'
 
+@Builder
+export function LoginPageBuilder() {
+  LoginPage()
+}
+
+@Entry
 @Component
-export struct LoginPage {
+struct LoginPage {
   @State message: string = 'Login'
   private username: string = ''
   private password: string = ''
@@ -20,7 +28,10 @@ export struct LoginPage {
   })
 
   aboutToAppear() {
-
+    preferenceUtil.getString(constantUtil.USERNAME).then(msg => {
+      this.username = msg
+      LogUtil.error(msg)
+    })
   }
 
   build() {
@@ -33,7 +44,7 @@ export struct LoginPage {
             .fontWeight(FontWeight.Bold)
             .margin({ bottom: 20 })
 
-          TextInput({ placeholder: '请输入账号' })
+          TextInput({ placeholder: '请输入账号' ,text : this.username})
             .width('85%')
             .height(50)
             .type(InputType.Normal)
@@ -49,12 +60,12 @@ export struct LoginPage {
             .margin({ top: 10 })
             .type(InputType.Password)
             .maxLength(16)
-            .enterKeyType(EnterKeyType.Go)
+            .enterKeyType(EnterKeyType.Send)
             .onChange((value: string) => {
               this.password = value
             })
             .onSubmit((keyType: EnterKeyType) => {
-              if (keyType == EnterKeyType.Done) {
+              if (keyType == EnterKeyType.Send) {
                 this.login()
               }
             })
@@ -76,6 +87,11 @@ export struct LoginPage {
     .hideTitleBar(true)
     .onReady(context => {
 
+    })
+    .onBackPressed(()=>{
+      RouterUtil.clearStack()
+      RouterUtil.exitAPP(this)
+      return true
     })
 
   }
@@ -105,8 +121,7 @@ export struct LoginPage {
         this.dialogController.close()
         ToastUtil.show('登录成功')
         userManager.saveUser(response.data)
-
-        RouterUtil.popHome()
+        RouterUtil.replace("MainPage")
       } else {
         this.dialogController.close()
         ToastUtil.show(response.message)
@@ -118,12 +133,6 @@ export struct LoginPage {
 
   }
 }
-
-@Builder
-export function LoginPageBuilder() {
-  LoginPage()
-}
-
 
 interface LoginParams {
   username: string,
