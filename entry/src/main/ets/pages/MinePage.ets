@@ -107,6 +107,11 @@ export struct MinePage {
         ToastUtil.show(this.realName)
       }})
     CommonTitleContent({
+      title: '组件', content: '常用组件测试',onclick: ()=>{
+        RouterUtil.push("CommonComponentPage")
+      }})
+
+    CommonTitleContent({
       title: '设置', content: '', onclick:() => {
         //router.pushUrl({ url: 'pages/SettingPage' })
         RouterUtil.push("SettingPage")

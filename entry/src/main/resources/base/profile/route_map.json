@@ -16,7 +16,6 @@
         "description" : "this is PageOne"
       }
     },
-
     {
       "name": "NotificationsPage",
       "pageSourceFile": "src/main/ets/pages/notification/NotificationsPage.ets",
@@ -36,6 +35,11 @@
       "name": "ReportPage",
       "pageSourceFile": "src/main/ets/pages/document/ReportPage.ets",
       "buildFunction": "ReportPageBuilder"
+    },
+    {
+      "name": "CommonComponentPage",
+      "pageSourceFile": "src/main/ets/view/CommonComponentPage.ets",
+      "buildFunction": "CommonComponentPageBuilder"
     }
 
   ]
