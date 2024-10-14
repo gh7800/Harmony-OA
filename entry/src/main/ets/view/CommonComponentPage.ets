@@ -11,7 +11,7 @@ function CommonComponentPageBuilder() {
 
 @Component
 export struct CommonComponentPage {
-  private data: Array<string> = ['选择时间选择时间选择时间', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+  private data: Array<string> = ['选择时间', 'PopWindow', 'TreeView', '', '']
 
   build() {
     NavDestination() {

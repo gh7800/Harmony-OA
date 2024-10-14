@@ -27,6 +27,7 @@ export struct TitleBarComponent {
         })
         .margin({ left: 10 })
         .id('backIcon')
+        .clickEffect({level: ClickEffectLevel.LIGHT,scale:0.5 })
         .onClick(() => {
           if (!this.isClickBack) {
             RouterUtil.pop()
