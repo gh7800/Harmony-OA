@@ -1,9 +1,7 @@
 import common from '@ohos.app.ability.common';
 import picker from '@ohos.file.picker';
-import mediaLibrary from '@ohos.multimedia.mediaLibrary';
 import wantConstant from '@ohos.ability.wantConstant';
 import { MediaBean } from '../model/MediaBean';
-import { LogUtil } from 'LibraryCommon';
 
 /**
  * 多媒体辅助类

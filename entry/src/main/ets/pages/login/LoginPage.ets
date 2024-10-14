@@ -7,6 +7,7 @@ import userManager from '../../manager/UserManager'
 import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 import preferenceUtil from '../../utils/PreferencesUtil'
 import constantUtil from '../../utils/ConstantUtil'
+import loginViewModel from './LoginViewModel'
 
 @Builder
 export function LoginPageBuilder() {
@@ -44,7 +45,7 @@ struct LoginPage {
             .fontWeight(FontWeight.Bold)
             .margin({ bottom: 20 })
 
-          TextInput({ placeholder: '请输入账号' ,text : this.username})
+          TextInput({ placeholder: '请输入账号', text: this.username })
             .width('85%')
             .height(50)
             .type(InputType.Normal)
@@ -88,7 +89,7 @@ struct LoginPage {
     .onReady(context => {
 
     })
-    .onBackPressed(()=>{
+    .onBackPressed(() => {
       RouterUtil.clearStack()
       RouterUtil.exitAPP(this)
       return true
@@ -96,8 +97,7 @@ struct LoginPage {
 
   }
 
-  /**login*/
-  private async login() {
+  private login() {
     if (!this.username) {
       promptAction.showToast({ message: '账号不能为空' })
       return
@@ -108,33 +108,20 @@ struct LoginPage {
       return
     }
 
-    const params: LoginParams = {
-      username: this.username,
-      password: this.password
-    }
-
     this.dialogController.open()
-
-    const response: ApiResponse<UserModel> = await api.post('/auth/login', params)
-    try {
-      if (response.success) {
+    loginViewModel.login(this.username, this.password)
+      .then((response) => {
+        if(response.success) {
+          ToastUtil.show('登录成功')
+          userManager.saveUser(response.data as UserModel)
+          RouterUtil.replace("MainPage")
+        }else {
+          ToastUtil.show(response.message)
+        }
+      })
+      .finally(()=>{
         this.dialogController.close()
-        ToastUtil.show('登录成功')
-        userManager.saveUser(response.data)
-        RouterUtil.replace("MainPage")
-      } else {
-        this.dialogController.close()
-        ToastUtil.show(response.message)
-      }
-    } catch (error) {
-      this.dialogController.close()
-      ToastUtil.show(error)
-    }
+      })
 
   }
-}
-
-interface LoginParams {
-  username: string,
-  password: string,
 }

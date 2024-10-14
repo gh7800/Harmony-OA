@@ -1,11 +1,11 @@
 import { PullToRefresh } from '@ohos/pulltorefresh/src/main/ets/components/PullToRefresh/PullToRefresh'
 import { PullToRefreshConfigurator } from '@ohos/pulltorefresh'
 import api from '../../http/Api'
-import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
 import LoadingDialog from '../../view/LoadingDialog'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
+import viewModel from './NotificationViewModel'
 
 @Builder
 export function NotificationsPageBuilder(): void {
@@ -33,31 +33,27 @@ struct NotificationsPage {
   }
 
   private async getData() {
-    let params: RequestParams = {
-      page: this.page
-    }
-
     this.showLoading()
-    const response: ApiResponse<Array<NotificationModel>> = await api.get('api/notice/message', params)
-    try {
-      if (response.success) {
-        if (response.pagination.current_page > 1) {
-          response.data.map((value, index) => {
-            this.data.push(value)
-          })
-          if (response.pagination.current_page >= this.page) {
-            this.refreshConfig.setHasLoadMore(false)
+    viewModel.getNotificationList(this.page)
+      .then(response =>{
+        if(response.success) {
+          if (response.pagination.current_page > 1) {
+            let list = response.data as Array<NotificationModel>
+            list.forEach((value, index) => {
+              this.data.push(value)
+            })
+            if (response.pagination.current_page >= this.page) {
+              this.refreshConfig.setHasLoadMore(false)
+            }
+          } else {
+            this.data = response.data as Array<NotificationModel>
           }
-        } else {
-          this.data = response.data
+        }else {
+          ToastUtil.show(response.message)
         }
         this.hideLoading()
-      } else {
-        this.hideLoading(response.message)
-      }
-    } catch (error) {
-      this.hideLoading(error)
-    }
+      })
+
   }
 
   @Builder
@@ -180,9 +176,4 @@ struct NotificationsPage {
     .backButtonIcon($r('app.media.ic_back'))
     .systemBarStyle({ statusBarContentColor: '#FFFFFF' })
   }
-}
-
-
-interface RequestParams {
-  page: number;
 }

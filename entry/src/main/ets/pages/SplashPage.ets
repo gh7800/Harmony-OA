@@ -12,7 +12,7 @@ export struct SplashPage {
       //this.isSplash = false
 
       preferenceUtil.getString(constantUtil.TOKEN).then(msg => {
-        LogUtil.error("____________"+msg)
+        LogUtil.error("Token____________"+msg)
         if(msg){
           RouterUtil.push("MainPage")
         }else{

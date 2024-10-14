@@ -4,6 +4,7 @@ import constantUtil from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import ApiResponse from './ApiRsponse';
 import { LogUtil,RouterUtil } from 'librarycommon';
+import { PaginationModel } from '../model/PaginationModel';
 
 
 // 创建一个自定义的 HTTP 客户端类
@@ -58,27 +59,51 @@ class Api {
   }
 
   // 发送 GET 请求
-  public async get<T>(url: string, params?: object): Promise<ApiResponse<T>> {
+  public async get(url: string, params?: object): Promise<ApiResponse> {
 
     try {
-      const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.get<ApiResponse<T>>(url, { params })
+      const response : AxiosResponse<ApiResponse> = await this.axiosInstance.get<ApiResponse>(url, { params })
       LogUtil.errorJson(response)
       return this.handleResponse(response)
     } catch (error) {
-      return this.handleError(error)as Promise<ApiResponse<T>>
+      return this.handleError(error) as Promise<ApiResponse>
     }
   }
 
   // 发送 POST 请求
-  public async post<T>(url: string, params: object): Promise<ApiResponse<T>> {
+  public async post(url: string, params: object): Promise<ApiResponse> {
     try {
-      const response : AxiosResponse<ApiResponse<T>> = await this.axiosInstance.post<ApiResponse<T>>(url, null, { params: params })
+      const response : AxiosResponse<ApiResponse> = await this.axiosInstance.post<ApiResponse>(url, null, { params: params })
       LogUtil.errorJson(response)
       return this.handleResponse(response)
     } catch (error) {
-      return this.handleError(error) as Promise<ApiResponse<T>>
+      return this.handleError(error) as Promise<ApiResponse>
     }
   }
+
+  // 发送 PUT 请求
+  public async put(url: string, params: object): Promise<ApiResponse> {
+    try {
+      const response : AxiosResponse<ApiResponse> = await this.axiosInstance.put<ApiResponse>(url, null, { params: params })
+      LogUtil.errorJson(response)
+      return this.handleResponse(response)
+    } catch (error) {
+      return this.handleError(error) as Promise<ApiResponse>
+    }
+  }
+
+  // 发送 Delete 请求
+  public async delete(url: string, params: object): Promise<ApiResponse> {
+    try {
+      const response : AxiosResponse<ApiResponse> = await this.axiosInstance.delete<ApiResponse>(url, { params: params })
+      LogUtil.errorJson(response)
+      return this.handleResponse(response)
+    } catch (error) {
+      return this.handleError(error) as Promise<ApiResponse>
+    }
+  }
+
+
 
   //取消请求
   public cancelRequest() {
@@ -89,21 +114,26 @@ class Api {
   // 其他 HTTP 请求方法可以根据需要添加，如 put、delete 等
 
   // 处理响应拦截
-  private handleResponse<T>(response: AxiosResponse<ApiResponse<T>>): ApiResponse<T> {
+  private handleResponse(response: AxiosResponse<ApiResponse>): ApiResponse {
     if (response && response.data) {
-      const apiResponse = response.data;
-      if (apiResponse.success) {
-        return apiResponse;
+      const apiResponse = response.data
+      return apiResponse
+      /*if (apiResponse.success) {
+        return apiResponse
+      }else if(!apiResponse.success){
+        return apiResponse
       } else {
-        throw new Error(apiResponse.message);
-      }
+        //throw new Error(apiResponse.message);
+        return  new ApiResponse(false,"1",apiResponse.message,new PaginationModel(0,0,0))
+      }*/
     } else {
-      throw new Error('Invalid response or empty response body');
+      //throw new Error('ResponseBody—响应无效');
+      return new ApiResponse(false,"","ResponseBody—响应无效",new PaginationModel(0,0,0))
     }
   }
 
-  private handleError(error: Error): Promise<ApiResponse<null>> {
-    let msg = 'An unknown error occurred';
+  private handleError(error: Error): Promise<ApiResponse> {
+    let msg = '发生未知错误';
 
     if (axios.isAxiosError(error)) {
       const axiosError : AxiosError = error ;
@@ -119,7 +149,6 @@ class Api {
           msg = `服务器错误_${status}`;
         } else if (status == 401) {
           msg = '认证错误';
-          //routerUtils.replaceUrl({ url: 'pages/login/LoginPage' }, router.RouterMode.Single);
           RouterUtil.push("LoginPage")
         } else if (status == 404) {
           msg = '参数错误404';
@@ -131,7 +160,8 @@ class Api {
       msg = `其他错误___${error.message}`;
     }
 
-    return Promise.reject(new Error(msg));
+    //return Promise.reject(new Error(msg));
+    return Promise.resolve(new ApiResponse(false,"",msg,new PaginationModel(0,0,0)))
   }
 
 }

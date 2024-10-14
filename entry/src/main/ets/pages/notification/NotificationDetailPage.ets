@@ -1,10 +1,9 @@
 import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
-import api from '../../http/Api'
-import ApiResponse from '../../http/ApiRsponse'
 import NotificationModel from '../../model/NotificationModel'
 import LoadingDialog from '../../view/LoadingDialog'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
 import { TitleContentComponent } from '../../view/TitleContentComponent'
+import viewModel from './NotificationViewModel'
 
 /**
  * 这是：通知详情
@@ -33,18 +32,15 @@ struct NotificationDetailPage {
 
   async getData(){
     this.loading.open()
-    try {
-      const response : ApiResponse<NotificationModel> = await api.get("api/notice/message/"+this.uuid)
-      if(response.success){
-        this.notificationModel = response.data
+    viewModel.getNotificationDetail(this.uuid)
+      .then((response) => {
+        if(response.success){
+          this.notificationModel = response.data as NotificationModel
+        }else{
+          ToastUtil.show(response.message)
+        }
         this.loading.close()
-      }else {
-        this.loading.close()
-      }
-    } catch (error) {
-      this.loading.close()
-      ToastUtil.show(error)
-    }
+      })
 
   }
 
