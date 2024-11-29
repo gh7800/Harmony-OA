@@ -3,7 +3,7 @@ import ApiResponse from '../../http/ApiRsponse'
 
 class ReportViewModel {
   getReportList(page: number): Promise<ApiResponse> {
-    let params: RequestParams = {
+    let params: ReportRequestParams = {
       page: page,
       type: [111,112]
     }
@@ -20,7 +20,7 @@ const mReportViewModel = new ReportViewModel()
 
 export default mReportViewModel
 
-interface RequestParams {
+interface ReportRequestParams {
   page: number,
   type : Array<number>
 }

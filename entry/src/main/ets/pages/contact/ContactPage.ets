@@ -1,6 +1,7 @@
 /**
  * 2024/8/28
  * GF63
+ * 通讯录
  */
 @Component
 export struct ContactPage {

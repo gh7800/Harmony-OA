@@ -63,7 +63,7 @@ class Api {
 
     try {
       const response : AxiosResponse<ApiResponse> = await this.axiosInstance.get<ApiResponse>(url, { params })
-      LogUtil.errorJson(response)
+      LogUtil.errorJson(response.data)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse>
@@ -74,7 +74,7 @@ class Api {
   public async post(url: string, params: object): Promise<ApiResponse> {
     try {
       const response : AxiosResponse<ApiResponse> = await this.axiosInstance.post<ApiResponse>(url, null, { params: params })
-      LogUtil.errorJson(response)
+      LogUtil.errorJson(response.data)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse>

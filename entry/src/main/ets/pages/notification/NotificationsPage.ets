@@ -39,15 +39,13 @@ struct NotificationsPage {
         if(response.success) {
           if (response.pagination.current_page > 1) {
             let list = response.data as Array<NotificationModel>
-            list.forEach((value, index) => {
-              this.data.push(value)
-            })
-            if (response.pagination.current_page >= this.page) {
-              this.refreshConfig.setHasLoadMore(false)
-            }
+            this.data.push(...list)
+
           } else {
             this.data = response.data as Array<NotificationModel>
           }
+
+          this.refreshConfig.setHasLoadMore(response.pagination.current_page < response.pagination.last_page)
         }else {
           ToastUtil.show(response.message)
         }

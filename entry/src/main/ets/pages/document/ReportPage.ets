@@ -1,4 +1,5 @@
 import { PullToRefresh, PullToRefreshConfigurator } from "@ohos/pulltorefresh"
+import { ToastUtil } from "librarycommon/src/main/ets/Utils/ToastUtil"
 import api from "../../http/Api"
 import ReportModel from "../../model/ReportModel"
 import { CustomTabBuilder } from "../../view/CustomTabBuilder"
@@ -7,7 +8,7 @@ import { TitleBarComponent } from "../../view/TitleBarComponent"
 import mReportViewModel from "./ReportViewModel"
 
 /**
- * page ：请示报告列表页
+ * page ：请示报告-列表页
  * created by: 2024/8/11
  */
 @Builder
@@ -19,11 +20,12 @@ export function ReportPageBuilder() {
 struct ReportPage {
   @State data: Array<ReportModel> = new Array<ReportModel>()
   @State isRefresh: boolean = false
-  @State currentIndex : number = 0
-  @State page : number = 1
+  // @State isLoadMore: boolean = false
+  @State currentIndex: number = 0
+  @State page: number = 1
+  @State totalNum : number = 0
   private refreshConfig = new PullToRefreshConfigurator().setRefreshColor('app.color.main')
   private scroller = new Scroller()
-
   loading = new CustomDialogController({
     builder: LoadingDialog(),
     customStyle: true,
@@ -33,12 +35,29 @@ struct ReportPage {
   })
 
   aboutToAppear(): void {
+    this.showLoading()
+
     this.getData()
   }
 
   private getData() {
     mReportViewModel.getReportList(this.page)
-      .then(response=>{
+      .then(response => {
+
+        let list = response.data as Array<ReportModel>
+        let pagination = response.pagination
+        if (pagination.current_page > 1) {
+          this.data.push(...list)
+        } else {
+          this.data = list
+        }
+
+        setTimeout(()=>{
+          this.totalNum = pagination.total
+
+          this.refreshConfig.setHasLoadMore(pagination.current_page < pagination.last_page)
+          this.hideLoading(response.success ? '' : response.message)
+        },200)
 
       })
   }
@@ -49,12 +68,16 @@ struct ReportPage {
       ForEach(this.data, (item: ReportModel, index: number) => {
         ListItem() {
           Column() {
-            Text('标题：' + item.title)
+            Text('标题：' + item.title).width("100%")
+            Text('内容：' + item.content).margin({top:5}).width("100%")
           }
+          .padding({left: 10, right:10,top:10,bottom:10})
+          .margin({top:10})
           .onClick(() => {
 
           })
         }
+        .backgroundColor($r('app.color.write'))
       })
     }
     .layoutWeight(1)
@@ -66,8 +89,22 @@ struct ReportPage {
   }
 
   @Builder
-  TabBuilder(title : string,targetIndex: number){
-    CustomTabBuilder({title: title,isCurrent:this.currentIndex == targetIndex})
+  TabBuilder(title: string, targetIndex: number) {
+    CustomTabBuilder({ title: title, isCurrent: this.currentIndex == targetIndex })
+  }
+
+  showLoading(){
+    if(!this.isRefresh && !this.refreshConfig.getHasRefresh()){
+      this.loading.open()
+    }
+  }
+
+  hideLoading(msg ?: string) {
+    this.loading.close()
+    this.isRefresh = false //刷新完成
+    if (msg) {
+      ToastUtil.show(msg)
+    }
   }
 
   build() {
@@ -75,20 +112,30 @@ struct ReportPage {
       Column() {
         TitleBarComponent({ title: "请示报告" })
 
-        Tabs(){
-          TabContent().tabBar(this.TabBuilder('待处理',0))
-          TabContent().tabBar(this.TabBuilder('已处理',1))
-          TabContent().tabBar(this.TabBuilder('全部的',2))
+        Tabs() {
+          TabContent().tabBar(this.TabBuilder('待处理', 0))
+          TabContent().tabBar(this.TabBuilder('已处理', 1))
+          TabContent().tabBar(this.TabBuilder('全部的', 2))
         }
         .barMode(BarMode.Fixed)
         .animationDuration(1)
-        .onChange(index=>{
+        .onChange(index => {
           this.currentIndex = index
         })
-        .onTabBarClick(index=>{
+        .onTabBarClick(index => {
           this.currentIndex = index
         })
         .height(48)
+
+        TextInput({placeholder:'关键字'})
+          .textAlign(TextAlign.Center)
+          .margin({left:10,right:10,top:10,bottom:10})
+          .enterKeyType(EnterKeyType.Search)
+          .onSubmit(()=> {
+            this.showLoading()
+            this.page = 1
+            this.getData()
+          })
 
         PullToRefresh({
           data: this.data,
@@ -97,12 +144,22 @@ struct ReportPage {
           customList: () => this.ListView(),
           onRefresh: () => {
             return new Promise((resolve, reject) => {
+              this.page = 1
+              this.showLoading()
+              this.getData()
 
+              if(!this.isRefresh){
+                resolve("刷新成功")
+              }
             })
           },
           onLoadMore: () => {
             return new Promise((resolve, reject) => {
-
+              this.page++
+              this.getData()
+              if(!this.refreshConfig.getHasLoadMore()){
+                resolve("加载成功")
+              }
             })
           },
           customLoad: null,
@@ -110,7 +167,7 @@ struct ReportPage {
         })
           .layoutWeight(1)
 
-        Text('共xxx条').textAlign(TextAlign.Center).width('100%').height(60)
+        Text('共'+this.totalNum+'条').textAlign(TextAlign.Center).width('100%').height(60)
 
       }
       .width('100%')
@@ -120,6 +177,7 @@ struct ReportPage {
       .backgroundColor($r('app.color.f2'))
     }
     .hideTitleBar(true)
-    //.title("请示报告",{backgroundColor:$r('app.color.main')})
+
   }
+
 }

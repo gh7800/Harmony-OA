@@ -11,11 +11,10 @@ export struct HomePage {
     '公章证照', '周例会', '督办管理', '安全管理', '采购管理',
     '企业授权', '合同管理', '介绍信']
   private menuIcon = [
-    $r('app.media.icon_home_tongzhi'), $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),
-    $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),
-    $r('app.media.icon_home_jiancha'), $r('app.media.icon_home_yuedu'), $r('app.media.icon_home_cheliang'),
-    $r('app.media.icon_home_meeting'), $r('app.media.icon_home_property'),
-    $r('app.media.icon_home_shenpi'), $r('app.media.icon_jieshaoxin'),
+    $r('app.media.icon_home_tongzhi'), $r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),$r('app.media.icon_home_wenjian'), $r('app.media.icon_home_wenjian'),
+    $r('app.media.icon_home_jiancha'), $r('app.media.icon_home_yuedu'), $r('app.media.icon_home_cheliang'), $r('app.media.icon_home_meeting'), $r('app.media.icon_home_property'),
+    $r('app.media.icon_home_shenpi'), $r('app.media.icon_jieshaoxin'),$r('app.media.icon_ducha'),$r('app.media.icon_safety'),$r('app.media.icon_caigou'),
+    $r('app.media.icon_home_authorization'),$r('app.media.icon_home_hetong'),$r('app.media.icon_jieshaoxin'),
   ]
 
   aboutToAppear(){
