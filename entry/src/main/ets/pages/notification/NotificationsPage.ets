@@ -7,6 +7,8 @@ import LoadingDialog from '../../view/LoadingDialog'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
 import viewModel from './NotificationViewModel'
 
+const PageName: string = ""
+
 @Builder
 export function NotificationsPageBuilder(): void {
   NotificationsPage()
@@ -19,7 +21,7 @@ struct NotificationsPage {
   private scroller = new Scroller()
   private page = 1
   @State isRefresh: boolean = false
-  private refreshConfig = new PullToRefreshConfigurator().setRefreshColor('#FF1874D7')
+  private refreshConfig = new PullToRefreshConfigurator().setRefreshColor('#00B785')
   loading = new CustomDialogController({
     builder: LoadingDialog(),
     customStyle: true,
@@ -35,8 +37,8 @@ struct NotificationsPage {
   private async getData() {
     this.showLoading()
     viewModel.getNotificationList(this.page)
-      .then(response =>{
-        if(response.success) {
+      .then(response => {
+        if (response.success) {
           if (response.pagination.current_page > 1) {
             let list = response.data as Array<NotificationModel>
             this.data.push(...list)
@@ -46,7 +48,7 @@ struct NotificationsPage {
           }
 
           this.refreshConfig.setHasLoadMore(response.pagination.current_page < response.pagination.last_page)
-        }else {
+        } else {
           ToastUtil.show(response.message)
         }
         this.hideLoading()
@@ -108,8 +110,8 @@ struct NotificationsPage {
     .justifyContent(FlexAlign.Center)
   }
 
-  showLoading(){
-    if(!this.isRefresh){
+  showLoading() {
+    if (!this.isRefresh) {
       this.loading.open()
     }
   }
@@ -137,12 +139,11 @@ struct NotificationsPage {
               this.data = null
               this.page = 1
               this.isRefresh = true
-              this.getData().then(()=>{
-                LogUtil.error("++"+this.isRefresh)
+              this.getData().then(() => {
                 if (!this.isRefresh) {
-                  setTimeout(()=>{
+                  setTimeout(() => {
                     resolve('加载成功')
-                  },500)
+                  }, 500)
                 }
               })
             })
@@ -150,10 +151,11 @@ struct NotificationsPage {
           onLoadMore: () => {
             return new Promise((resolve, reject) => {
               this.page++
-              this.getData()
-              if (!this.isRefresh) {
-                resolve('加载成功')
-              }
+              this.getData().then(() => {
+                if (!this.isRefresh) {
+                  resolve('加载成功')
+                }
+              })
             })
           },
           customLoad: null,
