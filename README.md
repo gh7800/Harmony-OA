@@ -17,6 +17,7 @@ class Numbers {
    num_val = 13;             // 实例变量
    static sval = 10;         // 静态变量
    
+   
    storeNum():void { 
       let local_num = 14;    // 局部变量
    } 
