@@ -10,7 +10,7 @@
 
 ```
 /**
- * 声明变量
+ * 声明变量--
  */
 let global_num = 12          // 全局变量
 class Numbers { 
