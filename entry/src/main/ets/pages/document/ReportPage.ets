@@ -43,7 +43,7 @@ struct ReportPage {
       if(result){
         this.tabList.push("全部的")
       }
-      LogUtils.errorAny(this.tabList)
+      LogUtils.errorAny(JSON.stringify(this.tabList))
 
     this.showLoading()
     this.getData()
