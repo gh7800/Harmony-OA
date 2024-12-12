@@ -15,12 +15,10 @@ export class LogUtils {
     LogUtil.debug(str)
   }
 
-   static errorAny(msg : object | string | Array<object>){
+   static errorAny(msg : object | string){
     //hilog.debug(0x0000, LogUtils.TAG, '%{public}s', msg);
      if(msg as string) {
        LogUtil.debug(msg as string)
-     }else if(msg as Array<object>){
-       LogUtil.debug(msg.toString())
      }else {
        LogUtil.print(msg)
      }
