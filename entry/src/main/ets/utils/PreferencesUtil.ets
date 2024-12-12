@@ -1,5 +1,5 @@
 import Preferences from '@ohos.data.preferences'
-import { LogUtil } from 'librarycommon'
+import { LogUtils } from 'librarycommon'
 import constantUtil from './ConstantUtil'
 import { Context } from '@kit.AbilityKit'
 
@@ -21,9 +21,9 @@ class PreferenceUtil {
     let promise = Preferences.getPreferences(context, this.preferencesName)
     promise.then((object) => {
       this.preferenceInstance = object
-      LogUtil.error('获取实例成功_'+object)
+      LogUtils.error('获取实例成功_'+object)
     }).catch((err : string) => {
-      LogUtil.error('实例获取失败__err' + err)
+      LogUtils.error('实例获取失败__err' + err)
     })
   }
 
@@ -65,7 +65,7 @@ class PreferenceUtil {
     this.preferenceInstance.clear()
     this.preferenceInstance.flush()
 
-    LogUtil.error("全部删除")
+    LogUtils.error("全部删除")
   }
 }
 

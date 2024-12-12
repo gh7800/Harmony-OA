@@ -2,12 +2,11 @@ import { PullToRefresh } from '@ohos/pulltorefresh/src/main/ets/components/PullT
 import { PullToRefreshConfigurator } from '@ohos/pulltorefresh'
 import api from '../../http/Api'
 import NotificationModel from '../../model/NotificationModel'
-import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 import LoadingDialog from '../../view/LoadingDialog'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
 import viewModel from './NotificationViewModel'
 
-const PageName: string = ""
 
 @Builder
 export function NotificationsPageBuilder(): void {
@@ -16,7 +15,8 @@ export function NotificationsPageBuilder(): void {
 
 @Entry
 @Component
-struct NotificationsPage {
+export struct NotificationsPage {
+  public PageName: string = "NotificationsPage"
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()
   private page = 1
@@ -175,5 +175,9 @@ struct NotificationsPage {
     .title(this.NavigationTitle("通知"), { backgroundColor: $r('app.color.main') })
     .backButtonIcon($r('app.media.ic_back'))
     .systemBarStyle({ statusBarContentColor: '#FFFFFF' })
+    .onBackPressed(()=>{
+      RouterUtil.pop("返回结果")
+      return true
+    })
   }
 }

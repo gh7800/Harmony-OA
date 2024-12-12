@@ -18,6 +18,22 @@ class UserManager {
     AppGlobalContext.getContext().setValue(constantUtil.TOKEN,userModel.token)
   }
 
+  async isXingBan() : Promise<boolean>{
+    let back = false
+
+     await preferenceUtil.getString(constantUtil.USERNAME).then(result =>{
+      if(result.startsWith("0002")){
+        back = true
+      }else {
+        back = false
+      }
+    })
+
+    return new Promise(resolve =>{
+      resolve(back)
+    })
+  }
+
 }
 
 const userManager = new UserManager()

@@ -12,6 +12,7 @@
   "dependencies": {
     "@ohos/axios": "^2.1.1",
     "@ohos/pulltorefresh": "2.1.1",
+    "@pura/harmony-utils": "^1.2.4"  //工具包，https://gitee.com/tongyuyan/harmony-utils/tree/master/harmony_utils
   },
   "dynamicDependencies": {}
 }

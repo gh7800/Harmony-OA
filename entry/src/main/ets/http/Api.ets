@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse,
 import constantUtil from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import ApiResponse from './ApiRsponse';
-import { LogUtil,RouterUtil } from 'librarycommon';
+import { LogUtils,RouterUtil } from 'librarycommon';
 import { PaginationModel } from '../model/PaginationModel';
 
 
@@ -23,7 +23,7 @@ class Api {
     this.axiosInstance = axios.create({
       // 在这里可以添加自定义配置，如 baseURL、headers 等
       baseURL: this.baseUrl(),
-      timeout: 20000,
+      timeout: 30000,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.token
@@ -42,17 +42,15 @@ class Api {
           config.headers.set('Authorization','Bearer '+this.token)
         }
 
-        //console.error("Request：" + config.method + '__' + config.baseURL + config.url)
-        //logUtil.error(this.baseUrl() + '_' + config.url)
-
+        LogUtils.error(config.baseURL + "" +config.url)
         if (config.params) {
-          LogUtil.errorJson(config.params)
+          LogUtils.errorJson(config.params)
         }
 
         return config
       },
       (error : string) => {
-        LogUtil.error('拦截器_' + error)
+        LogUtils.error('拦截器_' + error)
         return Promise.reject(error)
       }
     );
@@ -63,7 +61,7 @@ class Api {
 
     try {
       const response : AxiosResponse<ApiResponse> = await this.axiosInstance.get<ApiResponse>(url, { params })
-      LogUtil.errorJson(response.data)
+      LogUtils.errorJson(response.data)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse>
@@ -74,7 +72,7 @@ class Api {
   public async post(url: string, params: object): Promise<ApiResponse> {
     try {
       const response : AxiosResponse<ApiResponse> = await this.axiosInstance.post<ApiResponse>(url, null, { params: params })
-      LogUtil.errorJson(response.data)
+      LogUtils.errorJson(response.data)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse>
@@ -85,7 +83,7 @@ class Api {
   public async put(url: string, params: object): Promise<ApiResponse> {
     try {
       const response : AxiosResponse<ApiResponse> = await this.axiosInstance.put<ApiResponse>(url, null, { params: params })
-      LogUtil.errorJson(response)
+      LogUtils.errorJson(response.data)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse>
@@ -96,7 +94,7 @@ class Api {
   public async delete(url: string, params: object): Promise<ApiResponse> {
     try {
       const response : AxiosResponse<ApiResponse> = await this.axiosInstance.delete<ApiResponse>(url, { params: params })
-      LogUtil.errorJson(response)
+      LogUtils.errorJson(response.data)
       return this.handleResponse(response)
     } catch (error) {
       return this.handleError(error) as Promise<ApiResponse>
@@ -107,7 +105,7 @@ class Api {
 
   //取消请求
   public cancelRequest() {
-    LogUtil.error('取消http请求')
+    LogUtils.error('取消http请求')
     axios.CancelToken.source()
   }
 
@@ -142,8 +140,8 @@ class Api {
       if (response) {
         const status = response.status;
 
-        LogUtil.error(response.status);
-        LogUtil.errorJson(response.data);
+        LogUtils.error(response.status);
+        //LogUtils.errorJson(response.data);
 
         if (status >= 500 && status < 600) {
           msg = `服务器错误_${status}`;

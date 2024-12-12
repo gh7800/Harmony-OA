@@ -1,10 +1,8 @@
 import promptAction from '@ohos.promptAction'
-import api from '../../http/Api'
 import UserModel from '../../model/UserModel'
-import ApiResponse from '../../http/ApiRsponse'
 import LoadingDialog from '../../view/LoadingDialog'
 import userManager from '../../manager/UserManager'
-import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 import preferenceUtil from '../../utils/PreferencesUtil'
 import constantUtil from '../../utils/ConstantUtil'
 import loginViewModel from './LoginViewModel'
@@ -17,7 +15,7 @@ export function LoginPageBuilder() {
 @Entry
 @Component
 struct LoginPage {
-  @State message: string = 'Login'
+  @State message: string = '登 录'
   private username: string = ''
   private password: string = ''
   dialogController = new CustomDialogController({
@@ -31,7 +29,7 @@ struct LoginPage {
   aboutToAppear() {
     preferenceUtil.getString(constantUtil.USERNAME).then(msg => {
       this.username = msg
-      LogUtil.error(msg)
+      LogUtils.error(msg)
     })
   }
 
@@ -40,8 +38,8 @@ struct LoginPage {
       Column() {
         Column() {
           Text(this.message)
-            .fontColor(Color.Orange)
-            .fontSize(30)
+            .fontColor($r('app.color.main'))
+            .fontSize(22)
             .fontWeight(FontWeight.Bold)
             .margin({ bottom: 20 })
 
@@ -72,6 +70,7 @@ struct LoginPage {
             })
 
           Button($r('app.string.Submit'), { stateEffect: true, type: ButtonType.Capsule })//默认胶囊类型
+            .backgroundColor($r('app.color.main'))
             .width('85%')
             .margin({ top: 20 })
             .onClick(() => {

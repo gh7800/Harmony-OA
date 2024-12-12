@@ -37,6 +37,11 @@
       "buildFunction": "ReportPageBuilder"
     },
     {
+      "name": "ReportDetailPage",
+      "pageSourceFile": "src/main/ets/pages/document/ReportDetailPage.ets",
+      "buildFunction": "ReportDetailPageBuilder"
+    },
+    {
       "name": "CommonComponentPage",
       "pageSourceFile": "src/main/ets/view/CommonComponentPage.ets",
       "buildFunction": "CommonComponentPageBuilder"

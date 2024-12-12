@@ -1,4 +1,4 @@
-import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 import NotificationModel from '../../model/NotificationModel'
 import LoadingDialog from '../../view/LoadingDialog'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
@@ -64,17 +64,16 @@ struct NotificationDetailPage {
     }
     .hideTitleBar(true)
     .onReady(context=>{
-      LogUtil.errorJson(context.pathInfo)
-
-     /* let record = context.pathInfo.param as Record<string,string>
-      this.uuid = record["uuid"]
-      this.title = record["title"]*/
 
       const record = context.pathInfo.param as NotificationModel
       this.title = record.title
       this.uuid = record.uuid
 
       this.getData()
+    })
+    .onBackPressed(()=>{
+      RouterUtil.pop("返回")
+      return true
     })
   }
 }

@@ -1,6 +1,6 @@
 import promptAction from '@ohos.promptAction'
 import { TitleBarComponent } from '../../view/TitleBarComponent'
-import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 import { AppGlobalContext } from '../../utils/AppGlobalContext'
 import preferenceUtil from '../../utils/PreferencesUtil'
 import constantUtil from '../../utils/ConstantUtil'
@@ -49,7 +49,7 @@ struct SettingPage {
                   // AppGlobalContext.getContext().clear()
 
                   preferenceUtil.getString(constantUtil.USERNAME).then(msg=>{
-                    LogUtil.error("username----"+msg)
+                    LogUtils.error("username----"+msg)
                   })
 
                   RouterUtil.clearStack()

@@ -1,7 +1,7 @@
 import { PullToRefresh, PullToRefreshConfigurator } from "@ohos/pulltorefresh"
-import { LogUtil } from "librarycommon"
-import { ToastUtil } from "librarycommon/src/main/ets/Utils/ToastUtil"
+import { LogUtils, RouterUtil, ToastUtil } from "librarycommon"
 import api from "../../http/Api"
+import userManager from "../../manager/UserManager"
 import ReportModel from "../../model/ReportModel"
 import { CustomTabBuilder } from "../../view/CustomTabBuilder"
 import LoadingDialog from "../../view/LoadingDialog"
@@ -17,31 +17,44 @@ export function ReportPageBuilder() {
   ReportPage()
 }
 
+@Entry
 @Component
 struct ReportPage {
+  @State tabList : Array<string> = new Array("待处理","已处理","我申请的")
   @State data: Array<ReportModel> = new Array<ReportModel>()
-  @State isRefresh: boolean = true
+  @State isRefresh: boolean = false
   @State currentIndex: number = 0
   @State page: number = 1
   @State totalNum: number = 0
+  @State keyword: string | null = null
+
   private refreshConfig = new PullToRefreshConfigurator().setRefreshColor("#00B785").setLoadTextLoading('加载中')
   private scroller = new Scroller()
-  loading = new CustomDialogController({
+  private loading = new CustomDialogController({
     builder: LoadingDialog(),
-    customStyle: true,
+    customStyle:true,
     cancel: () => {
       api.cancelRequest()
     }
   })
 
   aboutToAppear(): void {
-    this.showLoading()
+    userManager.isXingBan().then((result)=>{
+      if(result){
+        this.tabList.push("全部的")
+      }
+      LogUtils.errorAny(this.tabList)
 
+    this.showLoading()
     this.getData()
+    })
+  }
+
+  aboutToDisappear(): void {
   }
 
   private async getData(): Promise<boolean> { //增加异步函数回调 async promise await
-    await mReportViewModel.getReportList(this.page)
+    await mReportViewModel.getReportList(this.keyword,this.page)
       .then(response => {
 
         let list = response.data as Array<ReportModel>
@@ -81,7 +94,12 @@ struct ReportPage {
           })
           .margin({ top: 10 })
           .onClick(() => {
-
+            let uuid = item.uuid
+            RouterUtil.push("ReportDetailPage",uuid,(callback)=>{
+              this.page == 1
+              this.showLoading()
+              this.getData()
+            })
           })
         }
         .margin({ left: 10, right: 10 })
@@ -101,7 +119,7 @@ struct ReportPage {
   }
 
   showLoading() {
-    if (this.isRefresh) {
+    if (!this.isRefresh) {
       this.loading.open()
     }
   }
@@ -120,9 +138,15 @@ struct ReportPage {
         TitleBarComponent({ title: "请示报告" })
 
         Tabs() {
-          TabContent().tabBar(this.TabBuilder('待处理', 0))
+          ForEach(this.tabList,(item : string,index:number)=>{
+            TabContent().tabBar(this.TabBuilder(item, index))
+          })
+          /*TabContent().tabBar(this.TabBuilder('待处理', 0)).onClick(()=>{
+            this.page = 1
+
+          })
           TabContent().tabBar(this.TabBuilder('已处理', 1))
-          TabContent().tabBar(this.TabBuilder('全部的', 2))
+          TabContent().tabBar(this.TabBuilder('全部的', 2))*/
         }
         .barMode(BarMode.Fixed)
         .animationDuration(1)
@@ -134,7 +158,7 @@ struct ReportPage {
         })
         .height(48)
 
-        TextInput({ placeholder: '关键字' })
+        TextInput({ placeholder: '关键字'})
           .textAlign(TextAlign.Center)
           .margin({
             left: 10,
@@ -143,6 +167,9 @@ struct ReportPage {
             bottom: 10
           })
           .enterKeyType(EnterKeyType.Search)
+          .onChange((value)=>{
+            this.keyword = value
+          })
           .onSubmit(() => {
             this.showLoading()
             this.page = 1
@@ -157,6 +184,7 @@ struct ReportPage {
           onRefresh: () => {
             return new Promise((resolve, reject) => {
               this.page = 1
+              this.isRefresh = true
               this.getData().then(()=>{
                 resolve("刷新成功")
               })
@@ -166,7 +194,7 @@ struct ReportPage {
             return new Promise((resolve, reject) => {
               this.page++
               this.getData().then(() => {
-                //LogUtil.error("-----------------" + this.isLoadMore)
+                //LogUtils.error("-----------------" + this.isLoadMore)
                 resolve("加载成功")
               })
             })

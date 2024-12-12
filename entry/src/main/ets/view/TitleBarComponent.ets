@@ -1,4 +1,4 @@
-import { LogUtil, ToastUtil } from 'librarycommon'
+import { LogUtils, ToastUtil } from 'librarycommon'
 import { RouterUtil } from 'librarycommon/src/main/ets/Utils/RouterUtil'
 
 // 自定义titleBar组件

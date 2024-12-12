@@ -27,24 +27,24 @@ import { MediaBean } from '../model/MediaBean';
 //       let photoPicker = new picker.PhotoViewPicker();
 //       return photoPicker.select(photoSelectOptions)
 //         .then((photoSelectResult) => {
-//           LogUtil.info(this.TAG,
+//           LogUtils.info(this.TAG,
 //             'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + JSON.stringify(photoSelectResult));
 //
 //           if (photoSelectResult && photoSelectResult.photoUris && photoSelectResult.photoUris.length > 0) {
 //             let filePath = photoSelectResult.photoUris[0];
-//             LogUtil.info(this.TAG, 'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + filePath);
+//             LogUtils.info(this.TAG, 'PhotoViewPicker.select successfully, PhotoSelectResult uri: ' + filePath);
 //             return filePath;
 //           }
 //
 //         }).catch((err: string) => {
-//           LogUtil.info(this.TAG, 'PhotoViewPicker.select failed with err: ' + err);
+//           LogUtils.info(this.TAG, 'PhotoViewPicker.select failed with err: ' + err);
 //           return err;
 //         }).then(async (filePath: string) => {
 //           const mediaBean = await this.buildMediaBean(filePath);
 //           return mediaBean;
 //         });
 //     } catch (err) {
-//       LogUtil.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
+//       LogUtils.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
 //       return Promise.reject(err);
 //     }
 //   }
@@ -58,11 +58,11 @@ import { MediaBean } from '../model/MediaBean';
 //       let documentPicker = new picker.DocumentViewPicker();
 //       return documentPicker.select(documentSelectOptions)
 //         .then((documentSelectResult) => {
-//           LogUtil.errorJson(documentSelectResult)
+//           LogUtils.errorJson(documentSelectResult)
 //
 //           if (documentSelectResult && documentSelectResult.length > 0) {
 //             let filePath = documentSelectResult[0];
-//             LogUtil.info(this.TAG, 'DocumentViewPicker.select successfully, DocumentSelectResult uri: ' + filePath);
+//             LogUtils.info(this.TAG, 'DocumentViewPicker.select successfully, DocumentSelectResult uri: ' + filePath);
 //             return Promise.resolve(filePath);
 //           }
 //
@@ -72,11 +72,11 @@ import { MediaBean } from '../model/MediaBean';
 //           return mediaBean;
 //
 //         }).catch((err: string) => {
-//           LogUtil.error(err)
+//           LogUtils.error(err)
 //           return Promise.reject(err);
 //         });
 //     } catch (err) {
-//       LogUtil.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
+//       LogUtils.info(this.TAG, 'PhotoViewPicker failed with err: ' + err);
 //       return Promise.reject(err);
 //     }
 //   }
@@ -95,10 +95,10 @@ import { MediaBean } from '../model/MediaBean';
 //
 //     return context.startAbilityForResult(want)
 //       .then((result) => {
-//         LogUtil.errorAny(result);
+//         LogUtils.errorAny(result);
 //         if (result.resultCode === 0 && result.want && result.want.uri) {
 //           //拍照成功
-//           LogUtil.error(result.want.uri);
+//           LogUtils.error(result.want.uri);
 //           // return result.want.uri;
 //         }
 //       })
@@ -108,7 +108,7 @@ import { MediaBean } from '../model/MediaBean';
 //         const mediaBean = this.buildMediaBean(uri as string);
 //         return mediaBean;
 //       })/*.catch((error) => {
-//       LogUtil.info(this.TAG, `startAbility error , ${JSON.stringify(error)}`);
+//       LogUtils.info(this.TAG, `startAbility error , ${JSON.stringify(error)}`);
 //       return error;
 //     })*/;
 //   }
@@ -156,20 +156,20 @@ import { MediaBean } from '../model/MediaBean';
 //       };
 //
 //       let fetchFileResult = await media.getFileAssets(mediaFetchOptions);
-//       LogUtil.info(this.TAG, `fileList getFileAssetsFromType fetchFileResult.count = ${fetchFileResult.getCount()}`);
+//       LogUtils.info(this.TAG, `fileList getFileAssetsFromType fetchFileResult.count = ${fetchFileResult.getCount()}`);
 //       fileList = await fetchFileResult.getAllObject();
 //       fetchFileResult.close();
 //       await media.release();
 //
 //     } catch (e) {
-//       LogUtil.info(this.TAG, "query: file data  exception ");
+//       LogUtils.info(this.TAG, "query: file data  exception ");
 //     }
 //
 //     if (fileList && fileList.length > 0) {
 //
 //       let fileInfoObj = fileList[0];
-//       LogUtil.info(this.TAG, `file id = ${JSON.stringify(fileInfoObj.id)} , uri = ${JSON.stringify(fileInfoObj.uri)}`);
-//       LogUtil.info(this.TAG,
+//       LogUtils.info(this.TAG, `file id = ${JSON.stringify(fileInfoObj.id)} , uri = ${JSON.stringify(fileInfoObj.uri)}`);
+//       LogUtils.info(this.TAG,
 //         `file fileList displayName = ${fileInfoObj.displayName} ,size = ${fileInfoObj.size} ,mimeType = ${fileInfoObj.mimeType}`);
 //
 //      // mediaBean.fileName = fileInfoObj.displayName;

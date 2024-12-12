@@ -1,6 +1,6 @@
 import constantUtil from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { LogUtil, RouterUtil } from 'librarycommon'
+import { LogUtils, RouterUtil } from 'librarycommon'
 
 @Component
 export struct HomePage {
@@ -23,7 +23,7 @@ export struct HomePage {
         this.realName = data
       })
       .catch((err: string) => {
-        LogUtil.error(err)
+        LogUtils.error(err)
       })
   }
 
@@ -76,7 +76,7 @@ export struct HomePage {
                     case 0:
                       const parm: String = '随便传就行';
                       RouterUtil.push("NotificationsPage", parm, async (info) => {
-                        //LogUtil.errorAny(info.result)
+                        LogUtils.errorAny(info.result)
                       })
                       break
                     case 1:
@@ -102,13 +102,13 @@ export struct HomePage {
       .backgroundColor($r('app.color.f2'))
     }
     .onShown(()=>{
-      LogUtil.error("onShown")
+      LogUtils.error("onShown")
       preferenceUtil.getString(constantUtil.REAL_NAME)
         .then((data: string) => {
           this.realName = data
         })
         .catch((err: string) => {
-          LogUtil.error(err)
+          LogUtils.error(err)
         })
     })
   }

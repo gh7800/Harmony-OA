@@ -5,7 +5,7 @@ import common from '@ohos.app.ability.common'
 import preferenceUtil from '../utils/PreferencesUtil'
 import constantUtil from '../utils/ConstantUtil'
 import { CommonTitleContent } from '../view/CommonTitleContent'
-import { LogUtil, RouterUtil, ToastUtil } from 'librarycommon'
+import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 
 // import { MediaHelper } from '../manager/MediaHelper'  //to-do
 
@@ -133,7 +133,7 @@ export struct MinePage {
         for (let i = 0; i < length; i++) {
           if (grantStatus[i] === 0) {
             // 用户授权，可以继续访问目标操作
-            LogUtil.error('已同意')
+            LogUtils.error('已同意')
           } else {
             ToastUtil.show('已禁止-' + grantName[i])
             // 用户拒绝授权，提示用户必须授权才能访问当前页面的功能，并引导用户到系统设置中打开相应的权限
@@ -147,7 +147,7 @@ export struct MinePage {
 
       })
       .catch((err: string) => {
-        LogUtil.error(err)
+        LogUtils.error(err)
       })
   }
 
@@ -158,9 +158,9 @@ export struct MinePage {
   takePhoto() {
     /*let mediaHelper = new MediaHelper(getContext())
     mediaHelper.takePhoto(getContext() as common.UIAbilityContext).then(mediaBean => {
-      LogUtil.errorJson(mediaBean)
+      LogUtils.errorJson(mediaBean)
     }).catch((error: string) =>{
-      LogUtil.error('error____'+error)
+      LogUtils.error('error____'+error)
     })*/
   }
 }

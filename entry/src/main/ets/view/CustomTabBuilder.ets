@@ -4,8 +4,8 @@
 @Preview
 @Component
 export struct CustomTabBuilder{
-  @Prop title: string
-  @Prop isCurrent: boolean
+  @Prop title: string = ''
+  @Prop isCurrent: boolean = false
 
   build() {
     Column() {

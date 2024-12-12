@@ -1,12 +1,12 @@
 import api from '../../http/Api'
 import ApiResponse from '../../http/ApiRsponse'
+import { ReportRequestParams } from '../../model/ReportRequestParams'
 
 class ReportViewModel {
-  getReportList(page: number): Promise<ApiResponse> {
-    let params: ReportRequestParams = {
-      page: page,
-      type: [111,112]
-    }
+  getReportList(keyword : string | null,page: number): Promise<ApiResponse> {
+    let params: ReportRequestParams = new ReportRequestParams(
+       page, [111,112], keyword
+    )
     return new Promise((resolve) => {
       api.get("api/document/todo", params)
         .then(response => {
@@ -17,10 +17,4 @@ class ReportViewModel {
 }
 
 const mReportViewModel = new ReportViewModel()
-
 export default mReportViewModel
-
-interface ReportRequestParams {
-  page: number,
-  type : Array<number>
-}

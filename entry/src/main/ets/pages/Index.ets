@@ -1,6 +1,6 @@
 import preferenceUtil from '../utils/PreferencesUtil'
 import { SplashPage } from './SplashPage'
-import { LogUtil, RouterUtil, StringUtil, TimeUtil } from 'librarycommon'
+import { LogUtils, RouterUtil, StringUtil, TimeUtil } from 'librarycommon'
 import constantUtil from '../utils/ConstantUtil'
 import { AppGlobalContext } from '../utils/AppGlobalContext'
 // import { MainPage } from './MainPage'
@@ -19,11 +19,13 @@ struct Index {
 
   onSplashPageFinish() {
     //启动页结束后进行操作，如请求网络等
-    LogUtil.error("启动结束")
+    LogUtils.error("启动结束")
   }
 
   aboutToAppear() {
-    LogUtil.error(TimeUtil.formatTimestamp(TimeUtil.getCurrentTimestamp(),"YYYY-MM-DD"))
+    LogUtils.error(TimeUtil.formatTimestamp(TimeUtil.getCurrentTimestamp(),"YYYY-MM-DD"))
+    preferenceUtil.getPreferences(getContext())
+
     preferenceUtil.getString(constantUtil.TOKEN)
       .then((value: string) => {
         AppGlobalContext.getContext().setValue(constantUtil.TOKEN, value)

@@ -3,7 +3,7 @@ import { HomePage } from './HomePage'
 import { MinePage } from './MinePage'
 import { ContactPage } from './contact/ContactPage'
 import { WorkingPage } from './working/WorkingPage'
-import { LogUtil, RouterUtil, TimeUtil, ToastUtil } from 'librarycommon';
+import { LogUtils, RouterUtil, TimeUtil, ToastUtil } from 'librarycommon';
 import App from '@system.app';
 import { common } from '@kit.AbilityKit';
 
