@@ -1,10 +1,12 @@
 import {ConstantUtil} from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
 import { LogUtils, RouterUtil } from 'librarycommon'
+import { DateTimeUtil } from '../utils/DateTimeUtil'
 
 @Component
 export struct HomePage {
   @State realName: string = ''
+  @State dateTime : string = ""
   private menuTitle: string[] = [
     '通知', '请示', '总办会', '党委会', '董事会',
     '内部发文', '公文流转', '用车', '会议', '资产管理',
@@ -18,6 +20,7 @@ export struct HomePage {
   ]
 
   aboutToAppear(){
+    this.dateTime = DateTimeUtil.getDate()+ " " + DateTimeUtil.getWeek(DateTimeUtil.getDate())
     preferenceUtil.getString(ConstantUtil.REAL_NAME)
       .then((data: string) => {
         this.realName = data
@@ -38,7 +41,7 @@ export struct HomePage {
       Column() {
 
         Row() {
-          Text('2023/12/09 星期六')
+          Text(this.dateTime)
             .commonStyle()
             .fontColor($r('app.color.f2'))
 
