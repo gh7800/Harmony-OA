@@ -2,14 +2,11 @@
 /**
  * 常量
  */
-class ConstantUtil {
-  USERNAME = 'username'
-  REAL_NAME = 'real_name'
-  COMPANY_UUID = 'company_uuid'
-  USER_UUID = 'user_uuid'
-  TOKEN = 'token'
-  PATH_STACK = 'pathStack'
-
+export class ConstantUtil {
+  static USERNAME :string = 'username'
+  static REAL_NAME = 'real_name'
+  static COMPANY_UUID = 'company_uuid'
+  static USER_UUID = 'user_uuid'
+  static TOKEN = 'token'
+  static PATH_STACK = 'pathStack'
 }
-const constantUtil = new ConstantUtil()
-export default constantUtil

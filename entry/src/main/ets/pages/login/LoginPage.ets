@@ -1,18 +1,17 @@
 import promptAction from '@ohos.promptAction'
 import UserModel from '../../model/UserModel'
 import LoadingDialog from '../../view/LoadingDialog'
-import userManager from '../../manager/UserManager'
+import { UserManager } from '../../manager/UserManager'
 import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 import preferenceUtil from '../../utils/PreferencesUtil'
-import constantUtil from '../../utils/ConstantUtil'
 import loginViewModel from './LoginViewModel'
+import { ConstantUtil } from '../../utils/ConstantUtil'
 
 @Builder
 export function LoginPageBuilder() {
   LoginPage()
 }
 
-@Entry
 @Component
 struct LoginPage {
   @State message: string = '登 录'
@@ -27,7 +26,7 @@ struct LoginPage {
   })
 
   aboutToAppear() {
-    preferenceUtil.getString(constantUtil.USERNAME).then(msg => {
+    preferenceUtil.getString(ConstantUtil.USERNAME).then(msg => {
       this.username = msg
       LogUtils.error(msg)
     })
@@ -112,7 +111,7 @@ struct LoginPage {
       .then((response) => {
         if(response.success) {
           ToastUtil.show('登录成功')
-          userManager.saveUser(response.data as UserModel)
+          UserManager.saveUser(response.data as UserModel)
           RouterUtil.replace("MainPage")
         }else {
           ToastUtil.show(response.message)

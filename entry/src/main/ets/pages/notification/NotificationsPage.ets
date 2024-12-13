@@ -13,14 +13,13 @@ export function NotificationsPageBuilder(): void {
   NotificationsPage()
 }
 
-@Entry
 @Component
 export struct NotificationsPage {
   public PageName: string = "NotificationsPage"
   @State data: Array<NotificationModel> = new Array()
   private scroller = new Scroller()
   private page = 1
-  @State isRefresh: boolean = false
+  @State isRefresh: boolean = true
   private refreshConfig = new PullToRefreshConfigurator().setRefreshColor('#00B785')
   loading = new CustomDialogController({
     builder: LoadingDialog(),
@@ -34,9 +33,9 @@ export struct NotificationsPage {
     this.getData()
   }
 
-  private async getData() {
+  private async getData(): Promise<boolean> {
     this.showLoading()
-    viewModel.getNotificationList(this.page)
+    await viewModel.getNotificationList(this.page)
       .then(response => {
         if (response.success) {
           if (response.pagination.current_page > 1) {
@@ -54,6 +53,9 @@ export struct NotificationsPage {
         this.hideLoading()
       })
 
+    return new Promise(resolve => {
+      resolve(true)
+    })
   }
 
   @Builder
@@ -111,7 +113,7 @@ export struct NotificationsPage {
   }
 
   showLoading() {
-    if (!this.isRefresh) {
+    if (this.isRefresh) {
       this.loading.open()
     }
   }
@@ -138,13 +140,8 @@ export struct NotificationsPage {
             return new Promise((resolve, reject) => {
               this.data = null
               this.page = 1
-              this.isRefresh = true
               this.getData().then(() => {
-                if (!this.isRefresh) {
-                  setTimeout(() => {
-                    resolve('加载成功')
-                  }, 500)
-                }
+                resolve('刷新成功')
               })
             })
           },
@@ -152,9 +149,7 @@ export struct NotificationsPage {
             return new Promise((resolve, reject) => {
               this.page++
               this.getData().then(() => {
-                if (!this.isRefresh) {
-                  resolve('加载成功')
-                }
+                resolve('加载成功')
               })
             })
           },
@@ -175,7 +170,7 @@ export struct NotificationsPage {
     .title(this.NavigationTitle("通知"), { backgroundColor: $r('app.color.main') })
     .backButtonIcon($r('app.media.ic_back'))
     .systemBarStyle({ statusBarContentColor: '#FFFFFF' })
-    .onBackPressed(()=>{
+    .onBackPressed(() => {
       RouterUtil.pop("返回结果")
       return true
     })

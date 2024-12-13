@@ -1,7 +1,7 @@
 import { PullToRefresh, PullToRefreshConfigurator } from "@ohos/pulltorefresh"
 import { LogUtils, RouterUtil, ToastUtil } from "librarycommon"
 import api from "../../http/Api"
-import userManager from "../../manager/UserManager"
+import { UserManager } from "../../manager/UserManager"
 import ReportModel from "../../model/ReportModel"
 import { CustomTabBuilder } from "../../view/CustomTabBuilder"
 import LoadingDialog from "../../view/LoadingDialog"
@@ -17,7 +17,6 @@ export function ReportPageBuilder() {
   ReportPage()
 }
 
-@Entry
 @Component
 struct ReportPage {
   @State tabList : Array<string> = new Array("待处理","已处理","我申请的")
@@ -39,18 +38,16 @@ struct ReportPage {
   })
 
   aboutToAppear(): void {
-    userManager.isXingBan().then((result)=>{
-      if(result){
-        this.tabList.push("全部的")
-      }
-      LogUtils.errorAny(JSON.stringify(this.tabList))
+    if(UserManager.isXingBan()){
+      this.tabList.push("全部的")
+    }
 
     this.showLoading()
     this.getData()
-    })
   }
 
   aboutToDisappear(): void {
+
   }
 
   private async getData(): Promise<boolean> { //增加异步函数回调 async promise await

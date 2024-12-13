@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse,
   InternalAxiosRequestConfig } from '@ohos/axios';
-import constantUtil from '../utils/ConstantUtil';
+import { ConstantUtil } from '../utils/ConstantUtil';
 import { AppGlobalContext } from '../utils/AppGlobalContext';
 import ApiResponse from './ApiRsponse';
 import { LogUtils,RouterUtil } from 'librarycommon';
@@ -10,11 +10,11 @@ import { PaginationModel } from '../model/PaginationModel';
 // 创建一个自定义的 HTTP 客户端类
 class Api {
   private axiosInstance: AxiosInstance;
-  private token : string = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
+  private token : string = AppGlobalContext.getContext().getString(ConstantUtil.TOKEN);
 
   private baseUrl() {
     if(!this.token){
-      this.token = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
+      this.token = AppGlobalContext.getContext().getString(ConstantUtil.TOKEN);
     }
     return 'http://xcoa.hwapp.site/'
   }
@@ -36,7 +36,7 @@ class Api {
       (config : InternalAxiosRequestConfig) => {
         //可添加token等
         console.error('token_' + this.token)
-        this.token = AppGlobalContext.getContext().getString(constantUtil.TOKEN);
+        this.token = AppGlobalContext.getContext().getString(ConstantUtil.TOKEN);
 
         if(this.token){
           config.headers.set('Authorization','Bearer '+this.token)

@@ -1,7 +1,7 @@
 {
   "module": {
     "name": "libraryCommon",
-    "type": "har",
+    "type": "har", //静态共享包 类型
     "deviceTypes": [
       "default",
       "tablet"

@@ -1,40 +1,42 @@
 import UserModel from '../model/UserModel'
-import constantUtil from '../utils/ConstantUtil'
-import ConstantUtil from '../utils/ConstantUtil'
+import { ConstantUtil } from '../utils/ConstantUtil'
 import { AppGlobalContext } from '../utils/AppGlobalContext'
 import preferenceUtil from '../utils/PreferencesUtil'
 
 /**
  * user管理
  */
-class UserManager {
-
-  saveUser(userModel: UserModel) {
-    preferenceUtil.save(ConstantUtil.USERNAME,userModel.username)
-    preferenceUtil.save(ConstantUtil.REAL_NAME,userModel.realname)
-    preferenceUtil.save(ConstantUtil.COMPANY_UUID,userModel.company_uuid)
-    preferenceUtil.save(ConstantUtil.USER_UUID,userModel.uuid)
-    preferenceUtil.save(ConstantUtil.TOKEN,userModel.token)
-    AppGlobalContext.getContext().setValue(constantUtil.TOKEN,userModel.token)
+export class UserManager {
+  static saveUser(userModel: UserModel) {
+    preferenceUtil.save(ConstantUtil.USERNAME, userModel.username)
+    preferenceUtil.save(ConstantUtil.REAL_NAME, userModel.realname)
+    preferenceUtil.save(ConstantUtil.COMPANY_UUID, userModel.company_uuid)
+    preferenceUtil.save(ConstantUtil.USER_UUID, userModel.uuid)
+    preferenceUtil.save(ConstantUtil.TOKEN, userModel.token)
+    AppGlobalContext.getContext().setValue(ConstantUtil.TOKEN, userModel.token)
   }
 
-  async isXingBan() : Promise<boolean>{
-    let back = false
+  //总公司
+  static isParentCompany(): boolean {
+    let result = false
+    let str = preferenceUtil.getStringSync(ConstantUtil.COMPANY_UUID)
+    if (str == "XCHW") {
+      result = true
+    } else {
+      result = false
+    }
+    return result
+  }
 
-     await preferenceUtil.getString(constantUtil.USERNAME).then(result =>{
-      if(result.startsWith("0002")){
-        back = true
-      }else {
-        back = false
-      }
-    })
-
-    return new Promise(resolve =>{
-      resolve(back)
-    })
+  static isXingBan(): boolean {
+    let result = false
+    let str = preferenceUtil.getStringSync(ConstantUtil.USERNAME)
+    if (str.startsWith("0002")) {
+      result = true
+    } else {
+      result = false
+    }
+    return result
   }
 
 }
-
-const userManager = new UserManager()
-export default userManager

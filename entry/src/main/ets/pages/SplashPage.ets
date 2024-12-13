@@ -1,5 +1,5 @@
 import { LogUtils, RouterUtil } from "librarycommon"
-import constantUtil from "../utils/ConstantUtil"
+import { ConstantUtil } from "../utils/ConstantUtil"
 import preferenceUtil from "../utils/PreferencesUtil"
 
 @Component
@@ -11,7 +11,7 @@ export struct SplashPage {
     setTimeout(() => {
       //this.isSplash = false
 
-      preferenceUtil.getString(constantUtil.TOKEN).then(msg => {
+      preferenceUtil.getString(ConstantUtil.TOKEN).then(msg => {
         LogUtils.error("Token____________"+msg)
         if(msg){
           RouterUtil.push("MainPage")

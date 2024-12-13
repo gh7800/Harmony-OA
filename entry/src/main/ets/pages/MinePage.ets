@@ -1,9 +1,8 @@
 import { PullToRefresh } from '@ohos/pulltorefresh'
-import router from '@ohos.router'
 import abilityAccessCtrl, { Permissions } from '@ohos.abilityAccessCtrl'
 import common from '@ohos.app.ability.common'
 import preferenceUtil from '../utils/PreferencesUtil'
-import constantUtil from '../utils/ConstantUtil'
+import {ConstantUtil} from '../utils/ConstantUtil'
 import { CommonTitleContent } from '../view/CommonTitleContent'
 import { LogUtils, RouterUtil, ToastUtil } from 'librarycommon'
 
@@ -20,12 +19,12 @@ export struct MinePage {
   @State userName: string = ''
 
   aboutToAppear() {
-    preferenceUtil.getString(constantUtil.REAL_NAME).then((data) => {
+    preferenceUtil.getString(ConstantUtil.REAL_NAME).then((data) => {
       this.realName = data.toString()
       this.lastName = this.realName.substring(0, 1)
     })
 
-    preferenceUtil.getString(constantUtil.USERNAME).then((data) => {
+    preferenceUtil.getString(ConstantUtil.USERNAME).then((data) => {
       this.userName = data.toString()
     })
   }

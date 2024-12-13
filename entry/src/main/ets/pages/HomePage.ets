@@ -1,4 +1,4 @@
-import constantUtil from '../utils/ConstantUtil'
+import {ConstantUtil} from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
 import { LogUtils, RouterUtil } from 'librarycommon'
 
@@ -18,7 +18,7 @@ export struct HomePage {
   ]
 
   aboutToAppear(){
-    preferenceUtil.getString(constantUtil.REAL_NAME)
+    preferenceUtil.getString(ConstantUtil.REAL_NAME)
       .then((data: string) => {
         this.realName = data
       })
@@ -103,7 +103,7 @@ export struct HomePage {
     }
     .onShown(()=>{
       LogUtils.error("onShown")
-      preferenceUtil.getString(constantUtil.REAL_NAME)
+      preferenceUtil.getString(ConstantUtil.REAL_NAME)
         .then((data: string) => {
           this.realName = data
         })

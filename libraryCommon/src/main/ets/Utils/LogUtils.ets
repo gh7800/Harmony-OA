@@ -4,7 +4,8 @@ import { BusinessError } from '@ohos.base';
 
 /**
  * 打印日志
- * debug中查看，OATag
+ * debug中查看,一般是OATag，JSON的tag是JSAPP
+ * 封装第三方@pura/harmony-utils，不要直接调用@pura/harmony-utils下的LogUtil
  */
 export class LogUtils {
   static TAG: string | undefined = "OATag";

@@ -9,9 +9,9 @@ class DateTimeUtil {
   /**
    * 时分秒
    */
-  getTime(): string {
+  static getTime(): string {
     const DATETIME = new Date();
-    return this.concatTime(
+    return DateTimeUtil.concatTime(
       DATETIME.getHours(),
       DATETIME.getMinutes(),
       DATETIME.getSeconds()
@@ -21,9 +21,9 @@ class DateTimeUtil {
   /**
    * 年月日
    */
-  getDate(): string {
+  static getDate(): string {
     const DATETIME = new Date();
-    return this.concatDate(
+    return DateTimeUtil.concatDate(
       DATETIME.getFullYear(),
       DATETIME.getMonth() + 1,
       DATETIME.getDate()
@@ -34,7 +34,7 @@ class DateTimeUtil {
    * 日期不足两位补充0
    * @param value-数据值
    */
-  fill(value: number): string {
+  static fill(value: number): string {
     return (value > NINE ? '' : '0') + value;
   }
 
@@ -44,8 +44,8 @@ class DateTimeUtil {
    * @param month
    * @param date
    */
-  concatDate(year: number, month: number, date: number): string {
-    return `${year}${this.fill(month)}${this.fill(date)}`;
+  static concatDate(year: number, month: number, date: number): string {
+    return `${year}${DateTimeUtil.fill(month)}${DateTimeUtil.fill(date)}`;
   }
 
   /**
@@ -54,10 +54,7 @@ class DateTimeUtil {
    * @param minutes
    * @param seconds
    */
-  concatTime(hours: number, minutes: number, seconds: number): string {
-    return `${this.fill(hours)}${this.fill(minutes)}${this.fill(seconds)}`;
+  static concatTime(hours: number, minutes: number, seconds: number): string {
+    return `${DateTimeUtil.fill(hours)}${DateTimeUtil.fill(minutes)}${DateTimeUtil.fill(seconds)}`;
   }
 }
-
-const dateTimeUtil = new DateTimeUtil()
-export default dateTimeUtil

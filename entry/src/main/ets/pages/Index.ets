@@ -1,8 +1,9 @@
 import preferenceUtil from '../utils/PreferencesUtil'
 import { SplashPage } from './SplashPage'
 import { LogUtils, RouterUtil, StringUtil, TimeUtil } from 'librarycommon'
-import constantUtil from '../utils/ConstantUtil'
 import { AppGlobalContext } from '../utils/AppGlobalContext'
+import { ConstantUtil } from '../utils/ConstantUtil'
+
 // import { MainPage } from './MainPage'
 // import { LoginPage } from './login/LoginPage'
 
@@ -26,13 +27,17 @@ struct Index {
     LogUtils.error(TimeUtil.formatTimestamp(TimeUtil.getCurrentTimestamp(),"YYYY-MM-DD"))
     preferenceUtil.getPreferences(getContext())
 
-    preferenceUtil.getString(constantUtil.TOKEN)
+    preferenceUtil.getString(ConstantUtil.TOKEN)
       .then((value: string) => {
-        AppGlobalContext.getContext().setValue(constantUtil.TOKEN, value)
+        AppGlobalContext.getContext().setValue(ConstantUtil.TOKEN, value)
         if (StringUtil.isNotEmpty(value)) {
           this.isLogin = true
         }
       })
+  }
+
+  onPageShow(): void {
+    LogUtils.error("onPageShow")
   }
 
   build() {
