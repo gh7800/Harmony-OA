@@ -4,6 +4,7 @@ import api from "../../http/Api"
 import { UserManager } from "../../manager/UserManager"
 import ReportModel from "../../model/ReportModel"
 import { CustomTabBuilder } from "../../view/CustomTabBuilder"
+import { EmptyComponent } from "../../view/EmptyComponent"
 import LoadingDialog from "../../view/LoadingDialog"
 import { TitleBarComponent } from "../../view/TitleBarComponent"
 import mReportViewModel from "./ReportViewModel"
@@ -21,11 +22,12 @@ export function ReportPageBuilder() {
 struct ReportPage {
   @State tabList : Array<string> = new Array("待处理","已处理","我申请的")
   @State data: Array<ReportModel> = new Array<ReportModel>()
-  @State isRefresh: boolean = false
+  @State isShowLoading: boolean = true
   @State currentIndex: number = 0
   @State page: number = 1
   @State totalNum: number = 0
   @State keyword: string | null = null
+  private tabText : string = this.tabList[0]
 
   private refreshConfig = new PullToRefreshConfigurator().setRefreshColor("#00B785").setLoadTextLoading('加载中')
   private scroller = new Scroller()
@@ -51,7 +53,10 @@ struct ReportPage {
   }
 
   private async getData(): Promise<boolean> { //增加异步函数回调 async promise await
-    await mReportViewModel.getReportList(this.keyword,this.page)
+    if(this.data.length > 0 && this.page == 1){
+      this.data.length = 0
+    }
+    await mReportViewModel.getReportList(this.tabText,this.keyword,this.page)
       .then(response => {
 
         let list = response.data as Array<ReportModel>
@@ -77,31 +82,38 @@ struct ReportPage {
   @Builder
   ListView() {
     List({ space: 10, scroller: this.scroller }) {
-      ForEach(this.data, (item: ReportModel, index: number) => {
-        ListItem() {
-          Column() {
-            Text('标题：' + item.title).width("100%")
-            Text('内容：' + item.content).margin({ top: 5 }).width("100%")
-          }
-          .padding({
-            left: 10,
-            right: 10,
-            top: 10,
-            bottom: 10
-          })
-          .margin({ top: 10 })
-          .onClick(() => {
-            let uuid = item.uuid
-            RouterUtil.push("ReportDetailPage",uuid,(callback)=>{
-              this.page == 1
-              this.showLoading()
-              this.getData()
+      if(this.data.length > 0) {
+        ForEach(this.data, (item: ReportModel, index: number) => {
+          ListItem() {
+            Column() {
+              Text('标题：' + item.title).width("100%")
+              Text('内容：' + item.content).margin({ top: 5 }).width("100%")
+            }
+            .padding({
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: 10
             })
-          })
-        }
-        .margin({ left: 10, right: 10 })
-        .backgroundColor($r('app.color.write'))
-      })
+            .margin({ top: 10 })
+            .onClick(() => {
+              let uuid = item.uuid
+              RouterUtil.push("ReportDetailPage", uuid, (callback) => {
+                this.page == 1
+                this.showLoading()
+                this.getData()
+              })
+            })
+          }
+          .margin({ left: 10, right: 10 })
+          .backgroundColor($r('app.color.write'))
+        })
+      }else {
+        EmptyComponent().onClick(() => {
+          this.showLoading()
+          this.getData()
+        })
+      }
     }
     .layoutWeight(1)
     .height('100%')
@@ -116,14 +128,14 @@ struct ReportPage {
   }
 
   showLoading() {
-    if (!this.isRefresh) {
+    if (this.isShowLoading) {
       this.loading.open()
     }
   }
 
   hideLoading(msg ?: string) {
     this.loading.close()
-    this.isRefresh = false //刷新完成
+    this.isShowLoading = true //加载完成
     if (msg) {
       ToastUtil.show(msg)
     }
@@ -138,20 +150,17 @@ struct ReportPage {
           ForEach(this.tabList,(item : string,index:number)=>{
             TabContent().tabBar(this.TabBuilder(item, index))
           })
-          /*TabContent().tabBar(this.TabBuilder('待处理', 0)).onClick(()=>{
-            this.page = 1
-
-          })
-          TabContent().tabBar(this.TabBuilder('已处理', 1))
-          TabContent().tabBar(this.TabBuilder('全部的', 2))*/
         }
         .barMode(BarMode.Fixed)
+        .backgroundColor($r('app.color.write'))
         .animationDuration(1)
-        .onChange(index => {
-          this.currentIndex = index
-        })
         .onTabBarClick(index => {
           this.currentIndex = index
+          this.tabText = this.tabList[index]
+          this.page = 1
+          this.isShowLoading = true
+          this.showLoading()
+          this.getData()
         })
         .height(48)
 
@@ -181,7 +190,7 @@ struct ReportPage {
           onRefresh: () => {
             return new Promise((resolve, reject) => {
               this.page = 1
-              this.isRefresh = true
+              this.isShowLoading = false
               this.getData().then(()=>{
                 resolve("刷新成功")
               })
@@ -191,7 +200,6 @@ struct ReportPage {
             return new Promise((resolve, reject) => {
               this.page++
               this.getData().then(() => {
-                //LogUtils.error("-----------------" + this.isLoadMore)
                 resolve("加载成功")
               })
             })
