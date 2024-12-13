@@ -119,6 +119,7 @@ struct ReportPage {
     .height('100%')
     .width('100%')
     .backgroundColor($r('app.color.f2'))
+    .scrollBar(BarState.Off)
     .edgeEffect(EdgeEffect.None) // 必须设置列表为滑动到边缘无效果
   }
 
@@ -172,6 +173,7 @@ struct ReportPage {
             top: 10,
             bottom: 10
           })
+          .backgroundColor($r('app.color.write'))
           .enterKeyType(EnterKeyType.Search)
           .onChange((value)=>{
             this.keyword = value

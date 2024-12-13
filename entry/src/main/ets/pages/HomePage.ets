@@ -1,7 +1,6 @@
 import {ConstantUtil} from '../utils/ConstantUtil'
 import preferenceUtil from '../utils/PreferencesUtil'
-import { LogUtils, RouterUtil } from 'librarycommon'
-import { DateTimeUtil } from '../utils/DateTimeUtil'
+import { LogUtils, RouterUtil, TimeUtil } from 'librarycommon'
 
 @Component
 export struct HomePage {
@@ -20,7 +19,7 @@ export struct HomePage {
   ]
 
   aboutToAppear(){
-    this.dateTime = DateTimeUtil.getDate()+ " " + DateTimeUtil.getWeek(DateTimeUtil.getDate())
+    this.dateTime = TimeUtil.getDate(TimeUtil.getCurrentTimestamp(),'YYYY-MM-DD') + " " + TimeUtil.getWeek(TimeUtil.getCurrentTimestamp())
     preferenceUtil.getString(ConstantUtil.REAL_NAME)
       .then((data: string) => {
         this.realName = data

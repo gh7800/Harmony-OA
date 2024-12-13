@@ -70,9 +70,9 @@ export default class EntryAbility extends UIAbility {
             LogUtils.error("显示组件————" + info.name)
           } else if (info.state == 1) { //组件隐藏
             LogUtils.error("隐藏组件————" + info.name)
-          } else {
-            //LogUtils.errorAny(info.state+"________________"+info.name)
-          }
+          } /*else {
+            LogUtils.errorAny(info.state+"__组件__"+info.name)
+          }*/
         })
 
       } catch (error) {

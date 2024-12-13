@@ -24,7 +24,7 @@ struct Index {
   }
 
   aboutToAppear() {
-    LogUtils.error(TimeUtil.formatTimestamp(TimeUtil.getCurrentTimestamp(),"YYYY-MM-DD"))
+    LogUtils.error(TimeUtil.getDate(TimeUtil.getCurrentTimestamp(),"YYYY-MM-DD"))
     preferenceUtil.getPreferences(getContext())
 
     preferenceUtil.getString(ConstantUtil.TOKEN)
