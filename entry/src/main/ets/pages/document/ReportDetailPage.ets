@@ -19,8 +19,9 @@ export function ReportDetailPageBuilder() {
 
 @Component
 export struct ReportDetailPage {
+  private scroller = new Scroller();
   @State uuid: string = ""
-  private reportModel: ReportModel | null = null
+  @State reportModel: ReportModel | null = null
   private loading = new CustomDialogController({
     builder: LoadingDialog(),
     customStyle: true,
@@ -30,12 +31,18 @@ export struct ReportDetailPage {
   })
 
   aboutToAppear(): void {
+  }
+
+  getDetail() {
+    this.showLoading()
     mReportViewModel.getReportDetail(this.uuid)
       .then((response) => {
         if (response.success) {
+          this.hideLoading('1')
           this.reportModel = response.data as ReportModel
+          LogUtils.error(this.reportModel.title)
         } else {
-          this.hideLoading(response.message)
+          this.hideLoading("2")
         }
       })
   }
@@ -44,7 +51,7 @@ export struct ReportDetailPage {
     this.loading.open()
   }
 
-  hideLoading(err : string | null) {
+  hideLoading(err: string | null = null) {
     this.loading.close()
     ToastUtil.show(err)
   }
@@ -53,16 +60,18 @@ export struct ReportDetailPage {
     NavDestination() {
       Column() {
         TitleBarComponent({ title: '详情' })
-        if (this.reportModel != null) {
-          TitleContentComponent({ title: "标题：", content: this.reportModel.title })
-          TitleContentComponent({ title: "内容：", content: this.reportModel.content })
-          TitleContentComponent({ title: "文号：", content: this.reportModel.number })
-          TitleContentComponent({ title: "标题：", content: this.reportModel.title })
-          TitleContentComponent({ title: "标题：", content: this.reportModel.title })
-        } else {
-          EmptyComponent()
+        List({ scroller: this.scroller }) {
+          if (this.reportModel != null) {
+            TitleContentComponent({ title: "标题：", content: this.reportModel?.title, mHeight: 'auto' ,needIcon:true})
+            TitleContentComponent({ title: "内容：", content: this.reportModel?.content, mHeight: 'auto' })
+            TitleContentComponent({ title: "文号：", content: this.reportModel?.number })
+          } else {
+            EmptyComponent()
+          }
         }
-
+        .scrollBar(BarState.On)
+        .width("100%")
+        .height("100%")
       }
       .backgroundColor($r('app.color.f2'))
       .width('100%')
@@ -71,7 +80,7 @@ export struct ReportDetailPage {
     .hideTitleBar(true)
     .onReady((context) => {
       this.uuid = context.pathInfo.param as string
-      LogUtils.error(this.uuid)
+      this.getDetail()
     })
     .onBackPressed(() => {
       RouterUtil.pop("OK")

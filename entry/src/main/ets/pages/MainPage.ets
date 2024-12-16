@@ -99,7 +99,6 @@ struct MainPage {
         .barHeight(50)
         .layoutWeight(1)
         .barMode(BarMode.Fixed)
-        //.onTabBarClick(index => {})
         .onChange((index) => {
           this.currentIndex = index
           this.title = this.tabTitles[index]
@@ -124,43 +123,6 @@ struct MainPage {
       }
       return true
     })
-    //.mode(NavigationMode.Auto)
-
-    // .onReady(context =>{
-    //   this.pathStack = context.pathStack
-    // })
-    //.mode(NavigationMode.Auto)
-    //.navDestination(this.pagesMap)
-    // .hideTitleBar(true)
-    // .title(this.title)
-    // .backgroundColor($r('app.color.main'))
-    //.titleMode(NavigationTitleMode.Mini)
-    //.hideBackButton(true) //隐藏返回icon
-    /*.toolbarConfiguration([
-      {
-        value: "首页", icon: $r('app.media.home_normal'),status : ToolbarItemStatus.ACTIVE,activeIcon : $r('app.media.home_pressed'), action: () => {
-        this.title = this.tabTitles[0]
-      }
-      },
-      {
-        value: "通讯录", icon: $r('app.media.contact_normal'),activeIcon : $r('app.media.contact_pressed'), action: () => {
-        this.title = this.tabTitles[1]
-        toastUtil.show(this.title)
-        this.pagesMap(this.title)
-      }
-      },
-      {
-        value: "工作", icon: $r('app.media.work_normal'),activeIcon : $r('app.media.work_pressed'), action: () => {
-        this.title = this.tabTitles[2]
-      }
-      },
-      {
-        value: "我的", icon: $r('app.media.ic_mine_normal'),activeIcon : $r('app.media.mine_pressed'), action: () => {
-        this.title = this.tabTitles[3]
-      }
-      },
-    ])*/
-    // }
   }
 
 }

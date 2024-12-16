@@ -33,20 +33,13 @@ class ReportViewModel {
   }
 
   getReportDetail(uuid : string): Promise<ApiResponse>{
-    let params : RequestParams = {
-      uuid
-    }
     return new Promise(resolve => {
-      api.get("api/document/report",params)
+      api.get("api/document/report/" + uuid)
         .then(response => {
           resolve(response)
         })
     })
   }
-}
-
-interface RequestParams {
-  uuid : string
 }
 
 const mReportViewModel = new ReportViewModel()
