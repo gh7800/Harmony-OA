@@ -96,17 +96,16 @@ struct ReportPage {
               bottom: 10
             })
             .margin({ top: 10 })
-            .onClick(() => {
-              let uuid = item.uuid
-              RouterUtil.push("ReportDetailPage", uuid, (callback) => {
-                this.page == 1
-                this.showLoading()
-                this.getData()
-              })
-            })
           }
           .margin({ left: 10, right: 10 })
           .backgroundColor($r('app.color.write'))
+          .onClick(()=>{
+            RouterUtil.push("ReportDetailPage", item.uuid, (callback) => {
+              this.page == 1
+              this.showLoading()
+              this.getData()
+            })
+          })
         })
       }else {
         EmptyComponent().onClick(() => {

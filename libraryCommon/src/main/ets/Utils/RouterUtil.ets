@@ -14,7 +14,7 @@ export  class RouterUtil {
    * @param param 传参
    * @param callback 返回结果,let str = callback.result as string
    */
-  public static push(name: string, param: object | undefined = undefined, callback: Callback<PopInfo> | undefined = undefined) {
+  public static push(name: string, param: string | boolean | number | object | null = null, callback: Callback<PopInfo> | undefined = undefined) {
     RouterUtil.routerStack.push(name);
     RouterUtil.navPathStack.pushPathByName(name, param, callback, true)
 

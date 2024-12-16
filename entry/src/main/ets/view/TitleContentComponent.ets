@@ -21,7 +21,6 @@ export struct TitleContentComponent {
         .padding({ left: 10,right:10 })
         .fontSize(16)
         .fontColor($r('app.color.c6'))
-      // .backgroundColor($r('app.color.black'))
         .layoutWeight(9)
         .textAlign(TextAlign.End)
 
