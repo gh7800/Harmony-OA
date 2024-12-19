@@ -23,7 +23,7 @@ export struct TitleContentComponent {
           .layoutWeight(1)
 
         Text(this.content)
-          .height('auto')
+          .height('40')
           .padding({ left: 10, right: 10 })
           .fontSize(16)
           .fontColor($r('app.color.c6'))

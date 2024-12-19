@@ -62,7 +62,7 @@ export struct ReportDetailPage {
         TitleBarComponent({ title: '详情' })
         List({ scroller: this.scroller }) {
           if (this.reportModel != null) {
-            TitleContentComponent({ title: "标题：", content: this.reportModel?.title, mHeight: 'auto' ,needIcon:true})
+            TitleContentComponent({ title: "标题：", content: this.reportModel?.title,mHeight:'auto'})
             TitleContentComponent({ title: "内容：", content: this.reportModel?.content, mHeight: 'auto' })
             TitleContentComponent({ title: "文号：", content: this.reportModel?.number })
           } else {
