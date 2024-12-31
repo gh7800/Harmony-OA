@@ -1,10 +1,11 @@
 /**
  * 单行 左右带图片的
  */
+@Preview
 @Component
 export struct CommonTitleContent {
-  @Prop title: string
-  @Prop content: string
+  @Prop title: string = "名称"
+  @Prop content: string = "内容"
   iconTitle: ResourceStr = ""
   iconRight: string = ""
   onclick: () => void = () => {
